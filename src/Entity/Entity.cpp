@@ -11,6 +11,13 @@
 
 #include "Entity/Entity.h"
 
+unsigned int Entity::entityIDs = 1;
+
 Entity::Entity()
 {
+	this->id = Entity::entityIDs++;
+	this->position = Vector3f();
+	this->lastPosition = Vector3f();
+	this->yaw = 0;
+	this->pitch = 0;
 }
