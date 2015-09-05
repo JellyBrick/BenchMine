@@ -13,42 +13,40 @@
 #define SERVER_H_
 
 #include <iostream>
-#include <atomic>
-#include <mutex>
-#include <memory>
+#include <RakLib\RakLib.h>
 
-#include "PlayerManager.h"
-
-class PlayerManager;
 class Player;
-class Server
+class Server : public RakLib::SessionManager
 {
-public:
-	static std::atomic<Server*> m_instance;
-	static std::mutex m_mutex;
-	static Server* getInstance();
 
 private:
-	int port;
-	int maxPlayers;
-	std::string  ip;
-	std::string motd;
-	std::string title;
-	PlayerManager* playerManager;
+	RakLib::RakLib* _raklib;
+
+
+	uint16 _port;
+	uint32 _maxPlayers;
+	std::string  _ip;
+	std::string _motd;
+	std::string _title;
 
 public:
 	Server();
 	~Server();
 
-	void Start();
+	void start();
+	void stop();
 
-	int getPort(); // Server Ports
-	int getMaxPlayers(); // Server Max Players
-	std::string getIP(); // Server IP
-	std::string getMOTD(); // Message of the day.
-	std::string getTitle(); // Server Title
-	PlayerManager* getPlayerManager();
+	bool addSession(std::string ip, unsigned short port, long clientID, unsigned short mtu);
+	bool removeSession(std::string ip, unsigned short port);
+	RakLib::Session* getSession(std::string ip, unsigned short port);
 
-	void Stop();
+	inline void sendPacket(RakLib::Packet* packet) { this->_raklib->sendPacket(packet); };
+
+	inline uint16 getPort() const { this->_port; }; // Server Ports
+	inline uint32 getMaxPlayers() const { this->_maxPlayers; }; // Server Max Players
+	inline const std::string& getIP() const { this->_ip; }; // Server IP
+	inline const std::string& getMOTD() const { this->_motd; }; // Message of the day.
+	inline const std::string& getTitle() const { this->_title; }; // Server Title
+
 };
 #endif

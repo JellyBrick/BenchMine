@@ -27,14 +27,14 @@ private:
 public:
 
 	Task(int delay);
-	Task(int delay, int repeatsTime);
+	Task(int delay, unsigned int repeatsTime);
 
 	virtual void onRun() = 0;
 	virtual void onComplete() = 0;
 
-	inline int getID() const { return this->_id; }
+	inline unsigned int getID() const { return this->_id; }
 	inline int getDelay() const { return this-> _delay; }
-	inline int getReapeatTme() const { return this->_repeatTime; };
+	inline unsigned int getReapeatTme() const { return this->_repeatTime; };
 };
 
 

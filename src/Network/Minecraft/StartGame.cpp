@@ -1,4 +1,5 @@
-#include "Network/Minecraft/StartGame.h"
+#include "Network\Minecraft\StartGame.h"
+#include "Network\Minecraft\MinecraftPackets.h"
 
 StartGame::StartGame(float x, float y, float z, int gamemode, int seed, int eid) : DataPacket(29)
 {
@@ -20,9 +21,4 @@ void StartGame::encode()
 	this->putFloat(spawnX);
 	this->putFloat(spawnY);
 	this->putFloat(spawnZ);
-}
-
-void StartGame::decode()
-{
-	//Not Used
 }

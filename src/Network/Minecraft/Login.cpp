@@ -10,8 +10,10 @@
 */
 
 
-#include "Network/Minecraft/Login.h"
-Login::Login(InternalPacket* pck) : DataPacket(pck)
+#include "Network\Minecraft\Login.h"
+#include "Network\Minecraft\MinecraftPackets.h"
+
+Login::Login(Packet* pck) : DataPacket(pck)
 {
 	this->username = "";
 	this->clientID = 0;
@@ -32,7 +34,3 @@ void Login::decode()
 	this->loginData = this->getString();
 }
 
-void Login::encode()
-{
-	///Not Used
-}

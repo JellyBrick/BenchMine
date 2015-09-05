@@ -11,17 +11,18 @@
 #ifndef PING_H_
 #define PING_H_
 
-#include "DataPacket.h"
+#include <RakLib\Packets\DataPacket.h>
 
-class Ping : public DataPacket
+class Ping : public RakLib::DataPacket
 {
 public:
-	long pingID;
+	uint64 pingID;
 
 public:
-	Ping(InternalPacket* pck);
+	Ping(Packet*);
+	Ping(uint64 pingID);
 
-	void encode();
-	void decode();
+	void encode() override;
+	void decode() override;
 };
 #endif

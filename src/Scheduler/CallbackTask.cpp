@@ -27,7 +27,4 @@ void CallbackTask::onRun()
 	this->_callback();
 }
 
-void CallbackTask::onComplete()
-{
-	//TODO
-}
+void CallbackTask::onComplete() {} // Not Used

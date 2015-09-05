@@ -13,43 +13,43 @@
 
 Server::Server()
 {
-	this->playerManager = new PlayerManager(10);
-	this->maxPlayers = 10;
-	this->port = 19132;
+	this->_raklib = new RakLib::RakLib("", 19132, this);
+	this->_maxPlayers = 10;
+	this->_ip = "0.0.0.0";
+	this->_port = 19132;
+	this->_motd = "Welcome to the BenchMine Server!";
+	this->_title = "BenchMine Minecraft Server!";
 }
 
-void Server::Start()
+void Server::start()
 {
-	std::cout << "Server Started..." << std::endl;
-	this->playerManager->Start();
+	std::cout << "Starting RakLib..." << std::endl;
+	this->_raklib->start();
 }
 
-std::string Server::getIP()
+void Server::stop()
 {
-	return std::string("0.0.0.0");
+	std::cout << "Stopping RakLib" << std::endl;
+	this->_raklib->stop();
 }
 
-int Server::getPort()
+bool Server::addSession(std::string ip, unsigned short port, long clientID, unsigned short mtu)
 {
-	return 19132;
+	std::cout << "Adding Session" << std::endl;
+	return false;
 }
 
-PlayerManager* Server::getPlayerManager()
+bool Server::removeSession(std::string ip, unsigned short port)
 {
-	return this->playerManager;
+	return false;
 }
 
-std::string Server::getTitle()
+RakLib::Session* Server::getSession(std::string ip, unsigned short port)
 {
-	return "Minecraft Server!";//return this->title;
-}
-
-void Server::Stop()
-{
-	this->playerManager->Stop();
+	return nullptr;
 }
 
 Server::~Server()
 {
-    this->Stop();
+    this->stop();
 }

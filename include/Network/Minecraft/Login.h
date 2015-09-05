@@ -11,9 +11,9 @@
 #ifndef LOGIN_H
 #define LOGIN_H
 
-#include "DataPacket.h"
+#include <RakLib\Packets\DataPacket.h>
 
-class Login : public DataPacket
+class Login : public RakLib::DataPacket
 {
 public:
 	std::string username;
@@ -23,9 +23,8 @@ public:
 	std::string loginData;
 
 public:
-	Login(InternalPacket* pck);
-	void decode();
-	void encode();
+	Login(Packet* packet);
+	void decode() override;
 };
 
 #endif

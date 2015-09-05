@@ -12,9 +12,9 @@
 #ifndef SERVER_HANDSHAKE_H_
 #define SERVER_HANDSHAKE_H_
 
-#include "DataPacket.h"
+#include <RakLib\Packets\DataPacket.h>
 
-class ServerHandshake : public DataPacket
+class ServerHandshake : public RakLib::DataPacket
 {
 public:
 	int port;
@@ -22,8 +22,8 @@ public:
 
 public:
 	ServerHandshake(int port, long session);
-	void decode();
-	void encode();
+
+	void encode() override;
 	void putDataArray();
 };
 #endif

@@ -9,8 +9,10 @@
 *
 */
 
-#include "Network/Minecraft/ClientConnect.h"
-ClientConnect::ClientConnect(InternalPacket* pck) : DataPacket(pck)
+#include "Network\Minecraft\ClientConnect.h"
+#include "Network\Minecraft\MinecraftPackets.h"
+
+ClientConnect::ClientConnect(Packet* packet) : DataPacket(packet)
 {
 	this->clientID = 0;
 	this->session = 0;
@@ -22,13 +24,8 @@ void ClientConnect::decode()
 	if (this->getByte() != MinecraftPackets::CLIENT_CONNECT){
 		throw std::runtime_error("Expected another packet!");
 	}
+
 	clientID = this->getLong();
 	session = this->getLong();
 	unknown = this->getByte();
-}
-
-
-void ClientConnect::encode()
-{
-	//Not Used!
 }

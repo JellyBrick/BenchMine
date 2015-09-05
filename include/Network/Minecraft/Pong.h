@@ -1,15 +1,15 @@
 #ifndef PONG_H_
 #define PONG_H_
 
-#include "DataPacket.h"
+#include <RakLib\Packets\DataPacket.h>
 
-class Pong : public DataPacket
+class Pong : public RakLib::DataPacket
 {
 public:
-	long pingId;
-	long pongId;
+	uint64 pingID;
 
 	Pong(long pingID);
+	Pong(Packet* pck);
 
 	void decode();
 	void encode();

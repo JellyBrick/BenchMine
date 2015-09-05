@@ -15,21 +15,8 @@
 
 int main(int argv, char** argc)
 {
-	std::cout << "Hello World" << std::endl;
-	try
-	{
-		Server* server = Server::getInstance();
-		server->Start();
-	    while(true) {
-	        if (std::cin.get() == 'q') {
-	            delete server;
-	            return 0;
-	        }
-	    }
-	} catch(std::exception e)
-	{
-		std::cerr << e.what() << std::endl;
-		return 1;
-	}
+	Server* server = new Server();
+	server->start();
+	std::cin.get();
 	return 0;
 }

@@ -12,56 +12,37 @@
 #ifndef PLAYER_H_
 #define PLAYER_H_
 
-#include "Network/Minecraft/CustomPacket.h"
-#include "Network/Minecraft/DataPacket.h"
-#include "Network/Minecraft/Acknowledge.h"
-#include "Network/Minecraft/ClientConnect.h"
-#include "Network/Minecraft/ServerHandshake.h"
-#include "Network/Minecraft/Login.h"
-#include "Network/Minecraft/LoginStatus.h"
-#include "Network/Minecraft/StartGame.h"
-#include "Network/Minecraft/Ping.h"
-#include "Network/Minecraft/Pong.h"
-#include "Entity/Entity.h"
+#include <RakLib\Session.h>
+
 #include "Server.h"
-#include "PlayerManager.h"
+#include "Entity/Entity.h"
 
 class Server;
-class PlayerManager;
-class Player : public Entity
+class Player : public Entity, public RakLib::Session
 {
 private:
 	std::string username;
-	std::string ip;
 
-	int port;
 	int CID;
-	int lastSequenceNum;
-	int sequenceNum;
-	int messageIndex;
-
-	long clientID;
-
-	short mtuSize;
 
 	Server* server;
-	CustomPacket* queue;
-	std::vector<int> ACKQueue; // Received Packet Queue
-	std::vector<int> NACKQueue; // Not received packet queue
-	std::map<int, CustomPacket> recoveryQueue; // Packet sent queue to be used if not received
 
 public:
 	Player(std::string ip, uint16_t port, long clientID, short mtuSize);
 	~Player();
 
-	std::string getUsername();
-	std::string getLUsername();
-
-	void addToQueue(DataPacket* pck);
-
-	void handlePacket(CustomPacket* customPacket);
-	void handlePacket(Acknowledge* acknowledge);
-
 	void close(std::string reason);
+
+	void handleDataPacket(const RakLib::DataPacket& packet);
+	void sendPacket(RakLib::Packet* packet);
+
+	inline const std::string& getUsername() { this->username; };
+	inline const std::string getLUsername() 
+	{
+		std::string lname = this->username.c_str();
+		std::transform(lname.begin(), lname.end(), lname.begin(), ::tolower);
+		return lname;
+	};
+
 };
 #endif

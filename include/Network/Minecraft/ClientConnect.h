@@ -12,18 +12,18 @@
 #ifndef CLIENT_CONNECT_H_
 #define CLIENT_CONNECT_H_
 
-#include "DataPacket.h"
+#include <RakLib\Packets\DataPacket.h>
 
-class ClientConnect : public DataPacket
+class ClientConnect : public RakLib::DataPacket
 {
 public:
 	long clientID;
 	long session;
-	uint8_t unknown;
+	uint8 unknown;
 
 public:
-	ClientConnect(InternalPacket* pck);
-	void decode();
-	void encode();
+	ClientConnect(Packet* packet);
+
+	void decode() override;
 };
 #endif

@@ -1,9 +1,9 @@
 #ifndef STARTGAME_H_
 #define STARTGAME_H_
 
-#include "DataPacket.h"
+#include <RakLib\Packets\DataPacket.h>
 
-class StartGame : public DataPacket
+class StartGame : public RakLib::DataPacket
 {
 public:
 	int seed;
@@ -17,7 +17,6 @@ public:
 public:
 	StartGame(float x, float y, float z, int gamemode, int seed, int eid);
 
-	void encode();
-	void decode();
+	void encode() override;
 };
 #endif // !STARTGAME_H_
