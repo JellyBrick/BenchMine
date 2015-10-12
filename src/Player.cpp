@@ -10,14 +10,20 @@
 */
 
 #include "Player.h"
+#include "Server.h"
 
-Player::Player(std::string ip, uint16_t port, long clientID, short mtuSize) : RakLib::Session(ip, port, clientID, mtuSize)
+Player::Player(Server* server, std::string ip, uint16 port, long clientID, short mtuSize) : RakLib::Session(ip, port, clientID, mtuSize)
 {
-	this->username = "Steve";
+	this->_server = server;
+	this->_username = "Steve";
 
 	//this->server.getScheduler().addTask(new CallbackTask(this, "update", 10, true));
 }
 
+Player::~Player()
+{
+	//No resource to release
+}
 
 void Player::close(std::string reason)
 {
@@ -31,5 +37,14 @@ void Player::handleDataPacket(const RakLib::DataPacket& packet)
 
 void Player::sendPacket(RakLib::Packet* packet)
 {
-	this->server->sendPacket(packet);
+	this->_server->sendPacket(packet);
 }
+
+
+const std::string Player::getLUsername()
+{
+	//We should do this every time? or store the result as a member?
+	std::string lname = this->_username.c_str();
+	std::transform(lname.begin(), lname.end(), lname.begin(), ::tolower);
+	return lname;
+};

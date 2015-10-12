@@ -15,8 +15,9 @@
 
 int main(int argv, char** argc)
 {
-	Server* server = new Server();
-	server->start();
+	//Should I pass the logger from here?
+	Server server;
+	server.start();
 	std::cin.get();
 	return 0;
 }

@@ -10,43 +10,61 @@
 */
 
 #include "Server.h"
+#include "Player.h"
 
 Server::Server()
 {
-	this->_raklib = new RakLib::RakLib("", 19132, this);
 	this->_maxPlayers = 10;
 	this->_ip = "0.0.0.0";
 	this->_port = 19132;
 	this->_motd = "Welcome to the BenchMine Server!";
 	this->_title = "BenchMine Minecraft Server!";
+	this->_raklib = new RakLib::RakLib(this, "", 19132);
+	this->_logger = new ColoredLogger();
+
+
+	this->_logger->info("BenchMine Server Software under LGPL v3");
 }
 
 void Server::start()
 {
-	std::cout << "Starting RakLib..." << std::endl;
+	this->_logger->info("Server at %s:%d - %s", this->_ip.c_str(), this->_port, this->_title.c_str());
+	//TODO: Do more stuff between XD
+
 	this->_raklib->start();
+	this->_logger->info("Started RakLib...");
 }
 
 void Server::stop()
 {
-	std::cout << "Stopping RakLib" << std::endl;
 	this->_raklib->stop();
+	this->_logger->info("Stopping RakLib");
 }
 
 bool Server::addSession(std::string ip, unsigned short port, long clientID, unsigned short mtu)
 {
-	std::cout << "Adding Session" << std::endl;
-	return false;
+	if (this->_players.size() > this->_maxPlayers)
+		return false;
+
+	this->_logger->notice("New player have joined - %s:%d", ip.c_str(), port);
+
+	this->_players[this->_raklib->getSessionIdentifier(ip, port)] = new Player(this, ip, port, clientID, mtu);
+	return true;
 }
 
 bool Server::removeSession(std::string ip, unsigned short port)
 {
-	return false;
+	if (this->_players[this->_raklib->getSessionIdentifier(ip, port)] == nullptr)
+		return false;
+
+	//The session should delete his resource
+	delete this->_players[this->_raklib->getSessionIdentifier(ip, port)];
+	return true;
 }
 
 RakLib::Session* Server::getSession(std::string ip, unsigned short port)
 {
-	return nullptr;
+	return this->_players[this->_raklib->getSessionIdentifier(ip, port)];
 }
 
 Server::~Server()

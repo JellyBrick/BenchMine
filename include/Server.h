@@ -12,8 +12,11 @@
 #ifndef SERVER_H_
 #define SERVER_H_
 
-#include <iostream>
+#include <map>
+
 #include <RakLib\RakLib.h>
+
+#include "Logger\ColoredLogger.h"
 
 class Player;
 class Server : public RakLib::SessionManager
@@ -21,13 +24,14 @@ class Server : public RakLib::SessionManager
 
 private:
 	RakLib::RakLib* _raklib;
-
+	ColoredLogger* _logger;
 
 	uint16 _port;
 	uint32 _maxPlayers;
 	std::string  _ip;
 	std::string _motd;
 	std::string _title;
+	std::map<std::string, Player*> _players;
 
 public:
 	Server();
@@ -42,11 +46,13 @@ public:
 
 	inline void sendPacket(RakLib::Packet* packet) { this->_raklib->sendPacket(packet); };
 
-	inline uint16 getPort() const { this->_port; }; // Server Ports
-	inline uint32 getMaxPlayers() const { this->_maxPlayers; }; // Server Max Players
-	inline const std::string& getIP() const { this->_ip; }; // Server IP
-	inline const std::string& getMOTD() const { this->_motd; }; // Message of the day.
-	inline const std::string& getTitle() const { this->_title; }; // Server Title
+	inline ColoredLogger* getLogger() const { return this->_logger; }
+
+	inline uint16 getPort() const { return this->_port; }; // Server Ports
+	inline uint32 getMaxPlayers() const { return this->_maxPlayers; }; // Server Max Players
+	inline const std::string& getIP() const { return this->_ip; }; // Server IP
+	inline const std::string& getMOTD() const { return this->_motd; }; // Message of the day.
+	inline const std::string& getTitle() const { return this->_title; }; // Server Title
 
 };
 #endif

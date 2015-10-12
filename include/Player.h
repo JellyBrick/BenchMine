@@ -14,21 +14,20 @@
 
 #include <RakLib\Session.h>
 
-#include "Server.h"
 #include "Entity/Entity.h"
 
 class Server;
 class Player : public Entity, public RakLib::Session
 {
 private:
-	std::string username;
+	std::string _username;
 
-	int CID;
+	int _CID;
 
-	Server* server;
+	Server* _server;
 
 public:
-	Player(std::string ip, uint16_t port, long clientID, short mtuSize);
+	Player(Server* server, std::string ip, uint16 port, long clientID, short mtuSize);
 	~Player();
 
 	void close(std::string reason);
@@ -36,13 +35,8 @@ public:
 	void handleDataPacket(const RakLib::DataPacket& packet);
 	void sendPacket(RakLib::Packet* packet);
 
-	inline const std::string& getUsername() { this->username; };
-	inline const std::string getLUsername() 
-	{
-		std::string lname = this->username.c_str();
-		std::transform(lname.begin(), lname.end(), lname.begin(), ::tolower);
-		return lname;
-	};
+	inline const std::string& getUsername() const { this->_username; };
+	const std::string getLUsername();
 
 };
 #endif
