@@ -12,12 +12,12 @@
 #ifndef TASKHANDLER_H_
 #define TASKHANDLER_H_
 
-#include "Task.h"
-
-#include <vector>
-#include <thread>
-#include <exception>
 #include <chrono>
+#include <exception>
+#include <thread>
+#include <vector>
+
+#include "Task.h"
 
 class TaskHandler
 {

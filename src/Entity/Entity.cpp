@@ -13,8 +13,7 @@
 
 unsigned int Entity::entityIDs = 1;
 
-Entity::Entity()
-{
+Entity::Entity() {
 	this->id = Entity::entityIDs++;
 	this->position = Vector3f();
 	this->lastPosition = Vector3f();

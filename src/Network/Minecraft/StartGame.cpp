@@ -9,11 +9,10 @@
 *
 */
 
-#include "Network\Minecraft\StartGame.h"
 #include "Network\Minecraft\MinecraftPackets.h"
+#include "Network\Minecraft\StartGame.h"
 
-StartGame::StartGame(float x, float y, float z, int gamemode, int seed, int eid) : DataPacket(29)
-{
+StartGame::StartGame(float x, float y, float z, int gamemode, int seed, int eid) : DataPacket(29) {
 	this->spawnX = x;
 	this->spawnY = y;
 	this->spawnZ = z;
@@ -22,8 +21,7 @@ StartGame::StartGame(float x, float y, float z, int gamemode, int seed, int eid)
 	this->eid = eid;
 }
 
-void StartGame::encode()
-{
+void StartGame::encode() {
 	this->putByte(MinecraftPackets::START_GAME_PACKET);
 	this->putInt(seed);
 	this->putInt(unknown);

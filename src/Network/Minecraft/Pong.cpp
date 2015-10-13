@@ -9,26 +9,23 @@
 *
 */
 
-#include "Network\Minecraft\Pong.h"
 #include "Network\Minecraft\MinecraftPackets.h"
+#include "Network\Minecraft\Pong.h"
 
-Pong::Pong(long pingID) : DataPacket(9)
-{
+Pong::Pong(long pingID) : DataPacket(9) {
 	this->pingID = pingID;
 }
 
 Pong::Pong(Packet* packet) : DataPacket(packet) {}
 
-void Pong::decode()
-{
+void Pong::decode() {
 	if (this->getByte() != MinecraftPackets::PONG)
 		return;
 
 	this->pingID = this->getLong();
 }
 
-void Pong::encode()
-{
+void Pong::encode() {
 	this->putByte(MinecraftPackets::PONG);
 	this->putLong(this->pingID);
 }

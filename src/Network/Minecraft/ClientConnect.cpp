@@ -12,16 +12,14 @@
 #include "Network\Minecraft\ClientConnect.h"
 #include "Network\Minecraft\MinecraftPackets.h"
 
-ClientConnect::ClientConnect(Packet* packet) : DataPacket(packet)
-{
+ClientConnect::ClientConnect(Packet* packet) : DataPacket(packet) {
 	this->clientID = 0;
 	this->session = 0;
 	this->unknown = 0x00;
 }
 
-void ClientConnect::decode()
-{
-	if (this->getByte() != MinecraftPackets::CLIENT_CONNECT){
+void ClientConnect::decode() {
+	if (this->getByte() != MinecraftPackets::CLIENT_CONNECT) {
 		throw std::runtime_error("Expected another packet!");
 	}
 

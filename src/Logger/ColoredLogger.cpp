@@ -12,9 +12,8 @@
 #include "Logger/ColoredLogger.h"
 
 
-ColoredLogger::ColoredLogger()
-{
-	this->_lock = new std::mutex(); // Should I use `std::unique_lock`?
+ColoredLogger::ColoredLogger() {
+	this->_lock = new std::mutex();
 
 #ifdef WIN32
 	this->_console = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -22,18 +21,15 @@ ColoredLogger::ColoredLogger()
 }
 
 
-ColoredLogger::~ColoredLogger()
-{
+ColoredLogger::~ColoredLogger() {
 	delete this->_lock;
 }
 
-void ColoredLogger::debug(const char* fmt, ...)
-{
+void ColoredLogger::debug(const char* fmt, ...) {
 	//Better option: Log verbose level?
 #ifdef NDEBUG
 	return;
 #else
-	this->_lock->lock();
 
 	va_list args;
 	va_start(args, fmt);
@@ -47,14 +43,10 @@ void ColoredLogger::debug(const char* fmt, ...)
 	this->log(LogLevel::Debug, buffer);
 	delete buffer;
 
-	this->_lock->unlock();
 #endif
 }
 
-void ColoredLogger::info(const char* fmt, ...)
-{
-	//this->_lock->lock();
-
+void ColoredLogger::info(const char* fmt, ...) {
 	va_list args;
 	va_start(args, fmt);
 
@@ -66,12 +58,9 @@ void ColoredLogger::info(const char* fmt, ...)
 	this->log(LogLevel::Info, buffer);
 	delete buffer;
 
-	//this->_lock->unlock();
 }
 
-void ColoredLogger::notice(const char* fmt, ...)
-{
-	this->_lock->lock();
+void ColoredLogger::notice(const char* fmt, ...) {
 
 	va_list args;
 	va_start(args, fmt);
@@ -84,14 +73,9 @@ void ColoredLogger::notice(const char* fmt, ...)
 
 	this->log(LogLevel::Notice, buffer);
 	delete buffer;
-
-	this->_lock->unlock();
 }
 
-void ColoredLogger::warning(const char* fmt, ...)
-{
-	this->_lock->lock();
-
+void ColoredLogger::warning(const char* fmt, ...) {
 	va_list args;
 	va_start(args, fmt);
 
@@ -104,13 +88,9 @@ void ColoredLogger::warning(const char* fmt, ...)
 	this->log(LogLevel::Warning, buffer);
 	delete buffer;
 
-	this->_lock->unlock();
 }
 
-void ColoredLogger::error(const char* fmt, ...)
-{
-	this->_lock->lock();
-
+void ColoredLogger::error(const char* fmt, ...) {
 	va_list args;
 	va_start(args, fmt);
 
@@ -121,14 +101,9 @@ void ColoredLogger::error(const char* fmt, ...)
 
 	this->log(LogLevel::Error, buffer);
 	delete buffer;
-
-	this->_lock->unlock();
 }
 
-void ColoredLogger::fatal(const char* fmt, ...)
-{
-	this->_lock->lock();
-
+void ColoredLogger::fatal(const char* fmt, ...) {
 	va_list args;
 	va_start(args, fmt);
 
@@ -141,21 +116,18 @@ void ColoredLogger::fatal(const char* fmt, ...)
 	this->log(LogLevel::Fatal, buffer);
 	delete buffer;
 
-	this->_lock->unlock();
-
 	std::exit(EXIT_FAILURE);
 }
 
 
-void ColoredLogger::log(LogLevel level, const char* string)
-{
-	//Should I move the locking/unlocking of the mutex to here?
+void ColoredLogger::log(LogLevel level, const char* string) {
+	this->_lock->lock(); // Should I use `std::unique_lock`?
+
 	time_t now = time(nullptr);
 	tm time = *localtime(&now); // I have to dereference this because then I can't delete it later on.... Why? This get deleted?
 
 #ifdef WIN32
-	switch (level)
-	{
+	switch (level) {
 	case LogLevel::Info:
 		SetConsoleTextAttribute(this->_console, 0x0F); // INFO
 		printf("[%02d:%02d:%02d][INFO]: %s\n", time.tm_hour, time.tm_min, time.tm_sec, string);
@@ -187,4 +159,6 @@ void ColoredLogger::log(LogLevel level, const char* string)
 #else
 	//TODO
 #endif
+
+	this->_lock->unlock();
 }

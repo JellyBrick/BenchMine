@@ -13,8 +13,7 @@
 #include "Network\Minecraft\Login.h"
 #include "Network\Minecraft\MinecraftPackets.h"
 
-Login::Login(Packet* pck) : DataPacket(pck)
-{
+Login::Login(Packet* pck) : DataPacket(pck) {
 	this->username = "";
 	this->clientID = 0;
 	this->loginData = "";
@@ -22,11 +21,11 @@ Login::Login(Packet* pck) : DataPacket(pck)
 	this->protocol2 = 0;
 }
 
-void Login::decode()
-{
+void Login::decode() {
 	if (this->getByte() != MinecraftPackets::LOGIN_PACKET){
 		throw std::runtime_error("Expected another packet.");
 	}
+
 	this->username = this->getString();
 	this->protocol = this->getInt();
 	this->protocol2 = this->getInt();

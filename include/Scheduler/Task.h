@@ -12,7 +12,6 @@
 #define TASK_H_
 
 class TaskHandler;
-
 class Task
 {
 private:

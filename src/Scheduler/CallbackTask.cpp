@@ -12,18 +12,15 @@
 
 #include "Scheduler/CallbackTask.h"
 
-CallbackTask::CallbackTask(std::function<void()> callback, int delay) : Task(delay)
-{
+CallbackTask::CallbackTask(std::function<void()> callback, int delay) : Task(delay) {
 	this->_callback = callback;
 }
 
-CallbackTask::CallbackTask(std::function<void()> callback, int delay, int repeatTimes) : Task(delay, repeatTimes)
-{
+CallbackTask::CallbackTask(std::function<void()> callback, int delay, int repeatTimes) : Task(delay, repeatTimes) {
 	this->_callback = callback;
 }
 
-void CallbackTask::onRun()
-{
+void CallbackTask::onRun() {
 	this->_callback();
 }
 

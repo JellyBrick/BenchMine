@@ -12,9 +12,9 @@
 #ifndef CALLBACKTASK_H_
 #define CALLBACKTASK_H_
 
-#include "Task.h"
-
 #include <functional>
+
+#include "Task.h"
 
 class CallbackTask : public Task
 {

@@ -17,6 +17,7 @@
 #include <RakLib\RakLib.h>
 
 #include "Logger\ColoredLogger.h"
+#include "Scheduler\TaskHandler.h"
 
 class Player;
 class Server : public RakLib::SessionManager
@@ -25,6 +26,7 @@ class Server : public RakLib::SessionManager
 private:
 	RakLib::RakLib* _raklib;
 	ColoredLogger* _logger;
+	TaskHandler* _scheduler;
 
 	uint16 _port;
 	uint32 _maxPlayers;
@@ -40,13 +42,14 @@ public:
 	void start();
 	void stop();
 
-	bool addSession(std::string ip, unsigned short port, long clientID, unsigned short mtu);
+	void addSession(std::string ip, unsigned short port, long clientID, unsigned short mtu);
 	bool removeSession(std::string ip, unsigned short port);
 	RakLib::Session* getSession(std::string ip, unsigned short port);
 
 	inline void sendPacket(RakLib::Packet* packet) { this->_raklib->sendPacket(packet); };
 
 	inline ColoredLogger* getLogger() const { return this->_logger; }
+	inline TaskHandler* getScheduler() const { return this->_scheduler; }
 
 	inline uint16 getPort() const { return this->_port; }; // Server Ports
 	inline uint32 getMaxPlayers() const { return this->_maxPlayers; }; // Server Max Players

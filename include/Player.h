@@ -14,7 +14,7 @@
 
 #include <RakLib\Session.h>
 
-#include "Entity/Entity.h"
+#include "Entity\Entity.h"
 
 class Server;
 class Player : public Entity, public RakLib::Session

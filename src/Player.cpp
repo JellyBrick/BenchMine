@@ -12,39 +12,33 @@
 #include "Player.h"
 #include "Server.h"
 
-Player::Player(Server* server, std::string ip, uint16 port, long clientID, short mtuSize) : RakLib::Session(ip, port, clientID, mtuSize)
-{
+Player::Player(Server* server, std::string ip, uint16 port, long clientID, short mtuSize) : RakLib::Session(ip, port, clientID, mtuSize) {
 	this->_server = server;
 	this->_username = "Steve";
 
 	//this->server.getScheduler().addTask(new CallbackTask(this, "update", 10, true));
 }
 
-Player::~Player()
-{
+Player::~Player() {
 	//No resource to release
 }
 
-void Player::close(std::string reason)
-{
+void Player::close(std::string reason) {
 	//TODO
 }
 
-void Player::handleDataPacket(const RakLib::DataPacket& packet)
-{
+void Player::handleDataPacket(const RakLib::DataPacket& packet) {
 	//TODO
 }
 
-void Player::sendPacket(RakLib::Packet* packet)
-{
+void Player::sendPacket(RakLib::Packet* packet) {
 	this->_server->sendPacket(packet);
 }
 
 
-const std::string Player::getLUsername()
-{
+const std::string Player::getLUsername() {
 	//We should do this every time? or store the result as a member?
 	std::string lname = this->_username.c_str();
 	std::transform(lname.begin(), lname.end(), lname.begin(), ::tolower);
 	return lname;
-};
+}
