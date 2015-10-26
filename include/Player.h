@@ -32,7 +32,7 @@ public:
 
 	void close(std::string reason);
 
-	void handleDataPacket(const RakLib::DataPacket& packet);
+	void handleDataPacket(RakLib::DataPacket* packet);
 	void sendPacket(RakLib::Packet* packet);
 
 	inline const std::string& getUsername() const { this->_username; };

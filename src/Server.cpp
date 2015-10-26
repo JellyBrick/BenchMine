@@ -26,6 +26,7 @@ Server::Server() {
 #ifdef WIN32
 	SetConsoleTitle("BenchMine Server Software");
 #else // Unix
+	//TODO
 #endif 
 
 	this->_logger->info("BenchMine Server Software under LGPL v3");
@@ -51,7 +52,6 @@ void Server::stop() {
 
 void Server::addSession(std::string ip, unsigned short port, long clientID, unsigned short mtu) {
 	this->_logger->notice("New player have connected - %s:%d", ip.c_str(), port);
-
 	this->_players[this->_raklib->getSessionIdentifier(ip, port)] = new Player(this, ip, port, clientID, mtu);
 }
 

@@ -95,7 +95,9 @@ void TaskHandler::Tick() {
 			Task *t = this->_tasks[i];
 			if (--t->_delay == 0) {
 				t->onRun();
-				if (t->_repeatTime > 0) {
+				if (t->_repeatTime == -1) {
+					t->_delay = t->_defaultTick;
+				} else if (t->_repeatTime > 0) {
 					if (--t->_repeatTime == 0) {
 						t->onComplete();
 						this->_tasks.erase(std::find(this->_tasks.begin(), this->_tasks.end(), t));
