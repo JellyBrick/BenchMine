@@ -58,7 +58,7 @@ void Player::handleDataPacket(RakLib::DataPacket* packet) {
 		ClientConnect clientConnect(packet);
 		clientConnect.decode();
 
-		ServerHandshake serverHandshake(this->_ip, this->_port, clientConnect.sendPing, clientConnect.sendPing * 1000);
+		ServerHandshake serverHandshake(this->_ip, this->_port, clientConnect.sendPing, clientConnect.sendPing * 1000L);
 		serverHandshake.encode();
 		this->addToQueue(&serverHandshake, RakLib::Session::QueuePriority::IMMEDIATE);
 	}

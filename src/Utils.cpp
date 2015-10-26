@@ -26,5 +26,6 @@ std::vector<std::string> Utils::explode(const std::string& string, const char de
 		pos++;
 	}
 
-	return std::move(result);
+	result.shrink_to_fit();
+	return result;
 }

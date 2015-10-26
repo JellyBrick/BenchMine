@@ -22,7 +22,7 @@ ServerHandshake::ServerHandshake(const std::string& ip, uint16 port, long sendPi
 
 void ServerHandshake::encode() {
 	this->putByte(MinecraftPackets::SERVER_HANDSHAKE);
-	this->putAddress(this->ip.c_str(), (uint16)this->port);
+	this->putAddress(this->ip.c_str(), (short)this->port);
 	this->putShort(0);
 
 	this->putAddress("127.0.0.1", 0);
@@ -39,7 +39,8 @@ void ServerHandshake::putAddress(const char* address, short port) {
 	this->putByte(4); // This should be the version of the ip. IPV4(4) or IPV6(6)
 	std::vector<std::string> numbers = Utils::explode(address, '.');
 	for (const auto& it : numbers) {
-		this->putChar((~(atoi(it.c_str()))) & 0xff);
+		int value = atoi(it.c_str());
+		this->putChar((uint8)(~value & 0xff));
 	}
 	this->putShort(port);
 }
