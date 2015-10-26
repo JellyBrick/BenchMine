@@ -17,13 +17,13 @@
 class ServerHandshake : public RakLib::DataPacket
 {
 public:
-	int port;
-	long sessionID;
+	long sendPing;
+	long sendPong;
 
 public:
-	ServerHandshake(int port, long session);
+	ServerHandshake(const std::string& ip, uint16 port, long sendPing, long sendPong);
 
 	void encode() override;
-	void putDataArray();
+	void putAddress(const char* address, short port);
 };
 #endif

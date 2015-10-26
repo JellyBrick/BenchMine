@@ -14,8 +14,8 @@
 
 ClientConnect::ClientConnect(Packet* packet) : DataPacket(packet) {
 	this->clientID = 0;
-	this->session = 0;
-	this->unknown = 0x00;
+	this->sendPing = 0;
+	this->useSecurity = 0x00;
 }
 
 void ClientConnect::decode() {
@@ -23,7 +23,7 @@ void ClientConnect::decode() {
 		throw std::runtime_error("Expected another packet!");
 	}
 
-	clientID = this->getLong();
-	session = this->getLong();
-	unknown = this->getByte();
+	this->clientID = this->getLong();
+	this->sendPing = this->getLong();
+	this->useSecurity = ((this->getByte() == 0x01) ? true : false);
 }

@@ -11,34 +11,35 @@
 
 #include "Network\Minecraft\MinecraftPackets.h"
 #include "Network\Minecraft\ServerHandshake.h"
+#include "Utils.h"
 
-ServerHandshake::ServerHandshake(int port, long session) : DataPacket(96) {
+ServerHandshake::ServerHandshake(const std::string& ip, uint16 port, long sendPing, long sendPong) : DataPacket(96) {
+	this->ip = ip;
 	this->port = port;
-	this->sessionID = session;
+	this->sendPing = sendPing;
+	this->sendPong = sendPong;
 }
 
 void ServerHandshake::encode() {
 	this->putByte(MinecraftPackets::SERVER_HANDSHAKE);
-	this->putByte(new uint8 [4] { 0x04, 0x3f, 0x57, (uint8) 0xfe }, 4); //Cookie
-	this->putByte((uint8) 0xcd); //Security flags
-	this->putShort((short) port);
-
-	putDataArray();
-
+	this->putAddress(this->ip.c_str(), (uint16)this->port);
 	this->putShort(0);
-	this->putLong(sessionID);
-	this->putByte(new uint8 [8] { 0x00, 0x00, 0x00, 0x00, 0x04, 0x44, 0x0b, (uint8) 0xa9 }, 8);
+
+	this->putAddress("127.0.0.1", 0);
+	for (int i = 0; i < 9; i++) {
+		this->putAddress("0.0.0.0", 0);
+	}
+	
+	this->putLong(this->sendPing);
+	this->putLong(this->sendPong);
+
 }
 
-void ServerHandshake::putDataArray() {
-	uint8* unknown1 = new uint8 [4] { (uint8) 0xf5, (uint8) 0xff, (uint8) 0xff, (uint8) 0xf5 };
-	uint8* unknown2 = new uint8 [4] { (uint8) 0xff, (uint8) 0xff, (uint8) 0xff, (uint8) 0xff };
-
-	this->putLTriad(4);
-	this->putByte(unknown1, 4);
-
-	for (int i = 0; i < 9; i++) {
-		this->putTriad(4);
-		this->putByte(unknown2, 4);
+void ServerHandshake::putAddress(const char* address, short port) {
+	this->putByte(4); // This should be the version of the ip. IPV4(4) or IPV6(6)
+	std::vector<std::string> numbers = Utils::explode(address, '.');
+	for (const auto& it : numbers) {
+		this->putChar((~(atoi(it.c_str()))) & 0xff);
 	}
+	this->putShort(port);
 }

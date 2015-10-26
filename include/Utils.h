@@ -9,21 +9,16 @@
 *
 */
 
-#ifndef CLIENT_CONNECT_H_
-#define CLIENT_CONNECT_H_
+#ifndef UTILITIES_H_
+#define UTILITIES_H_
 
-#include <RakLib\Packets\DataPacket.h>
+#include <string>
+#include <vector>
 
-class ClientConnect : public RakLib::DataPacket
-{
+class Utils {
 public:
-	long clientID;
-	long sendPing;
-	bool useSecurity;
+	static std::vector<std::string> explode(const std::string& string, const char delimiter);
 
-public:
-	ClientConnect(Packet* packet);
-
-	void decode() override;
 };
-#endif
+
+#endif //UTILITIES_H_

@@ -11,9 +11,10 @@
 #ifndef MINECRAFT_PACKETS_H_
 #define MINECRAFT_PACKETS_H_
 
+static int NETWORK_PROTOCOL = 20;
+
 enum MinecraftPackets
 {
-	CURRENT_PROTOCOL = 20,
 
 	PING = 0x00,
 	PONG = 0x03,
