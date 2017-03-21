@@ -1,17 +1,18 @@
 #include "Server.h"
 
 #include "Player.h"
+#include "network/minecraft/MinecraftPackets.h"
 #include "Utils.h"
 
 Server::Server() {
 	Utils::setConsoleTitle("BenchMine Server Software");
 
 	this->maxPlayers = 10;
-	this->ip = "0.0.0.0";
+	this->ip = ""; // Equivalent to 0.0.0.0
 	this->port = 19132;
 	this->motd = "Welcome to the BenchMine Server!";
 	this->title = "BenchMine Minecraft Server!";
-	this->raklib = std::make_unique<RakLib::RakLib>(this, "", 19132);
+	this->raklib = std::make_unique<RakLib::RakLib>(this, this->ip, this->port);
 	this->logger = std::make_unique<ColoredLogger>();
 	this->scheduler = std::make_unique<TaskHandler>(MINECRAFT_TICK_RATE); // Default Minecraft Tick Rate
 	this->logger->info("BenchMine Server Software under LGPL v3");
@@ -37,11 +38,12 @@ void Server::stop() {
 
 void Server::addSession(const std::string& ip, uint16 port, int64 clientID, int16 mtu) {
 	this->logger->notice("New player have connected - %s:%d", ip.c_str(), port);
-	this->players[ip] = new Player(this, ip, port, clientID, mtu);
+	this->players[this->getSessionID(ip, port)] = new Player(this, ip, port, clientID, mtu);
 }
 
-void Server::removeSession(const std::string& ip, unsigned short port) {
+void Server::removeSession(const std::string& ip, uint16 port) {
 	if (this->players[this->getSessionID(ip, port)] == nullptr) {
+		return;
 	}
 
 	delete this->getSession(ip, port);
@@ -54,7 +56,6 @@ RakLib::Session* Server::getSession(const std::string& ip, uint16 port) {
 std::string Server::getSessionID(const std::string& ip, uint16 port) {
 	return ip + (":" + port);
 }
-
 
 int64 Server::getIdentifier() {
 	return 123456789LL;
@@ -77,7 +78,7 @@ int32 Server::getProtocol() {
 }
 
 std::string Server::getGameVersion() {
-	return "1.0.5";
+	return GAME_VERSION;
 }
 
 uint32 Server::getActivePlayers() {

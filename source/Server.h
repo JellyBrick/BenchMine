@@ -27,7 +27,7 @@ private:
 
 public:
 	Server();
-	~Server();
+	virtual ~Server();
 
 	void start();
 	void stop();
@@ -45,7 +45,7 @@ public:
 	uint32 getActivePlayers() override;
 	uint32 getMaxPlayer() override;
 
-	void sendPacket(std::unique_ptr<RakLib::Packet> packet) { this->raklib->sendPacket(std::move(packet)); };
+	void sendPacket(const RakLib::Packet& packet) { this->raklib->sendPacket(packet); }
 
 	ColoredLogger* getLogger() const { return this->logger.get(); }
 	TaskHandler* getScheduler() const { return this->scheduler.get(); }

@@ -10,8 +10,8 @@ Login::Login(std::unique_ptr<Packet> packet) : DataPacket(std::move(packet)) {
 }
 
 void Login::decode() {
-	if (this->getByte() != MinecraftPackets::LOGIN_PACKET){
-		throw std::runtime_error("Expected another packet.");
+	if (this->getByte() != MinecraftPackets::LOGIN){
+		return;
 	}
 
 	this->username = this->getString();

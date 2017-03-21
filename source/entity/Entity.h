@@ -1,9 +1,8 @@
 #pragma once
 
-#include "..\math\Vector3f.h"
+#include "../math/Vector3f.h"
 
-class Entity
-{
+class Entity {
 public:
 	static unsigned int entityIDs;
 
@@ -16,10 +15,10 @@ private:
 public:
 	Entity();
 
-	inline const Vector3f& getPosition() const { return this->position; }
-	inline const Vector3f& getLastPosition() const { return this->lastPosition; };
+	const Vector3f& getPosition() const { return this->position; }
+	const Vector3f& getLastPosition() const { return this->lastPosition; }
 
-	inline float getYaw() const { return this->yaw; };
-	inline float getPitch() const { return this->pitch; };
+	float getYaw() const { return this->yaw; }
+	float getPitch() const { return this->pitch; }
 
 };

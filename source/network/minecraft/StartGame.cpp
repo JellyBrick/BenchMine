@@ -11,7 +11,7 @@ StartGame::StartGame(float x, float y, float z, int gamemode, int seed, int eid)
 }
 
 void StartGame::encode() {
-	this->putByte(MinecraftPackets::START_GAME_PACKET);
+	this->putByte(MinecraftPackets::START_GAME);
 	this->putInt(seed);
 	this->putInt(unknown);
 	this->putInt(gamemode);

@@ -18,6 +18,6 @@ LoginStatus::LoginStatus(int status) : DataPacket(5) {
 
 
 void LoginStatus::encode() {
-	this->putByte(MinecraftPackets::LOGIN_STATUS_PACKET);
+	this->putByte(MinecraftPackets::PLAY_STATUS);
 	this->putInt(this->status);
 }

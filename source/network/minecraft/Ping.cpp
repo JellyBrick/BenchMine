@@ -10,13 +10,13 @@ Ping::Ping(int64 pingID) : DataPacket(9) {
 }
 
 void Ping::decode() {
-	if (this->getByte() != MinecraftPackets::PING)
-		return;
+	// if (this->getByte() != MinecraftPackets::PING)
+	//	return;
 
-	this->pingID = this->getLong();
+	// this->pingID = this->getLong();
 }
 
 void Ping::encode() {
-	this->putByte(MinecraftPackets::PING);
-	this->putLong(this->pingID);
+	// this->putByte(MinecraftPackets::PING);
+	// this->putLong(this->pingID);
 }

@@ -11,7 +11,7 @@ ClientConnect::ClientConnect(std::unique_ptr<Packet> packet) : DataPacket(std::m
 }
 
 void ClientConnect::decode() {
-	assert(this->getByte() == MinecraftPackets::CLIENT_CONNECT);
+	//assert(this->getByte() == MinecraftPackets::CLIENT_);
 
 	this->clientID = this->getLong();
 	this->sendPing = this->getLong();
