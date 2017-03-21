@@ -27,36 +27,36 @@ void Player::close(const std::string& reason) {
 }
 
 //The `DataPacket` get deleted in the Session:receivePacket() method
-void Player::handleDataPacket(RakLib::DataPacket* packet) {
+void Player::handleDataPacket(std::unique_ptr<RakLib::DataPacket> packet) {
 	uint8 packetID = (*packet)[0];
 	this->server->getLogger()->debug("Packet ID: %02X", packetID);
 
 	switch (packetID) {
 	case MinecraftPackets::PING:
 	{
-		Ping ping(packet);
+		Ping ping(std::move(packet));
 		ping.decode();
 
-		Pong pong(ping.pingID);
-		pong.encode();
-		this->addToQueue(&pong, RakLib::Session::QueuePriority::IMMEDIATE);
+		auto pong = std::make_unique<Pong>(ping.pingID);
+		pong->encode();
+		this->addToQueue(std::move(pong), RakLib::Session::QueuePriority::IMMEDIATE);
 	}
 	break;
 
 	case MinecraftPackets::CLIENT_CONNECT:
 	{
-		ClientConnect clientConnect(packet);
+		ClientConnect clientConnect(std::move(packet));
 		clientConnect.decode();
 
-		ServerHandshake serverHandshake(this->ip, this->port, clientConnect.sendPing, (int64)(clientConnect.sendPing * 1000LL));
-		serverHandshake.encode();
-		this->addToQueue(&serverHandshake, RakLib::Session::QueuePriority::IMMEDIATE);
+		auto serverHandshake = std::make_unique<ServerHandshake>(this->ip, this->port, clientConnect.sendPing, (int64)(clientConnect.sendPing * 1000LL));
+		serverHandshake->encode();
+		this->addToQueue(std::move(serverHandshake), RakLib::Session::QueuePriority::IMMEDIATE);
 	}
 	break;
 
 	case MinecraftPackets::LOGIN_PACKET:
 	{
-		Login login(packet);
+		Login login(std::move(packet));
 		login.decode();
 
 		if (login.protocol != NETWORK_PROTOCOL || login.protocol2 != NETWORK_PROTOCOL){
@@ -77,8 +77,8 @@ void Player::handleDataPacket(RakLib::DataPacket* packet) {
 	}
 }
 
-void Player::sendPacket(RakLib::Packet* packet) {
-	this->server->sendPacket(packet);
+void Player::sendPacket(std::unique_ptr<RakLib::Packet> packet) {
+	this->server->sendPacket(std::move(packet));
 }
 
 const std::string Player::getLUsername() {

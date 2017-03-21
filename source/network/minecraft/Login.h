@@ -12,6 +12,6 @@ public:
 	std::string loginData;
 
 public:
-	Login(Packet* packet);
+	Login(std::unique_ptr<Packet> packet);
 	void decode() override;
 };

@@ -8,7 +8,7 @@ public:
 	int64 pingID;
 
 	Pong(int64 pingID);
-	Pong(Packet* pck);
+	Pong(std::unique_ptr<Packet> pck);
 
 	void decode();
 	void encode();

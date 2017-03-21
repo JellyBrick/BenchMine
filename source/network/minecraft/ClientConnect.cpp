@@ -4,7 +4,7 @@
 
 #include "MinecraftPackets.h"
 
-ClientConnect::ClientConnect(Packet* packet) : DataPacket(packet) {
+ClientConnect::ClientConnect(std::unique_ptr<Packet> packet) : DataPacket(std::move(packet)) {
 	this->clientID = 0;
 	this->sendPing = 0;
 	this->useSecurity = false;

@@ -1,6 +1,6 @@
 #pragma once
 
-static int NETWORK_PROTOCOL = 20;
+static int NETWORK_PROTOCOL = 102;
 
 enum MinecraftPackets {
 	PING = 0x00,

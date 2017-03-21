@@ -3,7 +3,7 @@
 
 Pong::Pong(int64 pingID) : DataPacket(9), pingID(pingID) {}
 
-Pong::Pong(Packet* packet) : DataPacket(packet) {}
+Pong::Pong(std::unique_ptr<Packet> packet) : DataPacket(std::move(packet)) {}
 
 void Pong::decode() {
 	if (this->getByte() != MinecraftPackets::PONG)

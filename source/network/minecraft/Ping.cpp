@@ -1,7 +1,7 @@
 #include "MinecraftPackets.h"
 #include "Ping.h"
 
-Ping::Ping(Packet* pck) : DataPacket(pck) {
+Ping::Ping(std::unique_ptr<Packet> packet) : DataPacket(std::move(packet)) {
 	this->pingID = 0;
 }
 

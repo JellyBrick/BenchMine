@@ -1,6 +1,6 @@
 #pragma once
 
-#include <packets\DataPacket.h>
+#include <packets/DataPacket.h>
 
 class Ping : public RakLib::DataPacket
 {
@@ -8,7 +8,7 @@ public:
 	int64 pingID;
 
 public:
-	Ping(Packet*);
+	Ping(std::unique_ptr<Packet> packet);
 	Ping(int64 pingID);
 
 	void encode() override;

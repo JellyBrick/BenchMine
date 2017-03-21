@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include <memory>
 
 #include <RakLib.h>
 #include <SessionManager.h>
@@ -11,16 +12,18 @@
 class Player;
 class Server : public RakLib::SessionManager {
 private:
-	RakLib::RakLib* _raklib;
-	ColoredLogger* _logger;
-	TaskHandler* _scheduler;
+	static constexpr unsigned int MINECRAFT_TICK_RATE = 20;
 
-	uint16 _port;
-	uint32 _maxPlayers;
-	std::string  _ip;
-	std::string _motd;
-	std::string _title;
-	std::map<std::string, Player*> _players;
+	std::unique_ptr<RakLib::RakLib> raklib;
+	std::unique_ptr<ColoredLogger> logger;
+	std::unique_ptr<TaskHandler> scheduler;
+
+	uint16 port;
+	uint32 maxPlayers;
+	std::string  ip;
+	std::string motd;
+	std::string title;
+	std::map<std::string, Player*> players;
 
 public:
 	Server();
@@ -29,24 +32,27 @@ public:
 	void start();
 	void stop();
 
-	virtual void addSession(const std::string& ip, uint16 port, int64 clientID, int16 mtu);
-	virtual bool removeSession(const std::string& ip, unsigned short port);
-	virtual RakLib::Session* getSession(const std::string& ip, unsigned short port);
+	void addSession(const std::string& ip, uint16 port, int64 clientID, int16 mtu) override;
+	void removeSession(const std::string& ip, uint16 port) override;
+	RakLib::Session* getSession(const std::string& ip, uint16 port) override;
 
-	virtual int64 getIdentifier();
-	virtual bool useSecurity();
-	virtual const std::string getType();
-	virtual const std::string getName();
-	virtual int32 getProtocol();
-	virtual const std::string getGameVersion();
-	virtual uint32 getActivePlayers();
-	virtual uint32 getMaxPlayer();
+	int64 getIdentifier() override;
+	bool useSecurity() override;
+	std::string getType() override;
+	std::string getName() override;
+	int32 getProtocol() override;
+	std::string getGameVersion() override;
+	uint32 getActivePlayers() override;
+	uint32 getMaxPlayer() override;
 
-	inline void sendPacket(RakLib::Packet* packet) { this->_raklib->sendPacket(packet); };
+	void sendPacket(std::unique_ptr<RakLib::Packet> packet) { this->raklib->sendPacket(std::move(packet)); };
 
-	inline ColoredLogger* getLogger() const { return this->_logger; }
-	inline TaskHandler* getScheduler() const { return this->_scheduler; }
+	ColoredLogger* getLogger() const { return this->logger.get(); }
+	TaskHandler* getScheduler() const { return this->scheduler.get(); }
 
-	inline uint16 getPort() const { return this->_port; }; // Server Ports
-	inline const std::string& getIP() const { return this->_ip; }; // Server IP
+	uint16 getPort() const { return this->port; }; // Server Ports
+	const std::string& getIP() const { return this->ip; }; // Server IP
+
+private:
+	std::string getSessionID(const std::string& ip, uint16 port);
 };

@@ -18,10 +18,10 @@ public:
 
 	void close(const std::string& reason);
 
-	void handleDataPacket(RakLib::DataPacket* packet);
-	void sendPacket(RakLib::Packet* packet);
+	void handleDataPacket(std::unique_ptr<RakLib::DataPacket> packet) override;
+	void sendPacket(std::unique_ptr<RakLib::Packet> packet);
 
-	inline const std::string& getUsername() const { this->username; };
+	const std::string& getUsername() const { return this->username; }
 	const std::string getLUsername();
 
 };

@@ -1,5 +1,9 @@
 #include "Utils.h"
 
+#ifdef _WIN32
+#include <Windows.h>
+#endif
+
 std::vector<std::string> Utils::explode(const std::string& string, const char delimiter) {
 	std::vector<std::string> result;
 	unsigned int start = 0, pos = 0;
@@ -17,4 +21,12 @@ std::vector<std::string> Utils::explode(const std::string& string, const char de
 
 	result.shrink_to_fit();
 	return result;
+}
+
+void Utils::setConsoleTitle(const std::string& title) {
+#ifdef _WIN32
+	SetConsoleTitle(title.c_str());
+#else // Unix
+	//TODO
+#endif 
 }

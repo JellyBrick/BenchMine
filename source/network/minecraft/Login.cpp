@@ -1,7 +1,7 @@
 #include "Login.h"
 #include "MinecraftPackets.h"
 
-Login::Login(Packet* pck) : DataPacket(pck) {
+Login::Login(std::unique_ptr<Packet> packet) : DataPacket(std::move(packet)) {
 	this->username = "";
 	this->clientID = 0;
 	this->loginData = "";

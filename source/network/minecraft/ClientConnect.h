@@ -10,7 +10,7 @@ public:
 	bool useSecurity;
 
 public:
-	ClientConnect(Packet* packet);
+	ClientConnect(std::unique_ptr<Packet> packet);
 
 	void decode() override;
 };
