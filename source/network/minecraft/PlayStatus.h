@@ -2,13 +2,13 @@
 
 #include <packets\DataPacket.h>
 
-class LoginStatus : public RakLib::DataPacket
+class PlayStatus : public RakLib::DataPacket
 {
 public:
 	int status;
 
 public:
-	LoginStatus(int status);
+	PlayStatus(int status);
 	void encode() override;
 
 };

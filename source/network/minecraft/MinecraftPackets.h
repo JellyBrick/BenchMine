@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-
 static constexpr int NETWORK_PROTOCOL = 102;
 static constexpr const char* GAME_VERSION = "1.0.5";
 
@@ -69,14 +67,14 @@ enum MinecraftPackets : unsigned char {
 	CHANGE_DIMENSION = 0x3d,
 	SET_PLAYER_GAME_TYPE = 0x3e,
 	PLAYER_LIST = 0x3f,
-	EVENT = 0x40, //TelemetryEventPacket
+	TELEMETRY_EVENT = 0x40,
 	SPAWN_EXPERIENCE_ORB = 0x41,
-	CLIENTBOUND_MAP_ITEM_DATA = 0x42, //MapItemDataPacket
+	MAP_ITEM_DATA = 0x42,
 	MAP_INFO_REQUEST = 0x43,
 	REQUEST_CHUNK_RADIUS = 0x44,
 	CHUNK_RADIUS_UPDATED = 0x45,
 	ITEM_FRAME_DROP_ITEM = 0x46,
-	REPLACE_SELECTED_ITEM = 0x47, //ReplaceSelectedItemPacket
+	REPLACE_SELECTED_ITEM = 0x47,
 	GAME_RULES_CHANGED = 0x48,
 	CAMERA = 0x49,
 	ADD_ITEM = 0x4a,

@@ -9,15 +9,15 @@
 *
 */
 
-#include "LoginStatus.h"
+#include "PlayStatus.h"
 #include "MinecraftPackets.h"
 
-LoginStatus::LoginStatus(int status) : DataPacket(5) {
+PlayStatus::PlayStatus(int status) : DataPacket(5) {
 	this->status = status;
 }
 
 
-void LoginStatus::encode() {
+void PlayStatus::encode() {
 	this->putByte(MinecraftPackets::PLAY_STATUS);
 	this->putInt(this->status);
 }

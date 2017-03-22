@@ -19,8 +19,8 @@ void Player::close(const std::string& reason) {
 }
 
 void Player::handleDataPacket(std::unique_ptr<RakLib::DataPacket> packet) {
-	uint8 packetID = (*packet)[0];
-	this->server->getLogger()->debug("Packet ID: %02X", packetID);
+	uint8 packetID = packet->getBuffer()[0];
+	this->server->getLogger()->debug("Packet ID: %02X Length: %u", packetID, packet->getLength());
 	// TODO
 }
 

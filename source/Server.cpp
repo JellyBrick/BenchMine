@@ -1,5 +1,7 @@
 #include "Server.h"
 
+#include <cassert>
+
 #include "Player.h"
 #include "network/minecraft/MinecraftPackets.h"
 #include "Utils.h"
@@ -37,7 +39,8 @@ void Server::stop() {
 }
 
 void Server::addSession(const std::string& ip, uint16 port, int64 clientID, int16 mtu) {
-	this->logger->notice("New player have connected - %s:%d", ip.c_str(), port);
+	assert(getSession(ip, port) == nullptr);
+	this->logger->notice("New player have connected - %s:%u", ip.c_str(), port);
 	this->players[this->getSessionID(ip, port)] = new Player(this, ip, port, clientID, mtu);
 }
 
