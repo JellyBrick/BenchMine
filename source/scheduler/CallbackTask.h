@@ -4,7 +4,7 @@
 
 #include "Task.h"
 
-class CallbackTask : public Task
+class CallbackTask final : public Task
 {
 private:
 	std::function<void()> _callback;

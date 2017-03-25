@@ -1,5 +1,6 @@
 #include "TaskHandler.h"
 
+#include <cassert>
 #include <chrono>
 
 unsigned int TaskHandler::ids = 1;
@@ -17,25 +18,23 @@ TaskHandler::~TaskHandler() {
 	this->removeAllTask();
 }
 
-unsigned int TaskHandler::addTask(Task* t) {
-	if (t == nullptr) {
-		return 0;
-	}
+unsigned int TaskHandler::addTask(Task* task) {
+	assert(task != nullptr);
 
-	if(t->_delay != 0 && t->_id == 0) {
-		t->_id = TaskHandler::ids++;
-		this->_tasks.push_back(t);
-		return t->_id;
+	if(task->delay != 0 && task->id == 0) {
+		task->id = TaskHandler::ids++;
+		this->tasks.push_back(task);
+		return task->id;
 	}
 
 	return 0;
 }
 
 bool TaskHandler::removeTask(unsigned int id) {
-	for (unsigned int i = 0; i < this->_tasks.size(); i++) {
-		Task* task = this->_tasks[i];
-		if (task->_id == id) {
-			this->_tasks.erase(std::find(this->_tasks.begin(), this->_tasks.end(), task));
+	for (unsigned int i = 0; i < this->tasks.size(); i++) {
+		Task* task = this->tasks[i];
+		if (task->id == id) {
+			this->tasks.erase(std::find(this->tasks.begin(), this->tasks.end(), task));
 			delete task;
 			return true;
 		}
@@ -45,22 +44,23 @@ bool TaskHandler::removeTask(unsigned int id) {
 }
 
 void TaskHandler::removeAllTask() {
-	for (unsigned int i = 0; i < this->_tasks.size(); i++) {
-		delete this->_tasks[i];
+	for (unsigned int i = 0; i < this->tasks.size(); i++) {
+		delete this->tasks[i];
 	}
 
-	this->_tasks.clear();
+	this->tasks.clear();
 }
 
 void TaskHandler::start() {
+	
 	this->isRunning = true;
-	this->_thread = std::thread(&TaskHandler::run, this);
+	this->thread = std::thread(&TaskHandler::run, this);
 }
 
 void TaskHandler::stop() {
 	if (this->isRunning) {
 		this->isRunning = false;
-		this->_thread.join();
+		this->thread.join();
 	}
 }
 
@@ -72,28 +72,26 @@ void TaskHandler::run() {
 }
 
 void TaskHandler::Tick() {
-	if (!this->_tasks.empty()) {
-		for (unsigned int i = 0; i < this->_tasks.size(); ++i) {
-			Task *t = this->_tasks[i];
-			if (--t->_delay == 0) {
-				t->onRun();
-				if (t->_repeatTime == -1) {
-					t->_delay = t->_defaultTick;
-				} else if (t->_repeatTime > 0) {
-					if (--t->_repeatTime == 0) {
-						t->onComplete();
-						this->_tasks.erase(std::find(this->_tasks.begin(), this->_tasks.end(), t));
-						delete t;
-						continue;
-					}
-
-					t->_delay = t->_defaultTick;
-				} else {
+	for (size_t i = 0; i < this->tasks.size(); ++i) {
+		Task *t = this->tasks[i];
+		if (--t->delay == 0) {
+			t->onRun();
+			if (t->repeatTime == -1) {
+				t->delay = t->defaultTick;
+			} else if (t->repeatTime > 0) {
+				if (--t->repeatTime == 0) {
 					t->onComplete();
-
-					this->_tasks.erase(std::find(this->_tasks.begin(), this->_tasks.end(), t));
+					this->tasks.erase(std::find(this->tasks.begin(), this->tasks.end(), t));
 					delete t;
+					continue;
 				}
+
+				t->delay = t->defaultTick;
+			} else {
+				t->onComplete();
+
+				this->tasks.erase(std::find(this->tasks.begin(), this->tasks.end(), t));
+				delete t;
 			}
 		}
 	}

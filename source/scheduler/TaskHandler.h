@@ -19,8 +19,8 @@ private:
 
 	bool isRunning;
 
-	std::vector<Task*> _tasks;
-	std::thread _thread;
+	std::vector<Task*> tasks;
+	std::thread thread;
 
 	void Tick();
 
