@@ -24,12 +24,12 @@ void ConnectionAccepted::encode() {
 	this->putLong(this->sendPong);
 }
 
-void ConnectionAccepted::putAddress(const std::string& address, uint16 port) {
+void ConnectionAccepted::putAddress(const std::string& address, uint16 port_) {
 	this->putByte(4); // This should be the version of the ip. IPV4(4) or IPV6(6)
 	std::vector<std::string> numbers = Utils::explode(address, '.');
 	for (const auto& it : numbers) {
 		int value = atoi(it.c_str());
 		this->putChar((int8)(~value & 0xff));
 	}
-	this->putUShort((uint16)port);
+	this->putUShort((uint16)port_);
 }

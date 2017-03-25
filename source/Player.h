@@ -17,8 +17,12 @@ public:
 
 	void close(const std::string& reason);
 
+	void update() override;
+
 	void handleDataPacket(std::unique_ptr<RakLib::DataPacket> packet) override;
 	void sendPacket(RakLib::Packet& packet) override;
+	
+	void handleGamePacket(std::unique_ptr<RakLib::DataPacket> packet);
 
 	const std::string& getUsername() const { return this->username; }
 	std::string getLUsername() const { return this->lowerUserName; }

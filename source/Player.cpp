@@ -13,10 +13,15 @@
 Player::Player(Server* server, const std::string& ip, uint16 port, int64 clientID, int16 mtuSize) : RakLib::Session(std::move(ip), port, clientID, mtuSize) {
 	this->server = server;
 	this->username = this->lowerUserName = "Steve";
-	std::transform(this->lowerUserName.begin(), this->lowerUserName.end(), this->lowerUserName.begin(), ::tolower);
 
 	this->server->getScheduler()->addTask(new CallbackTask(std::function<void()>(std::bind(&Player::update, this)), 10, -1));
 }
+
+void Player::update() {
+	Session::update();
+	// TODO
+}
+
 
 void Player::close(const std::string& reason) {
 	//TODO
@@ -24,7 +29,6 @@ void Player::close(const std::string& reason) {
 
 void Player::handleDataPacket(std::unique_ptr<RakLib::DataPacket> packet) {
 	uint8 packetID = packet->getBuffer()[0];
-	this->server->getLogger()->debug("Packet ID: %02X Length: %u", packetID, packet->getLength());
 	
 	switch(packetID) {
 	case RaknetPacket::PING:
@@ -50,8 +54,21 @@ void Player::handleDataPacket(std::unique_ptr<RakLib::DataPacket> packet) {
 		this->addToQueue(std::move(connectionAccepted), QueuePriority::IMMEDIATE);
 	}
 	break;
+
+	case RaknetPacket::WRAPPER:
+		this->server->getLogger()->debug("Packet Wrapped: 0x%02x", packet->getBuffer()[1]);
+		break;
+
+	default:
+		this->server->getLogger()->debug("Packet(0x%02X, %u)", packetID, packet->getLength());
+		break;
 	}
 }
+
+void Player::handleGamePacket(std::unique_ptr<RakLib::DataPacket> packet) {
+	
+}
+
 
 void Player::sendPacket(RakLib::Packet& packet) { 
 	packet.ip = this->ip;

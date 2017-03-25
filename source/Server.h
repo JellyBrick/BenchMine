@@ -10,7 +10,7 @@
 #include "scheduler\TaskHandler.h"
 
 class Player;
-class Server : public RakLib::SessionManager {
+class Server final : public RakLib::SessionManager {
 private:
 	static constexpr unsigned int MINECRAFT_TICK_RATE = 20;
 

@@ -7,4 +7,5 @@ enum RaknetPacket : unsigned char {
 	CONNECTION_REQUEST = 0x09,
 	CONNECTION_ACCEPTED = 0x10,
 
+	WRAPPER = 0xFE
 };
