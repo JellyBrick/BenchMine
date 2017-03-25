@@ -5,11 +5,9 @@
 class Login : public RakLib::DataPacket
 {
 public:
-	std::string username;
-	int protocol;
-	int protocol2;
-	int clientID;
-	std::string loginData;
+	int32 protocol;
+	uint8 edition;
+	uint8* payload;
 
 public:
 	Login(std::unique_ptr<Packet> packet);

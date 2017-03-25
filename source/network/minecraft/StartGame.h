@@ -2,8 +2,7 @@
 
 #include <packets\DataPacket.h>
 
-class StartGame : public RakLib::DataPacket
-{
+class StartGame : public RakLib::DataPacket {
 public:
 	int seed;
 	int unknown;
@@ -15,6 +14,5 @@ public:
 
 public:
 	StartGame(float x, float y, float z, int gamemode, int seed, int eid);
-
 	void encode() override;
 };

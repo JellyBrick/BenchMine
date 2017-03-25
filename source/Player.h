@@ -18,7 +18,7 @@ public:
 	void close(const std::string& reason);
 
 	void handleDataPacket(std::unique_ptr<RakLib::DataPacket> packet) override;
-	void sendPacket(const RakLib::Packet& packet) override;
+	void sendPacket(RakLib::Packet& packet) override;
 
 	const std::string& getUsername() const { return this->username; }
 	std::string getLUsername() const { return this->lowerUserName; }

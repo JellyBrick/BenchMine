@@ -1,16 +1,16 @@
 #pragma once
 
-#include <packets\DataPacket.h>
+#include <string>
 
-class ServerHandshake : public RakLib::DataPacket
-{
+#include <packets/DataPacket.h>
+
+class ServerHandshake : public RakLib::DataPacket {
 public:
-	int64 sendPing;
-	int64 sendPong;
+	std::string serverPublicKey;
+	uint32 tokenLength;
+	uint8* tokens;
 
 public:
-	ServerHandshake(const std::string& ip, uint16 port, int64 sendPing, int64 sendPong);
-
+	ServerHandshake(const std::string& serverPublicKey, uint32 tokenLength, uint8* tokens);
 	void encode() override;
-	void putAddress(const std::string& address, uint16 port);
 };

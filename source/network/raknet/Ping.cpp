@@ -1,5 +1,6 @@
-#include "MinecraftPackets.h"
 #include "Ping.h"
+
+#include "RaknetPackets.h"
 
 Ping::Ping(std::unique_ptr<Packet> packet) : DataPacket(std::move(packet)) {
 	this->pingID = 0;
@@ -10,13 +11,14 @@ Ping::Ping(int64 pingID) : DataPacket(9) {
 }
 
 void Ping::decode() {
-	// if (this->getByte() != MinecraftPackets::PING)
-	//	return;
+	if (this->getByte() != PING) {
+		return;
+	}
 
-	// this->pingID = this->getLong();
+	this->pingID = this->getLong();
 }
 
 void Ping::encode() {
-	// this->putByte(MinecraftPackets::PING);
-	// this->putLong(this->pingID);
+	this->putByte(PING);
+	this->putLong(this->pingID);
 }

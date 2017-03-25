@@ -10,6 +10,6 @@ public:
 	Pong(int64 pingID);
 	Pong(std::unique_ptr<Packet> pck);
 
-	void decode();
-	void encode();
+	void decode() override;
+	void encode() override;
 };

@@ -2,15 +2,15 @@
 
 #include <packets\DataPacket.h>
 
-class ClientConnect : public RakLib::DataPacket
+class ConnectionRequest : public RakLib::DataPacket
 {
 public:
 	int64 clientID;
-	int64 sendPing;
+	uint64 sendPing;
 	bool useSecurity;
 
 public:
-	ClientConnect(std::unique_ptr<Packet> packet);
+	ConnectionRequest(std::unique_ptr<Packet> packet);
 
 	void decode() override;
 };

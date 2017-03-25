@@ -32,9 +32,9 @@ public:
 	void start();
 	void stop();
 
-	void addSession(const std::string& ip, uint16 port, int64 clientID, int16 mtu) override;
-	void removeSession(const std::string& ip, uint16 port) override;
-	RakLib::Session* getSession(const std::string& ip, uint16 port) override;
+	void addSession(const std::string& sessionIP, uint16 sessionPort, int64 clientID, int16 mtu) override;
+	void removeSession(const std::string& sessionIP, uint16 sessionPort) override;
+	RakLib::Session* getSession(const std::string& sessionIP, uint16 sessionPort) override;
 
 	int64 getIdentifier() override;
 	bool useSecurity() override;
@@ -45,7 +45,7 @@ public:
 	uint32 getActivePlayers() override;
 	uint32 getMaxPlayer() override;
 
-	void sendPacket(const RakLib::Packet& packet) { this->raklib->sendPacket(packet); }
+	void sendPacket(const RakLib::Packet& packet) const { this->raklib->sendPacket(packet); }
 
 	ColoredLogger* getLogger() const { return this->logger.get(); }
 	TaskHandler* getScheduler() const { return this->scheduler.get(); }
@@ -54,5 +54,5 @@ public:
 	const std::string& getIP() const { return this->ip; }; // Server IP
 
 private:
-	std::string getSessionID(const std::string& ip, uint16 port);
+	std::string getSessionID(const std::string& sessionIP, uint16 port);
 };

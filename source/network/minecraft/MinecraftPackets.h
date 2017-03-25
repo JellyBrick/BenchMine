@@ -1,6 +1,6 @@
 #pragma once
 
-static constexpr int NETWORK_PROTOCOL = 102;
+static constexpr int NETWORK_PROTOCOL = 105;
 static constexpr const char* GAME_VERSION = "1.0.5";
 
 enum MinecraftPackets : unsigned char {
