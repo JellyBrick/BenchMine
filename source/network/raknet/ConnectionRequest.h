@@ -10,7 +10,7 @@ public:
 	bool useSecurity;
 
 public:
-	ConnectionRequest(std::unique_ptr<Packet> packet);
+	ConnectionRequest(std::unique_ptr<RakLib::Packet>&& packet);
 
 	void decode() override;
 };

@@ -4,7 +4,7 @@
 
 #include "MinecraftPackets.h"
 
-ClientHandshake::ClientHandshake(std::unique_ptr<Packet> packet) : RakLib::DataPacket(std::move(packet)) {}
+ClientHandshake::ClientHandshake(std::unique_ptr<Packet>&& packet) : RakLib::DataPacket(std::move(packet)) {}
 
 void ClientHandshake::decode() {
 	assert(this->getByte() == CLIENT_HANDSHAKE);

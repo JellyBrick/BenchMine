@@ -8,7 +8,7 @@ public:
 	int64 pingID;
 
 	Pong(int64 pingID);
-	Pong(std::unique_ptr<Packet> pck);
+	Pong(std::unique_ptr<Packet>&& packet);
 
 	void decode() override;
 	void encode() override;

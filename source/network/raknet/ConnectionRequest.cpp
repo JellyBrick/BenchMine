@@ -4,7 +4,7 @@
 
 #include "RaknetPackets.h"
 
-ConnectionRequest::ConnectionRequest(std::unique_ptr<Packet> packet) : DataPacket(std::move(packet)) {
+ConnectionRequest::ConnectionRequest(std::unique_ptr<RakLib::Packet>&& packet) : DataPacket(std::move(packet)) {
 	this->clientID = 0;
 	this->sendPing = 0;
 	this->useSecurity = false;

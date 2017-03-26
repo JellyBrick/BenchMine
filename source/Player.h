@@ -19,7 +19,7 @@ public:
 
 	void update() override;
 
-	void handleDataPacket(std::unique_ptr<RakLib::DataPacket> packet) override;
+	void handleDataPacket(std::unique_ptr<RakLib::Packet> packet) override;
 	void sendPacket(RakLib::Packet& packet) override;
 	
 	void handleGamePacket(std::unique_ptr<RakLib::DataPacket> packet);

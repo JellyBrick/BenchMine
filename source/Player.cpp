@@ -1,7 +1,5 @@
 #include "Player.h"
 
-#include <algorithm>
-
 #include "Server.h"
 #include "scheduler/CallbackTask.h"
 #include "network/raknet/ConnectionAccepted.h"
@@ -27,7 +25,7 @@ void Player::close(const std::string& reason) {
 	//TODO
 }
 
-void Player::handleDataPacket(std::unique_ptr<RakLib::DataPacket> packet) {
+void Player::handleDataPacket(std::unique_ptr<RakLib::Packet> packet) {
 	uint8 packetID = packet->getBuffer()[0];
 	
 	switch(packetID) {
@@ -68,7 +66,6 @@ void Player::handleDataPacket(std::unique_ptr<RakLib::DataPacket> packet) {
 void Player::handleGamePacket(std::unique_ptr<RakLib::DataPacket> packet) {
 	
 }
-
 
 void Player::sendPacket(RakLib::Packet& packet) { 
 	packet.ip = this->ip;

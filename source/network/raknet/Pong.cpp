@@ -2,7 +2,7 @@
 
 #include "RaknetPackets.h"
 
-Pong::Pong(std::unique_ptr<Packet> packet) : DataPacket(std::move(packet)), pingID(0){}
+Pong::Pong(std::unique_ptr<Packet>&& packet) : DataPacket(std::move(packet)), pingID(0){}
 
 Pong::Pong(int64 pingID) : DataPacket(9), pingID(pingID) {}
 

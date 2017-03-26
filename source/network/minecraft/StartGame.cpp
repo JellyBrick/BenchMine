@@ -8,6 +8,7 @@ StartGame::StartGame(float x, float y, float z, int gamemode, int seed, int eid)
 	this->gamemode = gamemode;
 	this->seed = seed;
 	this->eid = eid;
+	this->unknown = 0;
 }
 
 void StartGame::encode() {

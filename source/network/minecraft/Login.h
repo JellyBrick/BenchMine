@@ -10,6 +10,6 @@ public:
 	uint8* payload;
 
 public:
-	Login(std::unique_ptr<Packet> packet);
+	Login(std::unique_ptr<Packet>&& packet);
 	void decode() override;
 };
