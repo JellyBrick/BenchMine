@@ -10,7 +10,7 @@ std::vector<std::string> Utils::explode(const std::string& string, const char de
 
 	while (pos != string.length()) {
 		if (string.at(pos) == delimiter || pos + 1 == string.length()) {
-			unsigned int size = (pos - start) + ((pos + 1) == string.length() ? 1 : 0);
+			unsigned size = pos - start + (pos + 1 == string.length() ? 1 : 0);
 			if (size != 0) { // Make this 'if' as a option? like a parameter with removeEmptyString?
 				result.push_back(string.substr(start, size));
 			}

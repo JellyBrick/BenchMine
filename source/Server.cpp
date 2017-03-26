@@ -2,9 +2,9 @@
 
 #include <cassert>
 
-#include "Player.h"
 #include "network/minecraft/MinecraftPackets.h"
 #include "Utils.h"
+#include "world/entity/player/Player.h"
 
 Server::Server() {
 	this->maxPlayers = 20;

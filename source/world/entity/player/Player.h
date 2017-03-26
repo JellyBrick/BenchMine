@@ -2,7 +2,7 @@
 
 #include <Session.h>
 
-#include "Entity\Entity.h"
+#include "world/entity/Entity.h"
 
 class Server;
 class Player : public Entity, public RakLib::Session {
