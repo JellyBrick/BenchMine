@@ -25,7 +25,7 @@ void ConnectionAccepted::encode() {
 }
 
 void ConnectionAccepted::putAddress(const std::string& address, uint16 port_) {
-	this->putByte(4); // This should be the version of the ip. IPV4(4) or IPV6(6)
+	this->putByte(0x04); // IPV4(4) or IPV6(6)
 	std::vector<std::string> numbers = Utils::explode(address, '.');
 	for (const auto& it : numbers) {
 		int value = atoi(it.c_str());

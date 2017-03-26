@@ -1,6 +1,5 @@
 #include "Skin.h"
 
-
 Skin::Skin() : length(0), texture(nullptr) {}
 
 Skin::Skin(const std::string& skinType, uint8* textureBuffer, uint32 size) 
@@ -12,7 +11,6 @@ Skin::~Skin() {
 		length = 0;
 	}
 }
-
 
 const std::string& Skin::getType() const {
 	return this->type;
@@ -40,7 +38,3 @@ std::unique_ptr<Skin> Skin::fromByteBuffer(RakLib::ByteBuffer& byteBuffer) {
 	uint8* textureBuffer = byteBuffer.getByte(textureLength);
 	return std::make_unique<Skin>(skinType, textureBuffer, textureLength);
 }
-
-
-
-
