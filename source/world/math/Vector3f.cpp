@@ -6,6 +6,10 @@ Vector3f::Vector3f() {
 	this->z = 0;
 }
 
+Vector3f::Vector3f(float scalar) {
+	this->x = this->y = this->z = 0;
+}
+
 Vector3f::Vector3f(float x, float y, float z) {
 	this->x = x;
 	this->y = y;
@@ -116,11 +120,11 @@ Vector3f& Vector3f::operator/=(const Vector3f& other) {
 	return this->divide(other);
 }
 
-bool Vector3f::operator==(const Vector3f& other) {
+bool Vector3f::operator==(const Vector3f& other) const {
 	return this->x == other.x &&  this->y == other.y && this->z == other.z;
 }
 
-bool Vector3f::operator!=(const Vector3f& other) {
+bool Vector3f::operator!=(const Vector3f& other) const {
 	return !(*this == other);
 }
 

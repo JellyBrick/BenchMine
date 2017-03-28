@@ -10,6 +10,10 @@ Vector2f::Vector2f(float x, float y) {
 	this->y = y;
 }
 
+Vector2f::Vector2f(float scalar) {
+	this->x = this->y = scalar;
+}
+
 Vector2f& Vector2f::add(float value) {
 	this->x += value;
 	this->y += value;
@@ -106,11 +110,11 @@ Vector2f& Vector2f::operator/=(const Vector2f& other) {
 	return this->divide(other);
 }
 
-bool Vector2f::operator==(const Vector2f& other) {
+bool Vector2f::operator==(const Vector2f& other) const {
 	return this->x == other.x &&  this->y == other.y;
 }
 
-bool Vector2f::operator!=(const Vector2f& other) {
+bool Vector2f::operator!=(const Vector2f& other) const {
 	return !(*this == other);
 }
 

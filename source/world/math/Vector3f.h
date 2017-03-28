@@ -2,13 +2,13 @@
 
 #include <ostream>
 
-class Vector3f
-{
+class Vector3f {
 public:
 	float x, y, z;
 
 public:
 	Vector3f();
+	Vector3f(float scalar);
 	Vector3f(float x, float y, float z);
 
 
@@ -42,9 +42,8 @@ public:
 	Vector3f& operator*=(const Vector3f&);
 	Vector3f& operator/=(const Vector3f&);
 
-	bool operator==(const Vector3f&);
-	bool operator!=(const Vector3f&);
+	bool operator==(const Vector3f&) const;
+	bool operator!=(const Vector3f&) const;
 
 	friend std::ostream& operator<<(std::ostream& stream, const Vector3f& vec);
-
 };

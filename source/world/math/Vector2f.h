@@ -2,13 +2,13 @@
 
 #include <ostream>
 
-class Vector2f
-{
+class Vector2f {
 public:
 	float x, y;
 
 public:
 	Vector2f();
+	Vector2f(float scalar);
 	Vector2f(float x, float y);
 
 
@@ -42,9 +42,8 @@ public:
 	Vector2f& operator*=(const Vector2f&);
 	Vector2f& operator/=(const Vector2f&);
 
-	bool operator==(const Vector2f&);
-	bool operator!=(const Vector2f&);
+	bool operator==(const Vector2f&) const;
+	bool operator!=(const Vector2f&) const;
 
 	friend std::ostream& operator<<(std::ostream& stream, const Vector2f& vec);
-
 };
