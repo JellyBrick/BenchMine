@@ -1,5 +1,4 @@
 #include "Login.h"
-#include "MinecraftPackets.h"
 
 Login::Login(std::unique_ptr<Packet>&& packet) : DataPacket(std::move(packet)) {
 	this->protocol = 0;
@@ -8,9 +7,7 @@ Login::Login(std::unique_ptr<Packet>&& packet) : DataPacket(std::move(packet)) {
 }
 
 void Login::decode() {
-	if (this->getByte() != LOGIN) {
-		return;
-	}
+	this->position = 2; // Skip Wrapper and Packet ID
 
 	this->protocol = this->getInt();
 	this->edition = this->getByte();
