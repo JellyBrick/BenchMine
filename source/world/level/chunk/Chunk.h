@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <memory>
 #include <utility>
 
 #include <Common.h>
@@ -9,7 +10,7 @@ class ChunkSection;
 
 class Chunk {
 private:
-	std::array<ChunkSection, 16> sections;
+	std::array<std::unique_ptr<ChunkSection>, 16> sections;
 
 public:
 	/*
@@ -22,7 +23,7 @@ public:
 	 * @param index of the section
 	 * @return ChunkSection requested
 	 */
-	inline const ChunkSection& getChunkSection(uint8 index);
+	inline ChunkSection* getChunkSection(uint8 index);
 
 	/*
 	 * Set block at desired position

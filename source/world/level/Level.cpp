@@ -1,6 +1,7 @@
 #include "Level.h"
 
 #include "world/level/chunk/Chunk.h"
+#include "world/level/chunk/ChunkSection.h"
 #include "world/math/Vector3i.h"
 
 Level::Level(int32 chunkViewDistance) {
