@@ -33,7 +33,7 @@ void Server::stop() {
 	this->logger->info("Stopping server..");
 
 	for (const auto& it : this->players) {
-		it.second->close("Server Closing!");
+		it.second->disconnect("Server Closing!");
 	}
 
 	this->scheduler->stop();
