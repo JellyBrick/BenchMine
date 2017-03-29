@@ -1,7 +1,12 @@
 #include "Player.h"
 
+#include <algorithm>
+
 #include "Server.h"
 #include "scheduler/CallbackTask.h"
+#include "network/minecraft/Disconnect.h"
+#include "network/minecraft/Login.h"
+#include "network/minecraft/MinecraftPackets.h"
 #include "network/raknet/ConnectionAccepted.h"
 #include "network/raknet/ConnectionRequest.h"
 #include "network/raknet/Ping.h"
@@ -21,8 +26,13 @@ void Player::update() {
 }
 
 
-void Player::close(const std::string& reason) {
-	//TODO
+void Player::disconnect(const std::string& reason) {
+	auto packet = std::make_unique<Disconnect>(reason);
+	packet->encode();
+
+	this->addToQueue(std::move(packet), QueuePriority::IMMEDIATE);
+	this->server->getLogger()->notice("%s (%s:%u) connection have been terminated. Reason: %s", this->username.c_str(), this->ip.c_str(), this->port, reason.c_str());
+	this->server->removeSession(this->ip, this->port);
 }
 
 void Player::handleDataPacket(std::unique_ptr<RakLib::Packet> packet) {
@@ -54,8 +64,8 @@ void Player::handleDataPacket(std::unique_ptr<RakLib::Packet> packet) {
 	break;
 
 	case RaknetPacket::WRAPPER:
-		this->server->getLogger()->debug("Packet Wrapped: 0x%02x", packet->getBuffer()[1]);
-		break;
+		this->handleGamePacket(std::move(packet));
+	break;
 
 	default:
 		this->server->getLogger()->debug("Packet(0x%02X, %u)", packetID, packet->getLength());
@@ -63,8 +73,35 @@ void Player::handleDataPacket(std::unique_ptr<RakLib::Packet> packet) {
 	}
 }
 
-void Player::handleGamePacket(std::unique_ptr<RakLib::DataPacket> packet) {
-	
+void Player::handleGamePacket(std::unique_ptr<RakLib::Packet> packet) {
+	uint8 packetID = packet->getBuffer()[1];
+	this->server->getLogger()->debug("Packet Wrapped: 0x%02x", packetID);
+
+	switch (packetID) {
+	case MinecraftPackets::LOGIN:
+	{
+		Login login(std::move(packet));
+		login.decode();
+
+		if (login.protocol != NETWORK_PROTOCOL) {
+			if (login.protocol < NETWORK_PROTOCOL) {
+				//this->addToQueue(new PlayStatus(1)); // Client outdated
+				this->disconnect("Wrong Protocol: Client is outdated.");
+			}
+
+			if (login.protocol > NETWORK_PROTOCOL) {
+				//this->addToQueue(new PlayStatus(2)); // Server outdated
+				this->disconnect("Wrong Protocol: Server is outdated.");
+			}
+		}
+
+		//this->server->getLogger()->info("%s have logged in", playerInfo.username.c_str());
+		//this->username = std::move(playerInfo.username);
+		
+		//std::transform(this->username.begin(), this->username.end(), this->lowerUserName.begin(), ::tolower);
+	}
+	break;
+	}
 }
 
 void Player::sendPacket(RakLib::Packet& packet) { 
