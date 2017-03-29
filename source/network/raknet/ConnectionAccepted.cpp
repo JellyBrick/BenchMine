@@ -1,7 +1,7 @@
 #include "ConnectionAccepted.h"
 
 #include "RaknetPackets.h"
-#include "Utils.h"
+#include "common/Utils.h"
 
 ConnectionAccepted::ConnectionAccepted(const std::string& ip, uint16 port, int64 sendPing, int64 sendPong) : DataPacket(96) {
 	this->ip = ip;

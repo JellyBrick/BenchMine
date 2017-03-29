@@ -3,7 +3,7 @@
 #include <cassert>
 
 #include "network/minecraft/MinecraftPackets.h"
-#include "Utils.h"
+#include "common/Utils.h"
 #include "world/entity/player/Player.h"
 
 Server::Server() {
