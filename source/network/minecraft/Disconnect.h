@@ -4,7 +4,7 @@
 
 #include <packets/DataPacket.h>
 
-class Disconnect : RakLib::DataPacket {
+class Disconnect : public RakLib::DataPacket {
 public:
 	bool messageHided;
 	std::string message;
