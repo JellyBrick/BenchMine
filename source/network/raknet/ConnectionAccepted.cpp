@@ -11,7 +11,7 @@ ConnectionAccepted::ConnectionAccepted(const std::string& ip, uint16 port, int64
 }
 
 void ConnectionAccepted::encode() {
-	this->putByte(CONNECTION_ACCEPTED);
+	this->putByte((uint8)RaknetPacket::CONNECTION_ACCEPTED);
 	this->putAddress(this->ip, this->port);
 	this->putShort(0);
 

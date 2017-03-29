@@ -11,7 +11,7 @@ ConnectionRequest::ConnectionRequest(std::unique_ptr<RakLib::Packet>&& packet) :
 }
 
 void ConnectionRequest::decode() {
-	assert(this->getByte() == CONNECTION_REQUEST);
+	assert(this->getByte() == (uint8)RaknetPacket::CONNECTION_REQUEST);
 
 	this->clientID = this->getLong();
 	this->sendPing = this->getULong();
