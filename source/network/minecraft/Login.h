@@ -2,14 +2,22 @@
 
 #include <packets\DataPacket.h>
 
+#include "common/jsonxx.h"
+
 class Login : public RakLib::DataPacket
 {
 public:
 	int32 protocol;
 	uint8 edition;
-	uint8* payload;
+	
+	std::string displayName;
+	std::string clientUUID;
+	std::string identityPublicKey;
 
 public:
 	Login(std::unique_ptr<Packet>&& packet);
 	void decode() override;
+
+private:
+	jsonxx::Object getRealChain(const std::string& json) const;
 };

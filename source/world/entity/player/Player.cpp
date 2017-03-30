@@ -38,7 +38,7 @@ void Player::disconnect(const std::string& reason) {
 void Player::handleDataPacket(std::unique_ptr<RakLib::Packet> packet) {
 	uint8 packetID = packet->getBuffer()[0];
 	
-	switch(packetID) {
+	switch((RaknetPacket)packetID) {
 	case RaknetPacket::PING:
 	{
 		Ping ping(std::move(packet));
@@ -77,7 +77,7 @@ void Player::handleGamePacket(std::unique_ptr<RakLib::Packet> packet) {
 	uint8 packetID = packet->getBuffer()[1];
 	this->server->getLogger()->debug("Packet Wrapped: 0x%02x", packetID);
 
-	switch (packetID) {
+	switch ((MinecraftPackets)packetID) {
 	case MinecraftPackets::LOGIN:
 	{
 		Login login(std::move(packet));
@@ -95,10 +95,10 @@ void Player::handleGamePacket(std::unique_ptr<RakLib::Packet> packet) {
 			}
 		}
 
-		//this->server->getLogger()->info("%s have logged in", playerInfo.username.c_str());
-		//this->username = std::move(playerInfo.username);
+		this->server->getLogger()->info("%s have logged in", login.displayName.c_str());
+		this->lowerUserName = this->username = std::move(login.displayName);
 		
-		//std::transform(this->username.begin(), this->username.end(), this->lowerUserName.begin(), ::tolower);
+		std::transform(this->username.begin(), this->username.end(), this->lowerUserName.begin(), ::tolower);
 	}
 	break;
 	}
