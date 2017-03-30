@@ -1,5 +1,7 @@
 #include "Vector2f.h"
 
+#include "Vector2i.h"
+
 Vector2f::Vector2f() {
 	this->x = 0;
 	this->y = 0;
@@ -122,3 +124,17 @@ std::ostream& operator<<(std::ostream& stream, const Vector2f& vec) {
 	stream << "Vector2f(" << vec.x << ", " << vec.y << ")";
 	return stream;
 }
+
+Vector2f Vector2f::fromVector2i(const Vector2i& other) {
+	return { (int)other.x, (int)other.y };
+}
+
+void Vector2f::serialize(const Vector2f& vector, RakLib::ByteBuffer& byteBuffer) {
+	byteBuffer.putFloat(vector.x);
+	byteBuffer.putFloat(vector.y);
+}
+
+Vector2f Vector2f::deserialize(RakLib::ByteBuffer& byteBuffer) {
+	return { byteBuffer.getFloat(), byteBuffer.getFloat() };
+}
+

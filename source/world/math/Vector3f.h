@@ -2,6 +2,9 @@
 
 #include <ostream>
 
+#include <network/ByteBuffer.h>
+
+class Vector3i;
 class Vector3f {
 public:
 	float x, y, z;
@@ -46,4 +49,10 @@ public:
 	bool operator!=(const Vector3f&) const;
 
 	friend std::ostream& operator<<(std::ostream& stream, const Vector3f& vec);
+
+	static Vector3f fromVector3i(const Vector3i& other);
+
+	static void serialize(const Vector3f& vector, RakLib::ByteBuffer& byteBuffer);
+
+	static Vector3f deserialize(RakLib::ByteBuffer& byteBuffer);
 };

@@ -138,3 +138,13 @@ std::ostream& operator<<(std::ostream& stream, const Vector3i& vec) {
 Vector3i Vector3i::fromVector3f(const Vector3f& vec3f) {
 	return { ((int)vec3f.x, (int)vec3f.y, (int)vec3f.z) };
 }
+
+void Vector3i::serialize(const Vector3i& vector, RakLib::ByteBuffer& byteBuffer) {
+	byteBuffer.putInt(vector.x);
+	byteBuffer.putInt(vector.y);
+	byteBuffer.putInt(vector.z);
+}
+
+Vector3i Vector3i::deserialize(RakLib::ByteBuffer& byteBuffer) {
+	return { byteBuffer.getInt(), byteBuffer.getInt(), byteBuffer.getInt() };
+}

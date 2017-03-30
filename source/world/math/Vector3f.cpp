@@ -1,5 +1,7 @@
 #include "Vector3f.h"
 
+#include "Vector3i.h"
+
 Vector3f::Vector3f() {
 	this->x = 0;
 	this->y = 0;
@@ -131,4 +133,18 @@ bool Vector3f::operator!=(const Vector3f& other) const {
 std::ostream& operator<<(std::ostream& stream, const Vector3f& vec) {
 	stream << "Vector3f(" << vec.x << ", " << vec.y << ", " << vec.z << ")";
 	return stream;
+}
+
+Vector3f Vector3f::fromVector3i(const Vector3i& other) {
+	return { (float)other.x, (float)other.y, (float)other.z };
+}
+
+void Vector3f::serialize(const Vector3f& vector, RakLib::ByteBuffer& byteBuffer) {
+	byteBuffer.putFloat(vector.x);
+	byteBuffer.putFloat(vector.y);
+	byteBuffer.putFloat(vector.z);
+}
+
+Vector3f Vector3f::deserialize(RakLib::ByteBuffer& byteBuffer) {
+	return { byteBuffer.getFloat(), byteBuffer.getFloat(), byteBuffer.getFloat() };
 }
