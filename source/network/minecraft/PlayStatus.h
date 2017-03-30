@@ -5,6 +5,13 @@
 class PlayStatus : public RakLib::DataPacket
 {
 public:
+	enum STATUS {
+		LOGIN_SUCCESS,
+		CLIENT_OUTDATED,
+		SERVER_OUTDATED,
+		START_GAME
+	};
+
 	int status;
 
 public:

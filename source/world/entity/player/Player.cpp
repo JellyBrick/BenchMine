@@ -7,6 +7,7 @@
 #include "network/minecraft/Disconnect.h"
 #include "network/minecraft/Login.h"
 #include "network/minecraft/MinecraftPackets.h"
+#include "network/minecraft/PlayStatus.h"
 #include "network/raknet/ConnectionAccepted.h"
 #include "network/raknet/ConnectionRequest.h"
 #include "network/raknet/Ping.h"
@@ -85,13 +86,13 @@ void Player::handleGamePacket(std::unique_ptr<RakLib::Packet> packet) {
 
 		if (login.protocol != NETWORK_PROTOCOL) {
 			if (login.protocol < NETWORK_PROTOCOL) {
-				//this->addToQueue(new PlayStatus(1)); // Client outdated
 				this->disconnect("Wrong Protocol: Client is outdated.");
+				return;
 			}
 
 			if (login.protocol > NETWORK_PROTOCOL) {
-				//this->addToQueue(new PlayStatus(2)); // Server outdated
 				this->disconnect("Wrong Protocol: Server is outdated.");
+				return;
 			}
 		}
 
@@ -99,8 +100,16 @@ void Player::handleGamePacket(std::unique_ptr<RakLib::Packet> packet) {
 		this->lowerUserName = this->username = std::move(login.displayName);
 		
 		std::transform(this->username.begin(), this->username.end(), this->lowerUserName.begin(), ::tolower);
+
+		auto playStatus = std::make_unique<PlayStatus>(PlayStatus::STATUS::LOGIN_SUCCESS);
+		playStatus->encode();
+		this->addToQueue(std::move(playStatus), QueuePriority::IMMEDIATE);
 	}
 	break;
+
+	default:
+		this->server->getLogger()->debug("Packet(0x%02X, %u)", packetID, packet->getLength());
+		break;
 	}
 }
 
