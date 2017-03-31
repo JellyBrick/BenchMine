@@ -126,7 +126,7 @@ std::ostream& operator<<(std::ostream& stream, const Vector2f& vec) {
 }
 
 Vector2f Vector2f::fromVector2i(const Vector2i& other) {
-	return { (int)other.x, (int)other.y };
+	return { (float)other.x, (float)other.y };
 }
 
 void Vector2f::serialize(const Vector2f& vector, RakLib::ByteBuffer& byteBuffer) {
