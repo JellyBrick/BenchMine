@@ -6,7 +6,7 @@ class Entity {
 public:
 	static unsigned int entityIDs;
 
-private:
+protected:
 	unsigned int id;
 	
 	Vector3f position, lastPosition;

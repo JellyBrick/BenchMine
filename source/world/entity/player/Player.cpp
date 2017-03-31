@@ -4,10 +4,12 @@
 
 #include "Server.h"
 #include "scheduler/CallbackTask.h"
+#include "network/minecraft/AdventureSettings.h"
 #include "network/minecraft/Disconnect.h"
 #include "network/minecraft/Login.h"
 #include "network/minecraft/MinecraftPackets.h"
 #include "network/minecraft/PlayStatus.h"
+#include "network/minecraft/StartGame.h"
 #include "network/raknet/ConnectionAccepted.h"
 #include "network/raknet/ConnectionRequest.h"
 #include "network/raknet/Ping.h"
@@ -25,7 +27,6 @@ void Player::update() {
 	Session::update();
 	// TODO
 }
-
 
 void Player::disconnect(const std::string& reason) {
 	auto packet = std::make_unique<Disconnect>(reason);
@@ -104,6 +105,17 @@ void Player::handleGamePacket(std::unique_ptr<RakLib::Packet> packet) {
 		auto playStatus = std::make_unique<PlayStatus>(PlayStatus::STATUS::LOGIN_SUCCESS);
 		playStatus->encode();
 		this->addToQueue(std::move(playStatus), QueuePriority::IMMEDIATE);
+
+		// Post Login Stuff
+		// TODO: Move to it's own method
+
+		auto startGame = std::make_unique<StartGame>(this->id, Vector3f(0.0f, 4.0f, 0.0f), "");
+		startGame->encode();
+		this->addToQueue(std::move(startGame), QueuePriority::IMMEDIATE);
+
+		auto settings = std::make_unique<AdventureSettings>(AdventureSettings::PERMISSIONS::NORMAL, 0x3FF);
+		settings->encode();
+		this->addToQueue(std::move(settings), QueuePriority::IMMEDIATE);
 	}
 	break;
 
