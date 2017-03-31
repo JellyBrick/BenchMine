@@ -3,7 +3,7 @@
 #include "MinecraftPackets.h"
 #include "network/raknet/RaknetPackets.h"
 
-StartGame::StartGame(int64 EID, const Vector3f& spawnPoint, const std::string& world) : DataPacket(512) {
+StartGame::StartGame(int64 EID, const Vector3f& spawnPoint, const std::string& world) : DataPacket(90 + world.length()) {
 	this->entityId = this->runtimeEntityId = EID;
 	this->spawn = spawnPoint;
 	this->seed = 123456789;
@@ -25,25 +25,23 @@ StartGame::StartGame(int64 EID, const Vector3f& spawnPoint, const std::string& w
 void StartGame::encode() {
 	this->putByte((uint8)RaknetPacket::WRAPPER);
 	this->putByte((uint8)MinecraftPackets::START_GAME);
-	this->putLong(this->entityId);
-	this->putULong(this->runtimeEntityId);
+	this->putVarULong(this->entityId);
+	this->putVarULong(this->runtimeEntityId);
 	Vector3f::serialize(this->spawn, *this);
 	Vector2f::serialize(this->unknown1, *this);
-	this->putInt(this->seed);
-	this->putInt(this->dimension);
-	this->putInt(this->generator);
-	this->putInt(this->gamemode);
-	this->putInt(this->difficulty);
+	this->putVarUInt(this->seed);
+	this->putVarUInt(this->dimension);
+	this->putVarUInt(this->generator);
+	this->putVarUInt(this->gamemode);
+	this->putVarUInt(this->difficulty);
 	Vector3i::serialize(this->playerPosition, *this);
 	this->putBool(this->hasAchievementsDisabled);
-	this->putInt(this->dayCycleStopTime);
+	this->putVarUInt((uint32)this->dayCycleStopTime);
 	this->putBool(this->eduMode);
-	this->putInt(this->rainLevel);
-	this->putInt(this->lightnigLevel);
+	this->putFloat(this->rainLevel);
+	this->putFloat(this->lightnigLevel);
 	this->putBool(enableCommands);
 	this->putBool(isTexturepacksRequired);
 	this->putString(this->secret);
 	this->putString(this->worldName);
-
-	printf("%u\n", this->position);
 }

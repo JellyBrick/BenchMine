@@ -5,6 +5,7 @@
 #include "Server.h"
 #include "scheduler/CallbackTask.h"
 #include "network/minecraft/AdventureSettings.h"
+#include "network/minecraft/Batch.h"
 #include "network/minecraft/Disconnect.h"
 #include "network/minecraft/Login.h"
 #include "network/minecraft/MinecraftPackets.h"
@@ -39,7 +40,6 @@ void Player::disconnect(const std::string& reason) {
 
 void Player::handleDataPacket(std::unique_ptr<RakLib::Packet> packet) {
 	uint8 packetID = packet->getBuffer()[0];
-	
 	switch((RaknetPacket)packetID) {
 	case RaknetPacket::PING:
 	{
@@ -66,19 +66,21 @@ void Player::handleDataPacket(std::unique_ptr<RakLib::Packet> packet) {
 	break;
 
 	case RaknetPacket::WRAPPER:
-		this->handleGamePacket(std::move(packet));
+	{
+		packet->setPosition(1); // Skip Wrapper ID;
+		uint32 realPacketSize = packet->getLength() - packet->getPosition();
+		this->handleGamePacket(std::make_unique<RakLib::Packet>(packet->getByte(realPacketSize), realPacketSize));
+	}
 	break;
 
 	default:
-		this->server->getLogger()->debug("Packet(0x%02X, %u)", packetID, packet->getLength());
+		this->server->getLogger()->debug("HandleDataPacket Packet(0x%02X, %u)", packetID, packet->getLength());
 		break;
 	}
 }
 
 void Player::handleGamePacket(std::unique_ptr<RakLib::Packet> packet) {
-	uint8 packetID = packet->getBuffer()[1];
-	this->server->getLogger()->debug("Packet Wrapped: 0x%02x", packetID);
-
+	uint8 packetID = packet->getBuffer()[0];
 	switch ((MinecraftPackets)packetID) {
 	case MinecraftPackets::LOGIN:
 	{
@@ -99,7 +101,7 @@ void Player::handleGamePacket(std::unique_ptr<RakLib::Packet> packet) {
 
 		this->server->getLogger()->info("%s have logged in", login.displayName.c_str());
 		this->lowerUserName = this->username = std::move(login.displayName);
-		
+
 		std::transform(this->username.begin(), this->username.end(), this->lowerUserName.begin(), ::tolower);
 
 		auto playStatus = std::make_unique<PlayStatus>(PlayStatus::STATUS::LOGIN_SUCCESS);
@@ -119,8 +121,29 @@ void Player::handleGamePacket(std::unique_ptr<RakLib::Packet> packet) {
 	}
 	break;
 
+	case MinecraftPackets::BATCH:
+	{
+		Batch batch(std::move(packet));
+		batch.decode();
+
+		for (auto& batchedPacket : batch.packets) {
+			if (batchedPacket->getBuffer()[0] == (uint8)MinecraftPackets::BATCH) {
+				this->server->getLogger()->fatal("BatchPacket inside another BatchPacket");
+			}
+
+			this->handleGamePacket(std::move(batchedPacket));
+		}
+	}
+	break;
+
+	case MinecraftPackets::CHUNK_RADIUS_UPDATED:
+	{
+		
+	}
+	break;
+
 	default:
-		this->server->getLogger()->debug("Packet(0x%02X, %u)", packetID, packet->getLength());
+		this->server->getLogger()->debug("HandleGamePacket Packet(0x%02X, %u)", packetID, packet->getLength());
 		break;
 	}
 }

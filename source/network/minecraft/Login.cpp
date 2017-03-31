@@ -10,15 +10,14 @@ Login::Login(std::unique_ptr<Packet>&& packet) : DataPacket(std::move(packet)) {
 
 void Login::decode() {
 	static const uint32 JSON_DECOMPRESSION_SIZE = 1024 * 1024 * 8;
-	this->position = 2; // Skip Wrapper and Packet ID
+	this->position = 1; // Skip Packet ID
 
 	this->protocol = this->getInt();
 	this->edition = this->getByte();
 
-	this->position += sizeof(int16); // Skip payload length
+	uint32 payloadSize = this->getVarUInt();
 	uint8* payload = this->buffer + this->position;
-	uint32 payloadSize = this->length - this->position;
-
+	
 	uint8* output = new uint8[JSON_DECOMPRESSION_SIZE];
 	uint32 outputSize = Compression::decompress(payload, payloadSize, output, JSON_DECOMPRESSION_SIZE);
 
