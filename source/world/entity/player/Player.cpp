@@ -33,7 +33,7 @@ void Player::disconnect(const std::string& reason) {
 	auto packet = std::make_unique<Disconnect>(reason);
 	packet->encode();
 
-	this->addToQueue(std::move(packet), QueuePriority::IMMEDIATE);
+	this->addDataPacket(std::move(packet), QueuePriority::IMMEDIATE);
 	this->server->getLogger()->notice("%s (%s:%u) connection have been terminated. Reason: %s", this->username.c_str(), this->ip.c_str(), this->port, reason.c_str());
 	this->server->removeSession(this->ip, this->port);
 }
@@ -106,18 +106,18 @@ void Player::handleGamePacket(std::unique_ptr<RakLib::Packet> packet) {
 
 		auto playStatus = std::make_unique<PlayStatus>(PlayStatus::STATUS::LOGIN_SUCCESS);
 		playStatus->encode();
-		this->addToQueue(std::move(playStatus), QueuePriority::IMMEDIATE);
+		this->addDataPacket(std::move(playStatus), QueuePriority::IMMEDIATE);
 
 		// Post Login Stuff
 		// TODO: Move to it's own method
 
 		auto startGame = std::make_unique<StartGame>(this->id, Vector3f(0.0f, 4.0f, 0.0f), "");
 		startGame->encode();
-		this->addToQueue(std::move(startGame), QueuePriority::IMMEDIATE);
+		this->addDataPacket(std::move(startGame), QueuePriority::UPDATE);
 
-		auto settings = std::make_unique<AdventureSettings>(AdventureSettings::PERMISSIONS::NORMAL, 0x3FF);
+		auto settings = std::make_unique<AdventureSettings>(AdventureSettings::PERMISSIONS::NORMAL, 0x0000012E);
 		settings->encode();
-		this->addToQueue(std::move(settings), QueuePriority::IMMEDIATE);
+		this->addDataPacket(std::move(settings), QueuePriority::UPDATE);
 	}
 	break;
 
@@ -138,7 +138,7 @@ void Player::handleGamePacket(std::unique_ptr<RakLib::Packet> packet) {
 
 	case MinecraftPackets::CHUNK_RADIUS_UPDATED:
 	{
-		
+
 	}
 	break;
 
@@ -146,6 +146,13 @@ void Player::handleGamePacket(std::unique_ptr<RakLib::Packet> packet) {
 		this->server->getLogger()->debug("HandleGamePacket Packet(0x%02X, %u)", packetID, packet->getLength());
 		break;
 	}
+}
+
+void Player::addDataPacket(std::unique_ptr<RakLib::DataPacket>&& packet, QueuePriority priority) {
+	std::unique_ptr<RakLib::DataPacket> dataPacket = std::make_unique<RakLib::DataPacket>(packet->getLength() + 1);
+	dataPacket->putByte((uint8)RaknetPacket::WRAPPER);
+	dataPacket->putByte(packet->getBuffer(), packet->getLength());
+	this->addToQueue(std::move(dataPacket), priority);
 }
 
 void Player::sendPacket(RakLib::Packet& packet) { 

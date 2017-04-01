@@ -9,7 +9,7 @@ public:
 		LOGIN_SUCCESS,
 		CLIENT_OUTDATED,
 		SERVER_OUTDATED,
-		START_GAME
+		SPAWN
 	};
 
 	int status;

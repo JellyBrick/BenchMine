@@ -1,9 +1,8 @@
 #include "StartGame.h"
 
 #include "MinecraftPackets.h"
-#include "network/raknet/RaknetPackets.h"
 
-StartGame::StartGame(int64 EID, const Vector3f& spawnPoint, const std::string& world) : DataPacket(90 + world.length()) {
+StartGame::StartGame(int64 EID, const Vector3f& spawnPoint, const std::string& world) : DataPacket(89 + world.length()) {
 	this->entityId = this->runtimeEntityId = EID;
 	this->spawn = spawnPoint;
 	this->seed = 123456789;
@@ -13,7 +12,7 @@ StartGame::StartGame(int64 EID, const Vector3f& spawnPoint, const std::string& w
 	this->difficulty = 1;
 	this->playerPosition = Vector3i::fromVector3f(spawnPoint);
 	this->hasAchievementsDisabled = true;
-	this->dayCycleStopTime = -1;
+	this->dayCycleStopTime = 6400;
 	this->eduMode = false;
 	this->rainLevel = 0;
 	this->lightnigLevel = 0;
@@ -23,7 +22,6 @@ StartGame::StartGame(int64 EID, const Vector3f& spawnPoint, const std::string& w
 }
 
 void StartGame::encode() {
-	this->putByte((uint8)RaknetPacket::WRAPPER);
 	this->putByte((uint8)MinecraftPackets::START_GAME);
 	this->putVarULong(this->entityId);
 	this->putVarULong(this->runtimeEntityId);

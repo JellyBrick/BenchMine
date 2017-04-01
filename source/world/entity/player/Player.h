@@ -1,5 +1,6 @@
 #pragma once
 
+#include <packets/DataPacket.h>
 #include <Session.h>
 
 #include "world/entity/Entity.h"
@@ -20,9 +21,12 @@ public:
 	void update() override;
 
 	void handleDataPacket(std::unique_ptr<RakLib::Packet> packet) override;
-	void sendPacket(RakLib::Packet& packet) override;
 	
 	void handleGamePacket(std::unique_ptr<RakLib::Packet> packet);
+
+	void addDataPacket(std::unique_ptr<RakLib::DataPacket>&& packet, QueuePriority priority);
+
+	void sendPacket(RakLib::Packet& packet) override;
 
 	const std::string& getUsername() const { return this->username; }
 	std::string getLUsername() const { return this->lowerUserName; }
