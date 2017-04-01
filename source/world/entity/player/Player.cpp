@@ -6,10 +6,13 @@
 #include "scheduler/CallbackTask.h"
 #include "network/minecraft/AdventureSettings.h"
 #include "network/minecraft/Batch.h"
+#include "network/minecraft/ChunkRadiusUpdated.h"
 #include "network/minecraft/Disconnect.h"
+#include "network/minecraft/FullChunkData.h"
 #include "network/minecraft/Login.h"
 #include "network/minecraft/MinecraftPackets.h"
 #include "network/minecraft/PlayStatus.h"
+#include "network/minecraft/RequestChunkData.h"
 #include "network/minecraft/StartGame.h"
 #include "network/raknet/ConnectionAccepted.h"
 #include "network/raknet/ConnectionRequest.h"
@@ -82,7 +85,7 @@ void Player::handleDataPacket(std::unique_ptr<RakLib::Packet> packet) {
 void Player::handleGamePacket(std::unique_ptr<RakLib::Packet> packet) {
 	uint8 packetID = packet->getBuffer()[0];
 	switch ((MinecraftPackets)packetID) {
-	case MinecraftPackets::LOGIN:
+	case MinecraftPackets::Login:
 	{
 		Login login(std::move(packet));
 		login.decode();
@@ -121,13 +124,13 @@ void Player::handleGamePacket(std::unique_ptr<RakLib::Packet> packet) {
 	}
 	break;
 
-	case MinecraftPackets::BATCH:
+	case MinecraftPackets::Batch:
 	{
 		Batch batch(std::move(packet));
 		batch.decode();
 
 		for (auto& batchedPacket : batch.packets) {
-			if (batchedPacket->getBuffer()[0] == (uint8)MinecraftPackets::BATCH) {
+			if (batchedPacket->getBuffer()[0] == (uint8)MinecraftPackets::Batch) {
 				this->server->getLogger()->fatal("BatchPacket inside another BatchPacket");
 			}
 
@@ -136,15 +139,45 @@ void Player::handleGamePacket(std::unique_ptr<RakLib::Packet> packet) {
 	}
 	break;
 
-	case MinecraftPackets::CHUNK_RADIUS_UPDATED:
+	case MinecraftPackets::RequestChunkRadius:
 	{
+		RequestChunkData requestChunk(std::move(packet));
+		requestChunk.decode();
 
+		auto chunkRadiusUpdate = std::make_unique<ChunkRadiusUpdated>(requestChunk.radius);
+		chunkRadiusUpdate->encode();
+
+		this->addDataPacket(std::move(chunkRadiusUpdate), QueuePriority::IMMEDIATE);
+
+		uint8* chunkData;
+		uint32 chunkDataSize;
+		std::tie(chunkData, chunkDataSize) = this->server->getLevel()->getChunk(0, 0)->serialize();
+		
+		for (int32 x = -requestChunk.radius; x < requestChunk.radius; ++x) {
+			for (int32 z = -requestChunk.radius; z < requestChunk.radius; ++z) {
+				auto fullChunkData = std::make_unique<FullChunkData>(x, z, chunkData, chunkDataSize);
+				fullChunkData->encode();
+
+				auto batchPacket = std::make_unique<Batch>();
+				batchPacket->packets.push_back(std::move(fullChunkData));
+				batchPacket->encode();
+
+				this->addDataPacket(std::move(batchPacket), QueuePriority::IMMEDIATE);
+			}
+		}
+
+		delete[] chunkData;
+
+		auto playStatus = std::make_unique<PlayStatus>(PlayStatus::STATUS::SPAWN);
+		playStatus->encode();
+		this->addDataPacket(std::move(playStatus), QueuePriority::IMMEDIATE);
+		printf("ChunkSended!!");
 	}
 	break;
 
 	default:
 		this->server->getLogger()->debug("HandleGamePacket Packet(0x%02X, %u)", packetID, packet->getLength());
-		break;
+	break;
 	}
 }
 

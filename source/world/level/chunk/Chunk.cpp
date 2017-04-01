@@ -87,10 +87,10 @@ std::pair<uint8*, uint32> Chunk::serialize() {
 		return { nullptr, 0 };
 	}
 
-	uint32 chunkBuffeSize = 1 + chunkSectionCount + sizeof(ChunkSection) * chunkSectionCount + sizeof(this->heightMap) + sizeof(this->biomeID) + 2;
-	uint8* chunkBuffer = new uint8[chunkBuffeSize];
+	uint32 chunkBufferSize = 1 + chunkSectionCount + sizeof(ChunkSection) * chunkSectionCount + sizeof(this->heightMap) + sizeof(this->biomeID) + 2;
+	uint8* chunkBuffer = new uint8[chunkBufferSize];
 
-	RakLib::ByteBuffer byteBuffer(chunkBuffer, chunkBuffeSize);
+	RakLib::ByteBuffer byteBuffer(chunkBuffer, chunkBufferSize);
 	byteBuffer.putByte((uint8)chunkSectionCount);
 
 	// Serialize Chunk Section
@@ -110,6 +110,5 @@ std::pair<uint8*, uint32> Chunk::serialize() {
 	byteBuffer.putByte(0x00); // block border array count
 
 	byteBuffer.putByte(0x00); // Unknown Count
-
-	return { chunkBuffer, chunkBuffeSize };
+	return { chunkBuffer, chunkBufferSize };
 }
