@@ -8,6 +8,7 @@
 
 #include "logger\ColoredLogger.h"
 #include "scheduler\TaskHandler.h"
+#include "world/level/Level.h"
 
 class Player;
 class Server final : public RakLib::SessionManager {
@@ -17,6 +18,7 @@ private:
 	std::unique_ptr<RakLib::RakLib> raklib;
 	std::unique_ptr<ColoredLogger> logger;
 	std::unique_ptr<TaskHandler> scheduler;
+	std::unique_ptr<Level> level;
 
 	uint16 port;
 	uint32 maxPlayers;
@@ -49,6 +51,8 @@ public:
 
 	ColoredLogger* getLogger() const { return this->logger.get(); }
 	TaskHandler* getScheduler() const { return this->scheduler.get(); }
+
+	Level* getLevel() const { return this->level.get(); }
 
 	uint16 getPort() const { return this->port; }; // Server Ports
 	const std::string& getIP() const { return this->ip; }; // Server IP

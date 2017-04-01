@@ -6,7 +6,8 @@
 
 #include <Common.h>
 
-class Chunk;
+#include "world/level/chunk/Chunk.h"
+
 class Vector3i;
 
 class Level {

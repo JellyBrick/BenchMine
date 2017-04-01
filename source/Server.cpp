@@ -15,6 +15,7 @@ Server::Server() {
 	this->raklib = std::make_unique<RakLib::RakLib>(this, this->ip, this->port);
 	this->logger = std::make_unique<ColoredLogger>();
 	this->scheduler = std::make_unique<TaskHandler>(MINECRAFT_TICK_RATE);
+	this->level = std::make_unique<Level>(2);
 
 	Utils::setConsoleTitle("BenchMine Server Software");
 	this->logger->info("BenchMine Server Software under LGPL v3");
