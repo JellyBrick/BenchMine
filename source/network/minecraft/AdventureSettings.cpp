@@ -9,7 +9,7 @@ AdventureSettings::AdventureSettings(uint32 userPerm, uint32 flag) : RakLib::Dat
 }
 
 void AdventureSettings::encode() {
-	this->putByte((uint8)MinecraftPackets::ADVENTURE_SETTINGS);
+	this->putByte((uint8)MinecraftPackets::AdventureSettings);
 	this->putVarUInt(this->flags);
 	this->putVarUInt(this->userPermission);
 }

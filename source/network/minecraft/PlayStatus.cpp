@@ -9,6 +9,6 @@ PlayStatus::PlayStatus(int status) : DataPacket(5) {
 }
 
 void PlayStatus::encode() {
-	this->putByte((uint8)MinecraftPackets::PLAY_STATUS);
+	this->putByte((uint8)MinecraftPackets::PlayStatus);
 	this->putInt(this->status);
 }

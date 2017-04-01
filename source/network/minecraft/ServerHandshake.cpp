@@ -6,7 +6,7 @@ ServerHandshake::ServerHandshake(const std::string& serverPublicKey, uint32 toke
 	RakLib::DataPacket(7 + serverPublicKey.length() + tokenLength), serverPublicKey(serverPublicKey), tokenLength(tokenLength), tokens(tokens) {}
 
 void ServerHandshake::encode() {
-	this->putByte((uint8)MinecraftPackets::SERVER_HANDSHAKE);
+	this->putByte((uint8)MinecraftPackets::ServerHandshake);
 	this->putString(this->serverPublicKey);
 	this->putUInt(this->tokenLength);
 	if (this->tokenLength > 0 && this->tokens != nullptr) {

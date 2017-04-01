@@ -5,10 +5,11 @@
 #include <network/ByteBuffer.h>
 
 #include "common/Compression.h"
+#include "MinecraftPackets.h"
 
 Batch::Batch(std::unique_ptr<Packet>&& packet) : RakLib::DataPacket(std::move(packet)) {}
 
-Batch::Batch() : RakLib::DataPacket(Packet::DEFAULT_BUFFER_SIZE) {}
+Batch::Batch() : RakLib::DataPacket(Packet::DEFAULT_BUFFER_SIZE * 2) {}
 
 Batch::~Batch() {
 	this->packets.clear();
@@ -21,7 +22,7 @@ void Batch::decode() {
 	uint8* payload = this->buffer + this->position;
 	assert(payloadSize > 1);
 
-	uint8* output = new uint8[Packet::DEFAULT_BUFFER_SIZE * 8]; // 16 Megabytes
+	uint8* output = new uint8[Packet::DEFAULT_BUFFER_SIZE * 2]; // 16 Megabytes
 	uint32 outputSize = Compression::decompress(payload, payloadSize, output, Packet::DEFAULT_BUFFER_SIZE * 8);
 	assert(outputSize != 0);
 
@@ -38,5 +39,22 @@ void Batch::decode() {
 }
 
 void Batch::encode() {
-	
+	for(const auto& packet : this->packets) {
+		this->putVarUInt(packet->getLength());
+		this->putByte(packet->getBuffer(), packet->getLength());
+	}
+
+	uint8* output = new uint8[Packet::DEFAULT_BUFFER_SIZE * 2]; 
+	uint32 outputSize = Compression::compress(this->buffer, this->position, output, Packet::DEFAULT_BUFFER_SIZE * 8);
+	assert(outputSize != 0);
+
+	this->position = 0;
+	this->putByte((uint8)MinecraftPackets::Batch);
+	this->putVarUInt(outputSize);
+	this->putByte(output, outputSize);
+	this->resize(this->position);
+
+	// Free Resource
+	delete[] output;
+	this->packets.clear();
 }

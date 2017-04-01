@@ -22,7 +22,7 @@ StartGame::StartGame(int64 EID, const Vector3f& spawnPoint, const std::string& w
 }
 
 void StartGame::encode() {
-	this->putByte((uint8)MinecraftPackets::START_GAME);
+	this->putByte((uint8)MinecraftPackets::StartGame);
 	this->putVarULong(this->entityId);
 	this->putVarULong(this->runtimeEntityId);
 	Vector3f::serialize(this->spawn, *this);
