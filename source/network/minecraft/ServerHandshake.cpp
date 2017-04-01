@@ -13,4 +13,3 @@ void ServerHandshake::encode() {
 		this->putByte(this->tokens, this->tokenLength);
 	}
 }
-

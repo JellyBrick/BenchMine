@@ -10,6 +10,8 @@ FullChunkData::FullChunkData(int32 x, int32 z, uint8* payload, uint32 payloadSiz
 }
 
 FullChunkData::~FullChunkData() {
+	// Here we should clean up chunk payload, but since we are using the same chunk among Packets we can't
+	// delete[] payload;
 }
 
 void FullChunkData::encode() {

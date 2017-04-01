@@ -5,7 +5,6 @@ RequestChunkData::RequestChunkData(std::unique_ptr<RakLib::Packet>&& packet) : D
 }
 
 void RequestChunkData::decode() {
-	print();
 	this->getByte(); // Skip Packet ID
 	radius = (int32)this->getVarUInt();
 }

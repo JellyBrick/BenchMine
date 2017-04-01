@@ -1,11 +1,9 @@
 #pragma once
 
-#include "Common.h"
-
 static constexpr int NETWORK_PROTOCOL = 105;
 static constexpr const char* GAME_VERSION = "1.0.5";
 
-enum class MinecraftPackets : uint8 {
+enum class MinecraftPackets : unsigned char {
 	Login = 0x01,	
 	PlayStatus = 0x02,
 	ServerHandshake = 0x03,

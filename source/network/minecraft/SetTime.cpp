@@ -1,4 +1,5 @@
 #include "SetTime.h"
+
 #include "MinecraftPackets.h"
 
 SetTime::SetTime(int32 time, bool started) : DataPacket(6) {
@@ -11,4 +12,3 @@ void SetTime::encode() {
 	this->putVarUInt((int32)this->levelTime);
 	this->putBool(this->haveStarted);
 }
-

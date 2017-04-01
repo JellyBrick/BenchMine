@@ -1,8 +1,6 @@
 #pragma once
 
-#include "Common.h"
-
-enum class RaknetPacket : uint8 {
+enum class RaknetPacket : unsigned char {
 	PING = 0x00,
 	PONG = 0x03,
 
