@@ -45,8 +45,8 @@ uint8 ChunkSection::getBlock(uint8 x, uint8 y, uint8 z) const {
 std::pair<uint8, uint8> ChunkSection::getBlockAndData(uint8 x, uint8 y, uint8 z) const {
 	uint32 index = this->getRealPosition(x, y, z);
 	uint8 blockID = this->blocks[index];
-	uint8 blockData = this->getNibble(this->blockData[index / 2], index % 2 == 0);
-	return std::make_pair(blockID, blockData);
+	uint8 data = this->getNibble(this->blockData[index / 2], index % 2 == 0);
+	return std::make_pair(blockID, data);
 }
 
 uint8 ChunkSection::getBlockData(uint8 x, uint8 y, uint8 z) const {
@@ -81,7 +81,7 @@ uint8* ChunkSection::getSkyLightArray() const {
 }
 
 uint32 ChunkSection::getRealPosition(uint8 x, uint8 y, uint8 z) const {
-	return z * MAXIMUM_BLOCKS_PER_ROW * MAXIMUM_BLOCKS_PER_ROW + z * MAXIMUM_BLOCKS_PER_ROW + y;
+	return x * MAXIMUM_BLOCKS_PER_ROW * MAXIMUM_BLOCKS_PER_ROW + z * MAXIMUM_BLOCKS_PER_ROW + y;
 }
 
 void ChunkSection::setNibble(uint8& storage, uint8 nibble, bool leastSignificantBit) const {

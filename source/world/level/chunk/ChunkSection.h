@@ -8,13 +8,14 @@
 class ChunkSection {
 public:
 	static constexpr uint32 MAXIMUM_BLOCKS_PER_SECTION = 4096;
+	static constexpr uint32 MAXIMUM_NIBBLE_PER_SECTION = 4096 / 2;
 	static constexpr uint32 MAXIMUM_BLOCKS_PER_ROW = 16;
 
 private:
 	std::array<uint8, MAXIMUM_BLOCKS_PER_SECTION> blocks;
-	std::array<uint8, MAXIMUM_BLOCKS_PER_SECTION / 2> blockData;
-	std::array<uint8, MAXIMUM_BLOCKS_PER_SECTION / 2> blockLight;
-	std::array<uint8, MAXIMUM_BLOCKS_PER_SECTION / 2> skyLight;
+	std::array<uint8, MAXIMUM_NIBBLE_PER_SECTION> blockData;
+	std::array<uint8, MAXIMUM_NIBBLE_PER_SECTION> blockLight;
+	std::array<uint8, MAXIMUM_NIBBLE_PER_SECTION> skyLight;
 
 public:
 	/*
