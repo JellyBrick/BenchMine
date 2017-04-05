@@ -1,6 +1,6 @@
 #include "Entity.h"
 
-unsigned int Entity::entityIDs = 0;
+uint64 Entity::entityIDs = 0;
 
 Entity::Entity() {
 	this->id = ++Entity::entityIDs;

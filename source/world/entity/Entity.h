@@ -1,13 +1,15 @@
 #pragma once
 
+#include <Common.h>
+
 #include "world/math/Vector3f.h"
 
 class Entity {
 public:
-	static unsigned int entityIDs;
+	static uint64 entityIDs;
 
 protected:
-	unsigned int id;
+	uint64 id;
 	
 	Vector3f position, lastPosition;
 	float yaw, pitch;
