@@ -8,6 +8,6 @@ Disconnect::Disconnect(const std::string& message) : RakLib::DataPacket(4 + mess
 void Disconnect::encode() {
 	this->putByte((uint8)MinecraftPackets::Disconnect);
 	this->putBool(messageHided);
-	this->putString(message);
+	this->putVarString(message);
 }
 

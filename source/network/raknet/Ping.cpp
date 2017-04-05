@@ -9,9 +9,7 @@ Ping::Ping(int64 pingID) : DataPacket(9) {
 }
 
 void Ping::decode() {
-	if (this->getByte() != (uint8)RaknetPacket::PING) {
-		return;
-	}
+	++this->position; // Skip Packet ID
 
 	this->pingID = this->getLong();
 }

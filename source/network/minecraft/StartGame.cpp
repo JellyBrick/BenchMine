@@ -40,6 +40,6 @@ void StartGame::encode() {
 	this->putFloat(this->lightnigLevel);
 	this->putBool(enableCommands);
 	this->putBool(isTexturepacksRequired);
-	this->putString(this->secret);
-	this->putString(this->worldName);
+	this->putVarString(this->secret);
+	this->putVarString(this->worldName);
 }

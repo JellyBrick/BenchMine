@@ -66,7 +66,7 @@ enum class MinecraftPackets : unsigned char {
 	SetCommandsEnabled = 0x3c,
 	SetDifficulty = 0x3d,
 	ChangeDimension = 0x3e,
-	SetPlayerGameType = 0x3f,
+	SetGameMode = 0x3f,
 	PlayerList = 0x40,
 	Event = 0x41,
 	SpawnExperienceOrb = 0x42,

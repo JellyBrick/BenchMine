@@ -10,7 +10,7 @@ Login::Login(std::unique_ptr<Packet>&& packet) : DataPacket(std::move(packet)) {
 
 void Login::decode() {
 	static const uint32 JSON_DECOMPRESSION_SIZE = 1024 * 1024 * 8;
-	this->position = 1; // Skip Packet ID
+	++this->position; // Skip Packet ID
 
 	this->protocol = this->getInt();
 	this->edition = this->getByte();

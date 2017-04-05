@@ -5,9 +5,9 @@
 class Pong : public RakLib::DataPacket
 {
 public:
-	int64 pingID;
+	uint64 pingID;
 
-	Pong(int64 pingID);
+	Pong(uint64 pingID);
 	Pong(std::unique_ptr<Packet>&& packet);
 
 	void decode() override;
