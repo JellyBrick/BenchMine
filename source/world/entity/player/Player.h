@@ -28,6 +28,9 @@ public:
 
 	void sendPacket(RakLib::Packet& packet) override;
 
+	void postLogin();
+
 	const std::string& getUsername() const { return this->username; }
 	std::string getLUsername() const { return this->lowerUserName; }
+
 };

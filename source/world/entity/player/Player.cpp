@@ -13,6 +13,10 @@
 #include "network/minecraft/MinecraftPackets.h"
 #include "network/minecraft/PlayStatus.h"
 #include "network/minecraft/RequestChunkData.h"
+#include "network/minecraft/ResourcePackClientResponse.h"
+#include "network/minecraft/ResourcePacksInfo.h"
+#include "network/minecraft/ResourcePackStack.h"
+#include "network/minecraft/Respawn.h"
 #include "network/minecraft/StartGame.h"
 #include "network/raknet/ConnectionAccepted.h"
 #include "network/raknet/ConnectionRequest.h"
@@ -112,15 +116,10 @@ void Player::handleGamePacket(std::unique_ptr<RakLib::Packet> packet) {
 		this->addDataPacket(std::move(playStatus), QueuePriority::IMMEDIATE);
 
 		// Post Login Stuff
-		// TODO: Move to it's own method
 
-		auto startGame = std::make_unique<StartGame>(this->id, Vector3f(0.0f, 4.0f, 0.0f), "");
-		startGame->encode();
-		this->addDataPacket(std::move(startGame), QueuePriority::UPDATE);
-
-		auto settings = std::make_unique<AdventureSettings>(AdventureSettings::PERMISSIONS::NORMAL, 0x0000012E);
-		settings->encode();
-		this->addDataPacket(std::move(settings), QueuePriority::UPDATE);
+		auto resourcePacksInfo = std::make_unique<ResourcePacksInfo>();
+		resourcePacksInfo->encode();
+		this->addDataPacket(std::move(resourcePacksInfo), QueuePriority::IMMEDIATE);
 	}
 	break;
 
@@ -139,6 +138,22 @@ void Player::handleGamePacket(std::unique_ptr<RakLib::Packet> packet) {
 	}
 	break;
 
+	case MinecraftPackets::ResourcePackClientResponse:
+	{
+		ResourcePackClientResponse clientResponse(std::move(packet));
+		clientResponse.decode();
+
+		if (clientResponse.status == ResourcePackClientResponse::HaveAllPacks) {
+			auto resoucePackStack = std::make_unique<ResourcePackStack>();
+			resoucePackStack->encode();
+
+			this->addDataPacket(std::move(resoucePackStack), QueuePriority::IMMEDIATE);
+		} else if (clientResponse.status == ResourcePackClientResponse::Completed) {
+			this->postLogin();
+		}
+	}
+	break;
+
 	case MinecraftPackets::RequestChunkRadius:
 	{
 		RequestChunkData requestChunk(std::move(packet));
@@ -146,15 +161,14 @@ void Player::handleGamePacket(std::unique_ptr<RakLib::Packet> packet) {
 
 		auto chunkRadiusUpdate = std::make_unique<ChunkRadiusUpdated>(requestChunk.radius);
 		chunkRadiusUpdate->encode();
-
 		this->addDataPacket(std::move(chunkRadiusUpdate), QueuePriority::IMMEDIATE);
 
 		uint8* chunkData;
 		uint32 chunkDataSize;
 		std::tie(chunkData, chunkDataSize) = this->server->getLevel()->getChunk(0, 0)->serialize();
 		
-		for (int32 x = -requestChunk.radius; x < requestChunk.radius; ++x) {
-			for (int32 z = -requestChunk.radius; z < requestChunk.radius; ++z) {
+		for (int32 x = -requestChunk.radius; x <= requestChunk.radius; ++x) {
+			for (int32 z = -requestChunk.radius; z <= requestChunk.radius; ++z) {
 				auto fullChunkData = std::make_unique<FullChunkData>(x, z, chunkData, chunkDataSize);
 				fullChunkData->encode();
 
@@ -168,10 +182,14 @@ void Player::handleGamePacket(std::unique_ptr<RakLib::Packet> packet) {
 
 		delete[] chunkData;
 
+		auto respawn = std::make_unique<Respawn>();
+		respawn->spawnPosition = { 0.0f, 4.0f, 0.0f };
+		respawn->encode();
+		this->addDataPacket(std::move(respawn), QueuePriority::IMMEDIATE);
+
 		auto playStatus = std::make_unique<PlayStatus>(PlayStatus::STATUS::SPAWN);
 		playStatus->encode();
 		this->addDataPacket(std::move(playStatus), QueuePriority::IMMEDIATE);
-		printf("ChunkSended!!");
 	}
 	break;
 
@@ -193,4 +211,14 @@ void Player::sendPacket(RakLib::Packet& packet) {
 	packet.port = this->port;
 
 	this->server->sendPacket(packet);
+}
+
+void Player::postLogin() {
+	auto startGame = std::make_unique<StartGame>(this->id, Vector3f(0.0f, 4.0f, 0.0f), "");
+	startGame->encode();
+	this->addDataPacket(std::move(startGame), QueuePriority::IMMEDIATE);
+
+	auto settings = std::make_unique<AdventureSettings>(AdventureSettings::PERMISSIONS::NORMAL, 0x0000012E);
+	settings->encode();
+	this->addDataPacket(std::move(settings), QueuePriority::IMMEDIATE);
 }
