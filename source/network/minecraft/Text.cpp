@@ -22,7 +22,7 @@ void Text::decode() {
 	case TRANSLATION:
 		this->message = this->getString();
 		auto count = this->getVarUInt();
-		for (auto i = 0; i < count; ++i) {
+		for (uint32 i = 0; i < count; ++i) {
 			this->parameters.push_back(this->getVarString());
 		}
 

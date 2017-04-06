@@ -18,7 +18,7 @@ public:
 	std::vector<std::string> packs;
 
 public:
-	ResourcePackClientResponse();
+	ResourcePackClientResponse(std::unique_ptr<RakLib::Packet>&& packet);
 
 	void decode() override;
 

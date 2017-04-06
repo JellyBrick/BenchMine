@@ -2,12 +2,12 @@
 
 #include "MinecraftPackets.h"
 
-ResourcePackStack::ResourcePackStack() : DataPacket(512) {
+ResourcePackStack::ResourcePackStack() : DataPacket(128) {
 	this->packsRequired = false;
 }
 
 void ResourcePackStack::encode() {
-	this->putByte((uint8)MinecraftPackets::ResourcePacksInfo);
+	this->putByte((uint8)MinecraftPackets::ResourcePackStack);
 	this->putBool(this->packsRequired);
 	this->putEntries(this->behaviorPackEntries);
 	this->putEntries(this->resourcePackEntries);
