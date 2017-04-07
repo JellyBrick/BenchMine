@@ -1,10 +1,8 @@
 #include "Server.h"
 
-#include <cassert>
-
 #include "common/Utils.h"
 #include "network/minecraft/MinecraftPackets.h"
-#include "world/entity/player/Player.h"
+#include "world/entity/player/NetworkSession.h"
 
 Server::Server() {
 	maxPlayers = 20;
@@ -33,7 +31,7 @@ void Server::start() {
 void Server::stop() {
 	logger->info("Stopping server..");
 
-	for (const auto& it : players) {
+	for (const auto& it : playerSessions) {
 		it.second->disconnect("Server Closing!");
 	}
 
@@ -48,8 +46,7 @@ void Server::addSession(const std::string& sessionIP, uint16 sessionPort, int64 
 		return;
 	}
 
-	logger->notice("New player have connected - %s:%u", sessionIP.c_str(), sessionPort);
-	players[getSessionID(sessionIP, sessionPort)] = new Player(this, sessionIP, sessionPort, clientID, mtu);
+	playerSessions[getSessionID(sessionIP, sessionPort)] = std::make_unique<NetworkSession>(this,sessionIP, sessionPort, clientID, mtu);
 }
 
 void Server::removeSession(const std::string& sessionIP, uint16 sessionPort) {
@@ -61,7 +58,7 @@ void Server::removeSession(const std::string& sessionIP, uint16 sessionPort) {
 }
 
 RakLib::Session* Server::getSession(const std::string& sessionIP, uint16 sessionPort) {
-	return players[getSessionID(sessionIP, sessionPort)];
+	return playerSessions[getSessionID(sessionIP, sessionPort)].get();
 }
 
 std::string Server::getSessionID(const std::string& sessionIP, uint16 sessionPort) {
@@ -93,7 +90,7 @@ std::string Server::getGameVersion() {
 }
 
 uint32 Server::getActivePlayers() {
-	return players.size();
+	return playerSessions.size();
 }
 
 uint32 Server::getMaxPlayer() {
@@ -101,5 +98,5 @@ uint32 Server::getMaxPlayer() {
 }
 
 Server::~Server() {
-    stop();
+	stop();
 }

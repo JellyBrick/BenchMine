@@ -17,6 +17,9 @@ protected:
 public:
 	Entity();
 
+	virtual void update();
+	virtual void onRemove();
+
 	const Vector3f& getPosition() const { return position; }
 	const Vector3f& getLastPosition() const { return lastPosition; }
 

@@ -1,13 +1,13 @@
 #pragma once
 
-#include <packets/DataPacket.h>
-#include <Session.h>
-
 #include "world/entity/Entity.h"
 #include "world/math/Vector3f.h"
 
 class Server;
-class Player : public Entity, public RakLib::Session {
+class NetworkSession;
+class Player : public Entity {
+	friend NetworkSession;
+
 private:
 	Server* server;
 	int CID;
@@ -16,23 +16,11 @@ private:
 	Vector3f spawnPosition;
 
 public:
-	Player(Server* server, const std::string& ip, uint16 port, int64 clientID, int16 mtuSize);
+	Player(Server* server);
 
-	void disconnect(const std::string& reason);
+	void onRemove() override;
 
-	void update() override;
-
-	void handleDataPacket(std::unique_ptr<RakLib::Packet> packet) override;
-	
-	void handleGamePacket(std::unique_ptr<RakLib::Packet> packet);
-
-	void addDataPacket(std::unique_ptr<RakLib::DataPacket>&& packet, QueuePriority priority);
-
-	void sendPacket(RakLib::Packet& packet) override;
-
-	void postLogin();
-
-	const std::string& getUsername() const { return username; }
-	std::string getLUsername() const { return lowerUserName; }
-
+	void setUsername(const std::string& newUsername);
+	const std::string& getUsername() const;
+	std::string getLUsername() const;
 };

@@ -10,7 +10,7 @@
 #include "scheduler/TaskHandler.h"
 #include "world/level/Level.h"
 
-class Player;
+class NetworkSession;
 class Server final : public RakLib::SessionManager {
 private:
 	static constexpr unsigned int MINECRAFT_TICK_RATE = 20;
@@ -25,7 +25,7 @@ private:
 	std::string  ip;
 	std::string motd;
 	std::string title;
-	std::map<std::string, Player*> players;
+	std::map<std::string, std::unique_ptr<NetworkSession>> playerSessions;
 
 public:
 	Server();

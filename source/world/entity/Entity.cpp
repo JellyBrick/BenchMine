@@ -7,3 +7,11 @@ Entity::Entity() {
 	yaw = 0;
 	pitch = 0;
 }
+
+void Entity::update() {
+	// Nothing to do! For now...
+}
+
+void Entity::onRemove() {
+	// Nothing to do! For now...
+}
