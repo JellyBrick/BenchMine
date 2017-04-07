@@ -3,6 +3,7 @@
 #include "MinecraftPackets.h"
 
 StartGame::StartGame(int64 EID, const Vector3f& spawnPoint, const std::string& world) : DataPacket(89 + world.length()) {
+	this->setEndianness(BIG_ENDIAN);
 	this->entityId = this->runtimeEntityId = EID;
 	this->spawn = spawnPoint;
 	this->seed = 123456789;
@@ -40,6 +41,8 @@ void StartGame::encode() {
 	this->putFloat(this->lightnigLevel);
 	this->putBool(enableCommands);
 	this->putBool(isTexturepacksRequired);
+
+	this->setEndianness(this->LITTLE_ENDIAN);
 	this->putVarString(this->secret);
 	this->putVarString(this->worldName);
 }

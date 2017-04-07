@@ -1,7 +1,10 @@
 #include "Respawn.h"
+
 #include "MinecraftPackets.h"
 
-Respawn::Respawn() : DataPacket(16) {}
+Respawn::Respawn() : DataPacket(16) {
+	this->setEndianness(LITTLE_ENDIAN);
+}
 
 void Respawn::decode() {
 	++this->position; // Skip Packet ID

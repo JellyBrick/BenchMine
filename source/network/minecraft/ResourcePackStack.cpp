@@ -14,7 +14,10 @@ void ResourcePackStack::encode() {
 }
 
 void ResourcePackStack::putEntries(const std::vector<PackEntry>& entries) {
+	this->setEndianness(this->BIG_ENDIAN);
 	this->putUShort((uint16)entries.size());
+	this->setEndianness(LITTLE_ENDIAN);
+
 	for (const auto& entry : entries) {
 		this->putVarString(entry.packID);
 		this->putVarString(entry.packVersion);
