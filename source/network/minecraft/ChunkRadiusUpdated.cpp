@@ -7,6 +7,6 @@ ChunkRadiusUpdated::ChunkRadiusUpdated(int32 radius) : DataPacket(5) {
 }
 
 void ChunkRadiusUpdated::encode() {
-	this->putByte((uint8)MinecraftPackets::ChunkRadiusUpdate);
-	this->putVarUInt((uint32)this->viewRadius);
+	putByte(static_cast<uint8>(MinecraftPackets::ChunkRadiusUpdate));
+	putVarUInt(static_cast<uint32>(viewRadius));
 }

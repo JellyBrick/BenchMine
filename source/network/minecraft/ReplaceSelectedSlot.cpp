@@ -6,6 +6,6 @@
 ReplaceSelectedSlot::ReplaceSelectedSlot() : DataPacket(16) {}
 
 void ReplaceSelectedSlot::encode() {
-	this->putByte((uint8)MinecraftPackets::ReplaceSelectedItem);
+	putByte(static_cast<uint8>(MinecraftPackets::ReplaceSelectedItem));
 	// ItemStack::serialize
 }

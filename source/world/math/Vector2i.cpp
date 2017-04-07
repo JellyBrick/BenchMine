@@ -2,118 +2,110 @@
 
 #include "Vector2f.h"
 
-Vector2i::Vector2i() {
-	this->x = 0;
-	this->y = 0;
-}
+Vector2i::Vector2i() : x(0), y(0) {}
 
-Vector2i::Vector2i(int x, int y) {
-	this->x = x;
-	this->y = y;
-}
+Vector2i::Vector2i(int x, int y) : x(x), y(y) {}
 
-Vector2i::Vector2i(int scalar) {
-	this->x = this->y = scalar;
-}
+Vector2i::Vector2i(int scalar) : x(scalar), y(scalar) {}
 
 Vector2i& Vector2i::add(int value) {
-	this->x += value;
-	this->y += value;
+	x += value;
+	y += value;
 	return *this;
 }
 
 Vector2i& Vector2i::add(const Vector2i& other) {
-	this->x += other.x;
-	this->y += other.y;
+	x += other.x;
+	y += other.y;
 	return *this;
 }
 
 Vector2i& Vector2i::substract(int value) {
-	this->x -= value;
-	this->y -= value;
+	x -= value;
+	y -= value;
 	return *this;
 }
 
 Vector2i& Vector2i::substract(const Vector2i& other) {
-	this->x -= other.x;
-	this->y -= other.y;
+	x -= other.x;
+	y -= other.y;
 	return *this;
 }
 
 Vector2i& Vector2i::multiply(int value) {
-	this->x *= value;
-	this->y *= value;
+	x *= value;
+	y *= value;
 	return *this;
 }
 
 Vector2i& Vector2i::multiply(const Vector2i& other) {
-	this->x *= other.x;
-	this->y *= other.y;
+	x *= other.x;
+	y *= other.y;
 	return *this;
 }
 
 Vector2i& Vector2i::divide(int value) {
-	this->x /= value;
-	this->y /= value;
+	x /= value;
+	y /= value;
 	return *this;
 }
 
 Vector2i& Vector2i::divide(const Vector2i& other) {
-	this->x /= other.x;
-	this->y /= other.y;
+	x /= other.x;
+	y /= other.y;
 	return *this;
 }
 
 Vector2i Vector2i::operator+(int value) {
-	return this->add(value);
+	return add(value);
 }
 
 Vector2i Vector2i::operator+(const Vector2i& other) {
-	return this->add(other);
+	return add(other);
 }
 
 Vector2i Vector2i::operator-(int value) {
-	return this->substract(value);
+	return substract(value);
 }
 
 Vector2i Vector2i::operator-(const Vector2i& other) {
-	return this->substract(other);
+	return substract(other);
 }
 
 Vector2i Vector2i::operator*(int value) {
-	return this->multiply(value);
+	return multiply(value);
 }
 
 Vector2i Vector2i::operator*(const Vector2i& other) {
-	return this->multiply(other);
+	return multiply(other);
 }
 
 Vector2i Vector2i::operator/(int value) {
-	return this->divide(value);
+	return divide(value);
 }
 
 Vector2i Vector2i::operator/(const Vector2i& other) {
-	return this->divide(other);
+	return divide(other);
 }
 
 Vector2i& Vector2i::operator+=(const Vector2i& other) {
-	return this->add(other);
+	return add(other);
 }
 
 Vector2i& Vector2i::operator-=(const Vector2i& other) {
-	return this->substract(other);
+	return substract(other);
 }
 
 Vector2i& Vector2i::operator*=(const Vector2i& other) {
-	return this->multiply(other);
+	return multiply(other);
 }
 
 Vector2i& Vector2i::operator/=(const Vector2i& other) {
-	return this->divide(other);
+	return divide(other);
 }
 
 bool Vector2i::operator==(const Vector2i& other) const {
-	return this->x == other.x &&  this->y == other.y;
+	return x == other.x &&  y == other.y;
 }
 
 bool Vector2i::operator!=(const Vector2i& other) const {
@@ -126,7 +118,7 @@ std::ostream& operator<<(std::ostream& stream, const Vector2i& vec) {
 }
 
 Vector2i Vector2i::fromVector2f(const Vector2f& other) {
-	return { (int)other.x, (int)other.y };
+	return { static_cast<int>(other.x), static_cast<int>(other.y) };
 }
 
 

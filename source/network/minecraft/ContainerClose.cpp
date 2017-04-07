@@ -3,15 +3,15 @@
 #include "MinecraftPackets.h"
 
 ContainerClose::ContainerClose() :DataPacket(2) {
-	this->windowID = 0x00;
+	windowID = 0x00;
 }
 
 void ContainerClose::decode() {
-	++this->position; // Skip Packet ID;
-	this->windowID = this->getByte();
+	++position; // Skip Packet ID;
+	windowID = getByte();
 }
 
 void ContainerClose::encode() {
-	this->putByte((uint8)MinecraftPackets::ContainerClose);
-	this->putByte(this->windowID);
+	putByte(static_cast<uint8>(MinecraftPackets::ContainerClose));
+	putByte(windowID);
 }

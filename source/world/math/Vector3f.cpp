@@ -2,128 +2,118 @@
 
 #include "Vector3i.h"
 
-Vector3f::Vector3f() {
-	this->x = 0;
-	this->y = 0;
-	this->z = 0;
-}
+Vector3f::Vector3f() : x(0), y(0), z(0) {}
 
-Vector3f::Vector3f(float scalar) {
-	this->x = this->y = this->z = 0;
-}
+Vector3f::Vector3f(float scalar) : x(scalar), y(scalar), z(scalar) {}
 
-Vector3f::Vector3f(float x, float y, float z) {
-	this->x = x;
-	this->y = y;
-	this->z = z;
-}
+Vector3f::Vector3f(float x, float y, float z) : x(x), y(y), z(z) {}
 
 Vector3f& Vector3f::add(float value) {
-	this->x += value;
-	this->y += value;
-	this->z += value;
+	x += value;
+	y += value;
+	z += value;
 	return *this;
 }
 
 Vector3f& Vector3f::add(const Vector3f& other) {
-	this->x += other.x;
-	this->y += other.y;
-	this->z += other.z;
+	x += other.x;
+	y += other.y;
+	z += other.z;
 	return *this;
 }
 
 Vector3f& Vector3f::substract(float value) {
-	this->x -= value;
-	this->y -= value;
-	this->z -= value;
+	x -= value;
+	y -= value;
+	z -= value;
 	return *this;
 }
 
 Vector3f& Vector3f::substract(const Vector3f& other) {
-	this->x -= other.x;
-	this->y -= other.y;
-	this->z -= other.z;
+	x -= other.x;
+	y -= other.y;
+	z -= other.z;
 	return *this;
 }
 
 Vector3f& Vector3f::multiply(float value) {
-	this->x *= value;
-	this->y *= value;
-	this->z *= value;
+	x *= value;
+	y *= value;
+	z *= value;
 	return *this;
 }
 
 Vector3f& Vector3f::multiply(const Vector3f& other) {
-	this->x *= other.x;
-	this->y *= other.y;
-	this->z *= other.z;
+	x *= other.x;
+	y *= other.y;
+	z *= other.z;
 	return *this;
 }
 
 Vector3f& Vector3f::divide(float value) {
-	this->x /= value;
-	this->y /= value;
-	this->z /= value;
+	x /= value;
+	y /= value;
+	z /= value;
 	return *this;
 }
 
 Vector3f& Vector3f::divide(const Vector3f& other) {
-	this->x /= other.x;
-	this->y /= other.y;
-	this->z /= other.z;
+	x /= other.x;
+	y /= other.y;
+	z /= other.z;
 	return *this;
 }
 
 Vector3f Vector3f::operator+(float value) {
-	return this->add(value);
+	return add(value);
 }
 
 Vector3f Vector3f::operator+(const Vector3f& other) {
-	return this->add(other);
+	return add(other);
 }
 
 Vector3f Vector3f::operator-(float value) {
-	return this->substract(value);
+	return substract(value);
 }
 
 Vector3f Vector3f::operator-(const Vector3f& other) {
-	return this->substract(other);
+	return substract(other);
 }
 
 Vector3f Vector3f::operator*(float value) {
-	return this->multiply(value);
+	return multiply(value);
 }
 
 Vector3f Vector3f::operator*(const Vector3f& other) {
-	return this->multiply(other);
+	return multiply(other);
 }
 
 Vector3f Vector3f::operator/(float value) {
-	return this->divide(value);
+	return divide(value);
 }
 
 Vector3f Vector3f::operator/(const Vector3f& other) {
-	return this->divide(other);
+	return divide(other);
 }
 
 Vector3f& Vector3f::operator+=(const Vector3f& other) {
-	return this->add(other);
+	return add(other);
 }
 
 Vector3f& Vector3f::operator-=(const Vector3f& other) {
-	return this->substract(other);
+	return substract(other);
 }
 
 Vector3f& Vector3f::operator*=(const Vector3f& other) {
-	return this->multiply(other);
+	return multiply(other);
 }
 
 Vector3f& Vector3f::operator/=(const Vector3f& other) {
-	return this->divide(other);
+	return divide(other);
 }
 
 bool Vector3f::operator==(const Vector3f& other) const {
-	return this->x == other.x &&  this->y == other.y && this->z == other.z;
+	return x == other.x &&  y == other.y && z == other.z;
 }
 
 bool Vector3f::operator!=(const Vector3f& other) const {

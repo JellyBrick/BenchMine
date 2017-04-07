@@ -3,21 +3,21 @@
 #include "MinecraftPackets.h"
 
 EntityEvent::EntityEvent() : DataPacket(16) {
-	this->entityID = 0;
-	this->event = 0x00;
-	this->unknown = 0;
+	entityID = 0;
+	event = 0x00;
+	unknown = 0;
 }
 
 void EntityEvent::decode() {
-	++this->position; // Skip Packet ID
-	this->entityID = this->getVarULong();
-	this->event = this->getByte();
-	this->unknown = this->getVarUInt();
+	++position; // Skip Packet ID
+	entityID = getVarULong();
+	event = getByte();
+	unknown = getVarUInt();
 }
 
 void EntityEvent::encode() {
-	this->putByte((uint8)MinecraftPackets::EntityEvent);
-	this->putVarULong(this->entityID);
-	this->putByte(this->event);
-	this->putVarUInt(this->unknown);
+	putByte(static_cast<uint8>(MinecraftPackets::EntityEvent));
+	putVarULong(entityID);
+	putByte(event);
+	putVarUInt(unknown);
 }

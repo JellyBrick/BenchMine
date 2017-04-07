@@ -3,32 +3,32 @@
 #include "MinecraftPackets.h"
 
 MovePlayer::MovePlayer() : DataPacket(64) {
-	this->entityID = 0;
-	this->pitch = 0.0f;
-	this->yaw = 0.0f;
-	this->bodyYaw = 0.0f;
-	this->mode = Mode::NORMAL;
-	this->onGround = true;
+	entityID = 0;
+	pitch = 0.0f;
+	yaw = 0.0f;
+	bodyYaw = 0.0f;
+	mode = Mode::NORMAL;
+	onGround = true;
 }
 
 void MovePlayer::decode() {
-	++this->position; // Skip Packet ID
-	this->entityID = this->getVarULong();
-	this->entityPosition = Vector3f::deserialize(*this);
-	this->pitch = this->getFloat();
-	this->yaw = this->getFloat();
-	this->bodyYaw = this->getFloat();
-	this->mode = (Mode)this->getByte();
-	this->onGround = this->getBool();
+	++position; // Skip Packet ID
+	entityID = getVarULong();
+	entityPosition = Vector3f::deserialize(*this);
+	pitch = getFloat();
+	yaw = getFloat();
+	bodyYaw = getFloat();
+	mode = (Mode)getByte();
+	onGround = getBool();
 }
 
 void MovePlayer::encode() {
-	this->putByte((uint8)MinecraftPackets::MovePlayer);
-	this->putVarULong(this->entityID);
-	Vector3f::serialize(this->entityPosition, *this);
-	this->putFloat(this->pitch);
-	this->putFloat(this->yaw);
-	this->putFloat(this->bodyYaw);
-	this->putByte((uint8)this->mode);
-	this->putBool(this->onGround);
+	putByte(static_cast<uint8>(MinecraftPackets::MovePlayer));
+	putVarULong(entityID);
+	Vector3f::serialize(entityPosition, *this);
+	putFloat(pitch);
+	putFloat(yaw);
+	putFloat(bodyYaw);
+	putByte(static_cast<uint8>(mode));
+	putBool(onGround);
 }

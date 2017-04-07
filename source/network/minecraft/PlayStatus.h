@@ -15,7 +15,7 @@ public:
 	int status;
 
 public:
-	PlayStatus(int status);
+	PlayStatus(int playStatus);
 	void encode() override;
 };
 

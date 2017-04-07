@@ -3,20 +3,20 @@
 #include "MinecraftPackets.h"
 
 MobEffect::MobEffect() : DataPacket(64) {
-	this->entityID = 0;
-	this->eventID = Event::ADD;
-	this->effectID = 0;
-	this->amplifier = 0;
-	this->particles = true;
-	this->duration = 0;
+	entityID = 0;
+	eventID = Event::ADD;
+	effectID = 0;
+	amplifier = 0;
+	particles = true;
+	duration = 0;
 }
 
 void MobEffect::encode() {
-	this->putByte((uint8)MinecraftPackets::MobEffect);
-	this->putVarULong(this->entityID);
-	this->putByte((uint8)this->eventID);
-	this->putVarUInt(this->effectID);
-	this->putVarUInt(this->amplifier);
-	this->putBool(this->particles);
-	this->putVarUInt(this->duration);
+	putByte(static_cast<uint8>(MinecraftPackets::MobEffect));
+	putVarULong(entityID);
+	putByte(static_cast<uint8>(eventID));
+	putVarUInt(effectID);
+	putVarUInt(amplifier);
+	putBool(particles);
+	putVarUInt(duration);
 }

@@ -3,13 +3,13 @@
 #include "MinecraftPackets.h"
 
 SetSpawnPosition::SetSpawnPosition() : DataPacket(64) {
-	this->unknown1 = 0;
-	this->unknown2 = false;
+	unknown1 = 0;
+	unknown2 = false;
 }
 
 void SetSpawnPosition::encode() {
-	this->putByte((uint8)MinecraftPackets::SetSpawnPosition);
-	this->putVarUInt(this->unknown1);
-	Vector3i::serialize(this->spawnPosition, *this);
-	this->putBool(this->unknown2);
+	putByte(static_cast<uint8>(MinecraftPackets::SetSpawnPosition));
+	putVarUInt(unknown1);
+	Vector3i::serialize(spawnPosition, *this);
+	putBool(unknown2);
 }

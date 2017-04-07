@@ -12,14 +12,14 @@ Batch::Batch(std::unique_ptr<Packet>&& packet) : RakLib::DataPacket(std::move(pa
 Batch::Batch() : RakLib::DataPacket(DEFAULT_BUFFER_SIZE) {}
 
 Batch::~Batch() {
-	this->packets.clear();
+	packets.clear();
 }
 
 void Batch::decode() {
-	++this->position; // Skip Packet ID
+	++position; // Skip Packet ID
 
-	uint32 payloadSize = this->getVarUInt();
-	uint8* payload = this->buffer + this->position;
+	uint32 payloadSize = getVarUInt();
+	uint8* payload = buffer + position;
 	assert(payloadSize > 1);
 
 	uint8* output = new uint8[DEFAULT_BUFFER_SIZE];
@@ -31,7 +31,7 @@ void Batch::decode() {
 		uint32 packetSize = byteBuffer.getVarUInt();
 		uint8* packetBuffer = byteBuffer.getByte(packetSize);
 		if (packetBuffer != nullptr) {
-			this->packets.push_back(std::make_unique<RakLib::Packet>(packetBuffer, packetSize));
+			packets.push_back(std::make_unique<RakLib::Packet>(packetBuffer, packetSize));
 		}
 	}
 
@@ -39,22 +39,22 @@ void Batch::decode() {
 }
 
 void Batch::encode() {
-	for(const auto& packet : this->packets) {
-		this->putVarUInt(packet->getLength());
-		this->putByte(packet->getBuffer(), packet->getLength());
+	for(const auto& packet : packets) {
+		putVarUInt(packet->getLength());
+		putByte(packet->getBuffer(), packet->getLength());
 	}
 
 	uint8* output = new uint8[DEFAULT_BUFFER_SIZE];
-	uint32 outputSize = Compression::compress(this->buffer, this->position, output, DEFAULT_BUFFER_SIZE);
+	uint32 outputSize = Compression::compress(buffer, position, output, DEFAULT_BUFFER_SIZE);
 	assert(outputSize != 0);
 
-	this->position = 0;
-	this->putByte((uint8)MinecraftPackets::Batch);
-	this->putVarUInt(outputSize);
-	this->putByte(output, outputSize);
-	this->resize(this->position);
+	position = 0;
+	putByte(static_cast<uint8>(MinecraftPackets::Batch));
+	putVarUInt(outputSize);
+	putByte(output, outputSize);
+	resize(position);
 
 	// Free Resource
 	delete[] output;
-	this->packets.clear();
+	packets.clear();
 }

@@ -3,6 +3,6 @@
 ClientHandshake::ClientHandshake(std::unique_ptr<Packet>&& packet) : RakLib::DataPacket(std::move(packet)) {}
 
 void ClientHandshake::decode() {
-	this->getByte(); // Skip Packet ID
+	getByte(); // Skip Packet ID
 	// TODO
 }

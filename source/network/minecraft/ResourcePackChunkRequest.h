@@ -2,13 +2,13 @@
 
 #include <packets/DataPacket.h>
 
-class ResourceChunkRequest : public RakLib::DataPacket {
+class ResourcePackChunkRequest : public RakLib::DataPacket {
 public:
 	std::string packID;
 	int32 chunkIndex;
 
 public:
-	ResourceChunkRequest();
+	ResourcePackChunkRequest();
 
 	void decode() override;
 

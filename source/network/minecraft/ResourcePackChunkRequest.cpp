@@ -2,18 +2,18 @@
 
 #include "MinecraftPackets.h"
 
-ResourceChunkRequest::ResourceChunkRequest() : DataPacket(128) {
-	this->chunkIndex = 0;
+ResourcePackChunkRequest::ResourcePackChunkRequest() : DataPacket(128) {
+	chunkIndex = 0;
 }
 
-void ResourceChunkRequest::decode() {
-	++this->position; // Skip Packet ID
-	this->packID = this->getVarString();
-	this->chunkIndex = this->getInt();
+void ResourcePackChunkRequest::decode() {
+	++position; // Skip Packet ID
+	packID = getVarString();
+	chunkIndex = getInt();
 }
 
-void ResourceChunkRequest::encode() {
-	this->putByte((uint8)MinecraftPackets::ResourcePackChunkRequest);
-	this->putVarString(this->packID);
-	this->putInt(this->chunkIndex);
+void ResourcePackChunkRequest::encode() {
+	putByte(static_cast<uint8>(MinecraftPackets::ResourcePackChunkRequest));
+	putVarString(packID);
+	putInt(chunkIndex);
 }

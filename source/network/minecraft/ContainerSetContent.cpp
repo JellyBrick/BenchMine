@@ -4,15 +4,15 @@
 
 //TODO: Do, when proper inventory system is implemented
 ContainerSetContent::ContainerSetContent() : DataPacket(128) {
-	this->windowID = 0x00;
+	windowID = 0x00;
 }
 
 void ContainerSetContent::decode() {
-	++this->position;
-	this->windowID = this->getByte();
+	++position;
+	windowID = getByte();
 }
 
 void ContainerSetContent::encode() {
-	this->putByte((uint8)MinecraftPackets::ContainerSetContent);
-	this->putByte(this->windowID);
+	putByte(static_cast<uint8>(MinecraftPackets::ContainerSetContent));
+	putByte(windowID);
 }

@@ -3,17 +3,17 @@
 #include "MinecraftPackets.h"
 
 BlockPickRequest::BlockPickRequest() : DataPacket(16) {
-	this->hotbarSlot = 0x00;
+	hotbarSlot = 0x00;
 }
 
 void BlockPickRequest::decode() {
-	++this->position; // Skip Packet ID
-	this->blockPosition = Vector3i::deserialize(*this);
-	this->hotbarSlot = this->getByte();
+	++position; // Skip Packet ID
+	blockPosition = Vector3i::deserialize(*this);
+	hotbarSlot = getByte();
 }
 
 void BlockPickRequest::encode() {
-	this->putByte((uint8)MinecraftPackets::BlockPickRequest);
-	Vector3i::serialize(this->blockPosition, *this);
-	this->putByte(this->hotbarSlot);
+	putByte(static_cast<uint8>(MinecraftPackets::BlockPickRequest));
+	Vector3i::serialize(blockPosition, *this);
+	putByte(hotbarSlot);
 }

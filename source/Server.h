@@ -6,8 +6,8 @@
 #include <RakLib.h>
 #include <SessionManager.h>
 
-#include "logger\ColoredLogger.h"
-#include "scheduler\TaskHandler.h"
+#include "logger/ColoredLogger.h"
+#include "scheduler/TaskHandler.h"
 #include "world/level/Level.h"
 
 class Player;
@@ -47,15 +47,15 @@ public:
 	uint32 getActivePlayers() override;
 	uint32 getMaxPlayer() override;
 
-	void sendPacket(const RakLib::Packet& packet) const { this->raklib->sendPacket(packet); }
+	void sendPacket(const RakLib::Packet& packet) const { raklib->sendPacket(packet); }
 
-	ColoredLogger* getLogger() const { return this->logger.get(); }
-	TaskHandler* getScheduler() const { return this->scheduler.get(); }
+	ColoredLogger* getLogger() const { return logger.get(); }
+	TaskHandler* getScheduler() const { return scheduler.get(); }
 
-	Level* getLevel() const { return this->level.get(); }
+	Level* getLevel() const { return level.get(); }
 
-	uint16 getPort() const { return this->port; }; // Server Ports
-	const std::string& getIP() const { return this->ip; }; // Server IP
+	uint16 getPort() const { return port; }; // Server Ports
+	const std::string& getIP() const { return ip; }; // Server IP
 
 private:
 	std::string getSessionID(const std::string& sessionIP, uint16 port);

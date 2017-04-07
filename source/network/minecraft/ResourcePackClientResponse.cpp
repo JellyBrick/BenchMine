@@ -3,25 +3,25 @@
 #include "MinecraftPackets.h"
 
 ResourcePackClientResponse::ResourcePackClientResponse(std::unique_ptr<RakLib::Packet>&& packet) : DataPacket(std::move(packet)) {
-	this->status = Status::Completed;
+	status = Status::Completed;
 }
 
 void ResourcePackClientResponse::decode() {
-	++this->position; // Skip Packet ID
-	this->status = (Status)this->getByte();
+	++position; // Skip Packet ID
+	status = (Status)getByte();
 	
-	uint32 entriesCount = this->getUShort() + 1;
+	uint32 entriesCount = getUShort() + 1;
 	while (--entriesCount > 0) {
-		this->packs.push_back(this->getVarString());
+		packs.push_back(getVarString());
 	}
 }
 
 void ResourcePackClientResponse::encode() {
-	this->putByte((uint8)MinecraftPackets::ResourcePackClientResponse);
-	this->putByte((uint8)this->status);
+	putByte(static_cast<uint8>(MinecraftPackets::ResourcePackClientResponse));
+	putByte(static_cast<uint8>(status));
 
-	this->putUShort((uint16)this->packs.size());
-	for (const auto& packID : this->packs) {
-		this->putVarString(packID);
+	putUShort(static_cast<uint16>(packs.size()));
+	for (const auto& packID : packs) {
+		putVarString(packID);
 	}
 }

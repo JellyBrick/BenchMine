@@ -7,61 +7,61 @@
 #include "world/entity/player/Player.h"
 
 Server::Server() {
-	this->maxPlayers = 20;
-	this->ip = "0.0.0.0";
-	this->port = 19132;
-	this->motd = "Welcome to the BenchMine Server!";
-	this->title = "BenchMine Minecraft Server!";
-	this->raklib = std::make_unique<RakLib::RakLib>(this, this->ip, this->port);
-	this->logger = std::make_unique<ColoredLogger>();
-	this->scheduler = std::make_unique<TaskHandler>(MINECRAFT_TICK_RATE);
-	this->level = std::make_unique<Level>(2);
+	maxPlayers = 20;
+	ip = "0.0.0.0";
+	port = 19132;
+	motd = "Welcome to the BenchMine Server!";
+	title = "BenchMine Minecraft Server!";
+	raklib = std::make_unique<RakLib::RakLib>(this, ip, port);
+	logger = std::make_unique<ColoredLogger>();
+	scheduler = std::make_unique<TaskHandler>(MINECRAFT_TICK_RATE);
+	level = std::make_unique<Level>(2);
 
 	Utils::setConsoleTitle("BenchMine Server Software");
-	this->logger->info("BenchMine Server Software under LGPL v3");
+	logger->info("BenchMine Server Software under LGPL v3");
 }
 
 void Server::start() {
-	this->logger->info("Server at %s:%u - %s", ip.c_str(), this->port, this->title.c_str());
+	logger->info("Server at %s:%u - %s", ip.c_str(), port, title.c_str());
 
-	this->scheduler->start();
-	this->raklib->start();
+	scheduler->start();
+	raklib->start();
 
-	this->logger->info("Started RakLib...");
+	logger->info("Started RakLib...");
 }
 
 void Server::stop() {
-	this->logger->info("Stopping server..");
+	logger->info("Stopping server..");
 
-	for (const auto& it : this->players) {
+	for (const auto& it : players) {
 		it.second->disconnect("Server Closing!");
 	}
 
-	this->scheduler->stop();
-	this->raklib->stop();
+	scheduler->stop();
+	raklib->stop();
 
-	this->logger->info("Stopped RakLib");
+	logger->info("Stopped RakLib");
 }
 
 void Server::addSession(const std::string& sessionIP, uint16 sessionPort, int64 clientID, int16 mtu) {
-	if (this->getSession(sessionIP, sessionPort) != nullptr) {
+	if (getSession(sessionIP, sessionPort) != nullptr) {
 		return;
 	}
 
-	this->logger->notice("New player have connected - %s:%u", sessionIP.c_str(), sessionPort);
-	this->players[this->getSessionID(sessionIP, sessionPort)] = new Player(this, sessionIP, sessionPort, clientID, mtu);
+	logger->notice("New player have connected - %s:%u", sessionIP.c_str(), sessionPort);
+	players[getSessionID(sessionIP, sessionPort)] = new Player(this, sessionIP, sessionPort, clientID, mtu);
 }
 
 void Server::removeSession(const std::string& sessionIP, uint16 sessionPort) {
-	if (this->getSession(sessionIP, sessionPort) == nullptr) {
+	if (getSession(sessionIP, sessionPort) == nullptr) {
 		return;
 	}
 
-	delete this->getSession(sessionIP, sessionPort);
+	delete getSession(sessionIP, sessionPort);
 }
 
 RakLib::Session* Server::getSession(const std::string& sessionIP, uint16 sessionPort) {
-	return this->players[this->getSessionID(sessionIP, sessionPort)];
+	return players[getSessionID(sessionIP, sessionPort)];
 }
 
 std::string Server::getSessionID(const std::string& sessionIP, uint16 sessionPort) {
@@ -93,7 +93,7 @@ std::string Server::getGameVersion() {
 }
 
 uint32 Server::getActivePlayers() {
-	return this->players.size();
+	return players.size();
 }
 
 uint32 Server::getMaxPlayer() {
@@ -101,5 +101,5 @@ uint32 Server::getMaxPlayer() {
 }
 
 Server::~Server() {
-    this->stop();
+    stop();
 }

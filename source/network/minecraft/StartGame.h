@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include <packets\DataPacket.h>
+#include <packets/DataPacket.h>
 
 #include "world/math/Vector2f.h"
 #include "world/math/Vector3f.h"
@@ -31,6 +31,6 @@ public:
 	std::string worldName;
 
 public:
-	StartGame(int64 EID, const Vector3f& spawnPoint, const std::string& world);
+	StartGame(uint64 EID, const Vector3f& spawnPoint, const std::string& world);
 	void encode() override;
 };

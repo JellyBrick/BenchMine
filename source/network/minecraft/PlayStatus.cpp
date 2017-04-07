@@ -4,11 +4,9 @@
 
 #include "MinecraftPackets.h"
 
-PlayStatus::PlayStatus(int status) : DataPacket(5) {
-	this->status = status;
-}
+PlayStatus::PlayStatus(int playStatus) : DataPacket(5), status(playStatus){}
 
 void PlayStatus::encode() {
-	this->putByte((uint8)MinecraftPackets::PlayStatus);
-	this->putInt(this->status);
+	putByte(static_cast<uint8>(MinecraftPackets::PlayStatus));
+	putInt(status);
 }

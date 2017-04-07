@@ -3,18 +3,18 @@
 #include "MinecraftPackets.h"
 
 Interact::Interact() : DataPacket(16) {
-	this->action = Action::NONE;
-	this->entityID = 0;
+	action = Action::NONE;
+	entityID = 0;
 }
 
 void Interact::decode() {
-	++this->position; // Skip Packet ID
-	this->action = (Action)this->getByte();
-	this->entityID = this->getVarULong();
+	++position; // Skip Packet ID
+	action = (Action)getByte();
+	entityID = getVarULong();
 }
 
 void Interact::encode() {
-	this->putByte((uint8)MinecraftPackets::Interact);
-	this->putByte((uint8)this->action);
-	this->putVarULong(this->entityID);
+	putByte(static_cast<uint8>(MinecraftPackets::Interact));
+	putByte(static_cast<uint8>(action));
+	putVarULong(entityID);
 }

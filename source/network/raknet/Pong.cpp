@@ -7,12 +7,12 @@ Pong::Pong(std::unique_ptr<Packet>&& packet) : DataPacket(std::move(packet)), pi
 Pong::Pong(uint64 pingID) : DataPacket(9), pingID(pingID) {}
 
 void Pong::decode() {
-	++this->position; // Skip Packet ID
+	++position; // Skip Packet ID
 
-	this->pingID = this->getULong();
+	pingID = getULong();
 }
 
 void Pong::encode() {
-	this->putByte((uint8)RaknetPacket::PONG);
-	this->putULong(this->pingID);
+	putByte(static_cast<uint8>(RaknetPacket::PONG));
+	putULong(pingID);
 }

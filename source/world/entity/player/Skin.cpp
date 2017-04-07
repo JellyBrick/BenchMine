@@ -13,15 +13,15 @@ Skin::~Skin() {
 }
 
 const std::string& Skin::getType() const {
-	return this->type;
+	return type;
 }
 
 uint32 Skin::getLength() const {
-	return this->length;
+	return length;
 }
 
 uint8* Skin::getTexture() const {
-	return this->texture;
+	return texture;
 }
 
 std::unique_ptr<Skin> Skin::fromByteBuffer(RakLib::ByteBuffer& byteBuffer) {

@@ -4,17 +4,15 @@
 
 Ping::Ping(std::unique_ptr<RakLib::Packet>&& packet) : DataPacket(std::move(packet)), pingID(0) {}
 
-Ping::Ping(int64 pingID) : DataPacket(9) {
-	this->pingID = pingID;
-}
+Ping::Ping(int64 pingID) : DataPacket(9), pingID(pingID) {}
 
 void Ping::decode() {
-	++this->position; // Skip Packet ID
+	++position; // Skip Packet ID
 
-	this->pingID = this->getLong();
+	pingID = getLong();
 }
 
 void Ping::encode() {
-	this->putByte((uint8)RaknetPacket::PING);
-	this->putLong(this->pingID);
+	putByte(static_cast<uint8>(RaknetPacket::PING));
+	putLong(pingID);
 }

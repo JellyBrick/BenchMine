@@ -5,7 +5,7 @@
 AvailableCommands::AvailableCommands() : DataPacket(128) {}
 
 void AvailableCommands::encode() {
-	this->putByte((uint8)MinecraftPackets::AvailableCommands);
-	this->putString(this->commands);
-	this->putString(this->unknown);
+	putByte(static_cast<uint8>(MinecraftPackets::AvailableCommands));
+	putString(commands);
+	putString(unknown);
 }

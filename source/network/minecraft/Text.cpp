@@ -3,27 +3,29 @@
 #include "MinecraftPackets.h"
 
 Text::Text() : DataPacket(64) {
-	this->type = Type::CHAT;
+	type = Type::CHAT;
 }
 
 void Text::decode() {
-	this->type = (Type)this->getByte();
-	switch (this->type) {
+	++this->position; // Skip Packet ID
+
+	type = (Type)getByte();
+	switch (type) {
 	case POPUP:
 	case CHAT:
 	case WHISPER:
-		this->source = this->getVarString();
+		source = getVarString();
 	case RAW:
 	case TIP:
 	case SYSTEM:
-		this->message = this->getVarString();
+		message = getVarString();
 	break;
 
 	case TRANSLATION:
-		this->message = this->getString();
-		auto count = this->getVarUInt();
+		message = getString();
+		auto count = getVarUInt();
 		for (uint32 i = 0; i < count; ++i) {
-			this->parameters.push_back(this->getVarString());
+			parameters.push_back(getVarString());
 		}
 
 	break;
@@ -31,26 +33,25 @@ void Text::decode() {
 }
 
 void Text::encode() {
-	++this->position; // Skip Packet ID
-	this->putByte((uint8)MinecraftPackets::Text);
-	this->putByte((uint8)this->type);
+	putByte(static_cast<uint8>(MinecraftPackets::Text));
+	putByte(static_cast<uint8>(type));
 
-	switch (this->type) {
+	switch (type) {
 	case POPUP:
 	case CHAT:
 	case WHISPER:
-		this->putString(this->source);
+		putString(source);
 	case RAW:
 	case TIP:
 	case SYSTEM:
-		this->putString(this->message);
+		putString(message);
 	break;
 
 	case TRANSLATION:
-		this->putString(this->message);
-		this->putVarUInt((uint32)this->parameters.size());
-		for (const auto& parameter : this->parameters) {
-			this->putVarString(parameter);
+		putString(message);
+		putVarUInt(static_cast<uint32>(parameters.size()));
+		for (const auto& parameter : parameters) {
+			putVarString(parameter);
 		}
 	break;
 	}

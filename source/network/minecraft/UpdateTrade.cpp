@@ -6,9 +6,9 @@
 UpdateTrade::UpdateTrade() : DataPacket(512) {}
 
 void UpdateTrade::decode() {
-	++this->position; // Skip Packet ID
+	++position; // Skip Packet ID
 }
 
 void UpdateTrade::encode() {
-	this->putByte((uint8)MinecraftPackets::UpdateTrade);
+	putByte(static_cast<uint8>(MinecraftPackets::UpdateTrade));
 }

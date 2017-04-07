@@ -3,13 +3,13 @@
 #include "MinecraftPackets.h"
 
 ChangeDimension::ChangeDimension() : DataPacket(32) {
-	this->dimension = Dimension::Overworld;
-	this->unknown = false;
+	dimension = Dimension::Overworld;
+	unknown = false;
 }
 
 void ChangeDimension::encode() {
-	this->putByte((uint8)MinecraftPackets::ChangeDimension);
-	this->putVarUInt((uint32)this->dimension);
-	Vector3f::serialize(this->spawnPosition, *this);
-	this->putBool(this->unknown);
+	putByte(static_cast<uint8>(MinecraftPackets::ChangeDimension));
+	putVarUInt(static_cast<uint32>(dimension));
+	Vector3f::serialize(spawnPosition, *this);
+	putBool(unknown);
 }

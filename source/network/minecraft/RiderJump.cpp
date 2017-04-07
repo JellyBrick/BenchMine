@@ -3,15 +3,15 @@
 #include "MinecraftPackets.h"
 
 RiderJump::RiderJump() : DataPacket(8) {
-	this->unknown = 0;
+	unknown = 0;
 }
 
 void RiderJump::decode() {
-	++this->position; // Skip Packet ID
-	this->unknown = this->getVarUInt();
+	++position; // Skip Packet ID
+	unknown = getVarUInt();
 }
 
 void RiderJump::encode() {
-	this->putByte((uint8)MinecraftPackets::RiderJump);
-	this->putVarUInt(this->unknown);
+	putByte(static_cast<uint8>(MinecraftPackets::RiderJump));
+	putVarUInt(unknown);
 }

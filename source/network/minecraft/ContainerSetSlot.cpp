@@ -4,26 +4,26 @@
 
 // TODO: Finish implementation, when an proper inventory system is implemented 
 ContainerSetSlot::ContainerSetSlot() : DataPacket(32) {
-	this->windowsID = 0x00;
-	this->slot = 0;
-	this->hotbarSlot = 0;
-	this->selectedSlot = 0x00;
+	windowsID = 0x00;
+	slot = 0;
+	hotbarSlot = 0;
+	selectedSlot = 0x00;
 }
 
 void ContainerSetSlot::decode() {
-	++this->position; // Skip Packet ID
-	this->windowsID = this->getByte();
-	this->slot = this->getVarUInt();
-	this->hotbarSlot = this->getVarUInt();
+	++position; // Skip Packet ID
+	windowsID = getByte();
+	slot = getVarUInt();
+	hotbarSlot = getVarUInt();
 	// ItemStack::deserialize
-	this->selectedSlot = this->getByte();
+	selectedSlot = getByte();
 }
 
 void ContainerSetSlot::encode() {
-	this->putByte((uint8)MinecraftPackets::ContainerSetSlot);
-	this->putByte(this->windowsID);
-	this->putVarUInt(this->slot);
-	this->putVarUInt(this->hotbarSlot);
+	putByte(static_cast<uint8>(MinecraftPackets::ContainerSetSlot));
+	putByte(windowsID);
+	putVarUInt(slot);
+	putVarUInt(hotbarSlot);
 	// ItemStack::serialize
-	this->putByte(this->selectedSlot);
+	putByte(selectedSlot);
 }

@@ -3,18 +3,18 @@
 #include "MinecraftPackets.h"
 
 TakeItemEntity::TakeItemEntity() : DataPacket(24) {
-	this->target = 0;
-	this->entityID = 0;
+	target = 0;
+	entityID = 0;
 }
 
 void TakeItemEntity::decode() {
-	++this->position; // Skip Packet ID;
-	this->target = this->getVarULong();
-	this->entityID = this->getVarULong();
+	++position; // Skip Packet ID;
+	target = getVarULong();
+	entityID = getVarULong();
 }
 
 void TakeItemEntity::encode() {
-	this->putByte((uint8)MinecraftPackets::TakeItemEntity);
-	this->putVarULong(this->target);
-	this->putVarULong(this->entityID);
+	putByte(static_cast<uint8>(MinecraftPackets::TakeItemEntity));
+	putVarULong(target);
+	putVarULong(entityID);
 }

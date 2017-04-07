@@ -3,10 +3,10 @@
 #include "MinecraftPackets.h"
 
 SetGameMode::SetGameMode() : DataPacket(8) {
-	this->gamemode = 0;
+	gamemode = 0;
 }
 
 void SetGameMode::encode() {
-	this->putByte((uint8)MinecraftPackets::SetGameMode);
-	this->putVarUInt(this->gamemode);
+	putByte(static_cast<uint8>(MinecraftPackets::SetGameMode));
+	putVarUInt(gamemode);
 }

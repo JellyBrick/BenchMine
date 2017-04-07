@@ -3,14 +3,14 @@
 #include "MinecraftPackets.h"
 
 SetEntityLink::SetEntityLink() : DataPacket(16) {
-	this->from = 0;
-	this->to = 0;
-	this->type = 0x00;
+	from = 0;
+	to = 0;
+	type = 0x00;
 }
 
 void SetEntityLink::encode() {
-	this->putByte((uint8)MinecraftPackets::SetEntityLink);
-	this->putVarULong(this->from);
-	this->putVarULong(this->to);
-	this->putByte(this->type);
+	putByte(static_cast<uint8>(MinecraftPackets::SetEntityLink));
+	putVarULong(from);
+	putVarULong(to);
+	putByte(type);
 }

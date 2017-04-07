@@ -3,10 +3,10 @@
 #include "MinecraftPackets.h"
 
 SetDifficulty::SetDifficulty() : DataPacket(8) {
-	this->difficulty = 0;
+	difficulty = 0;
 }
 
 void SetDifficulty::encode() {
-	this->putByte((uint8)MinecraftPackets::SetDifficulty);
-	this->putVarUInt(this->difficulty);
+	putByte(static_cast<uint8>(MinecraftPackets::SetDifficulty));
+	putVarUInt(difficulty);
 }

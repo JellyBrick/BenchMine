@@ -3,7 +3,7 @@
 uint64 Entity::entityIDs = 0;
 
 Entity::Entity() {
-	this->id = ++Entity::entityIDs;
-	this->yaw = 0;
-	this->pitch = 0;
+	id = ++Entity::entityIDs;
+	yaw = 0;
+	pitch = 0;
 }

@@ -19,7 +19,7 @@ public:
 	virtual void onRun() = 0;
 	virtual void onComplete() = 0;
 
-	inline unsigned int getID() const { return this->id; }
-	inline int getDelay() const { return this-> delay; }
-	inline unsigned int getReapeatTme() const { return this->repeatTime; };
+	inline unsigned int getID() const { return id; }
+	inline int getDelay() const { return  delay; }
+	inline unsigned int getReapeatTme() const { return repeatTime; };
 };

@@ -3,12 +3,12 @@
 #include "MinecraftPackets.h"
 
 SetTime::SetTime(int32 time, bool started) : DataPacket(6) {
-	this->levelTime = time;
-	this->haveStarted = started;
+	levelTime = time;
+	haveStarted = started;
 }
 
 void SetTime::encode() {
-	this->putByte((uint8)MinecraftPackets::SetTime);
-	this->putVarUInt((int32)this->levelTime);
-	this->putBool(this->haveStarted);
+	putByte(static_cast<uint8>(MinecraftPackets::SetTime));
+	putVarUInt(static_cast<int32>(levelTime));
+	putBool(haveStarted);
 }

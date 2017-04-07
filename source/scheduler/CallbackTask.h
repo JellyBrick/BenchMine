@@ -7,7 +7,7 @@
 class CallbackTask final : public Task
 {
 private:
-	std::function<void()> _callback;
+	std::function<void()> callback;
 
 public:
 	CallbackTask(std::function<void()> callback, int delay);

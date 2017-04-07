@@ -6,8 +6,7 @@ Disconnect::Disconnect(const std::string& message) : RakLib::DataPacket(4 + mess
 	messageHided(message.empty()), message(message) {}
 
 void Disconnect::encode() {
-	this->putByte((uint8)MinecraftPackets::Disconnect);
-	this->putBool(messageHided);
-	this->putVarString(message);
+	putByte(static_cast<uint8>(MinecraftPackets::Disconnect));
+	putBool(messageHided);
+	putVarString(message);
 }
-

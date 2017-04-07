@@ -6,6 +6,6 @@
 AddItem::AddItem() : DataPacket(128) {}
 
 void AddItem::encode() {
-	this->putByte((uint8)MinecraftPackets::AddItem);
+	putByte(static_cast<uint8>(MinecraftPackets::AddItem));
 	// TODO: Do when an proper inventory system is implemented
 }

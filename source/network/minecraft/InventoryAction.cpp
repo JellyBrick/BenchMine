@@ -3,11 +3,11 @@
 #include "MinecraftPackets.h"
 
 InventoryAction::InventoryAction() : DataPacket(32) {
-	this->unknown = 0;
+	unknown = 0;
 }
 
 void InventoryAction::encode() {
-	this->putByte((uint8)MinecraftPackets::InventoryAction);
-	this->putVarUInt(unknown);
+	putByte(static_cast<uint8>(MinecraftPackets::InventoryAction));
+	putVarUInt(unknown);
 	// ItemStack::serialize
 }

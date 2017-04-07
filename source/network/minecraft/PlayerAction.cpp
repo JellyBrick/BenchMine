@@ -3,23 +3,23 @@
 #include "MinecraftPackets.h"
 
 PlayerAction::PlayerAction() : DataPacket(64) {
-	this->entityID = 0;
-	this->action = Action::START_BREAK;
-	this->face = face;
+	entityID = 0;
+	action = Action::START_BREAK;
+	face = face;
 }
 
 void PlayerAction::decode() {
-	++this->position; // Skip Packet ID
-	this->entityID = this->getVarULong();
-	this->action = (Action)this->getVarUInt();
-	this->entityPosition = Vector3f::deserialize(*this);
-	this->face = this->getVarUInt();
+	++position; // Skip Packet ID
+	entityID = getVarULong();
+	action = (Action)getVarUInt();
+	entityPosition = Vector3f::deserialize(*this);
+	face = getVarUInt();
 }
 
 void PlayerAction::encode() {
-	this->putByte((uint8)MinecraftPackets::PlayerAction);
-	this->putVarULong(this->entityID);
-	this->putVarUInt(action);
-	Vector3f::serialize(this->entityPosition, *this);
-	this->putVarUInt(this->face);
+	putByte(static_cast<uint8>(MinecraftPackets::PlayerAction));
+	putVarULong(entityID);
+	putVarUInt(action);
+	Vector3f::serialize(entityPosition, *this);
+	putVarUInt(face);
 }

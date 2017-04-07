@@ -77,4 +77,3 @@ uint32 Compression::decompress(uint8* input, uint32 inputSize, uint8* output, ui
 
 	return stream.total_out;
 }
-

@@ -2,118 +2,110 @@
 
 #include "Vector2i.h"
 
-Vector2f::Vector2f() {
-	this->x = 0;
-	this->y = 0;
-}
+Vector2f::Vector2f() : x(0), y(0) {}
 
-Vector2f::Vector2f(float x, float y) {
-	this->x = x;
-	this->y = y;
-}
+Vector2f::Vector2f(float x, float y) : x(x), y(y) {}
 
-Vector2f::Vector2f(float scalar) {
-	this->x = this->y = scalar;
-}
+Vector2f::Vector2f(float scalar) : x(scalar), y(scalar){}
 
 Vector2f& Vector2f::add(float value) {
-	this->x += value;
-	this->y += value;
+	x += value;
+	y += value;
 	return *this;
 }
 
 Vector2f& Vector2f::add(const Vector2f& other) {
-	this->x += other.x;
-	this->y += other.y;
+	x += other.x;
+	y += other.y;
 	return *this;
 }
 
 Vector2f& Vector2f::substract(float value) {
-	this->x -= value;
-	this->y -= value;
+	x -= value;
+	y -= value;
 	return *this;
 }
 
 Vector2f& Vector2f::substract(const Vector2f& other) {
-	this->x -= other.x;
-	this->y -= other.y;
+	x -= other.x;
+	y -= other.y;
 	return *this;
 }
 
 Vector2f& Vector2f::multiply(float value) {
-	this->x *= value;
-	this->y *= value;
+	x *= value;
+	y *= value;
 	return *this;
 }
 
 Vector2f& Vector2f::multiply(const Vector2f& other) {
-	this->x *= other.x;
-	this->y *= other.y;
+	x *= other.x;
+	y *= other.y;
 	return *this;
 }
 
 Vector2f& Vector2f::divide(float value) {
-	this->x /= value;
-	this->y /= value;
+	x /= value;
+	y /= value;
 	return *this;
 }
 
 Vector2f& Vector2f::divide(const Vector2f& other) {
-	this->x /= other.x;
-	this->y /= other.y;
+	x /= other.x;
+	y /= other.y;
 	return *this;
 }
 
 Vector2f Vector2f::operator+(float value) {
-	return this->add(value);
+	return add(value);
 }
 
 Vector2f Vector2f::operator+(const Vector2f& other) {
-	return this->add(other);
+	return add(other);
 }
 
 Vector2f Vector2f::operator-(float value) {
-	return this->substract(value);
+	return substract(value);
 }
 
 Vector2f Vector2f::operator-(const Vector2f& other) {
-	return this->substract(other);
+	return substract(other);
 }
 
 Vector2f Vector2f::operator*(float value) {
-	return this->multiply(value);
+	return multiply(value);
 }
 
 Vector2f Vector2f::operator*(const Vector2f& other) {
-	return this->multiply(other);
+	return multiply(other);
 }
 
 Vector2f Vector2f::operator/(float value) {
-	return this->divide(value);
+	return divide(value);
 }
 
 Vector2f Vector2f::operator/(const Vector2f& other) {
-	return this->divide(other);
+	return divide(other);
 }
 
 Vector2f& Vector2f::operator+=(const Vector2f& other) {
-	return this->add(other);
+	return add(other);
 }
 
 Vector2f& Vector2f::operator-=(const Vector2f& other) {
-	return this->substract(other);
+	return substract(other);
 }
 
 Vector2f& Vector2f::operator*=(const Vector2f& other) {
-	return this->multiply(other);
+	return multiply(other);
 }
 
 Vector2f& Vector2f::operator/=(const Vector2f& other) {
-	return this->divide(other);
+	return divide(other);
 }
 
 bool Vector2f::operator==(const Vector2f& other) const {
-	return this->x == other.x &&  this->y == other.y;
+	return x == other.x &&  y == other.y;
 }
 
 bool Vector2f::operator!=(const Vector2f& other) const {
@@ -126,7 +118,7 @@ std::ostream& operator<<(std::ostream& stream, const Vector2f& vec) {
 }
 
 Vector2f Vector2f::fromVector2i(const Vector2i& other) {
-	return { (float)other.x, (float)other.y };
+	return { static_cast<float>(other.x), static_cast<float>(other.y ) };
 }
 
 void Vector2f::serialize(const Vector2f& vector, RakLib::ByteBuffer& byteBuffer) {
@@ -137,4 +129,3 @@ void Vector2f::serialize(const Vector2f& vector, RakLib::ByteBuffer& byteBuffer)
 Vector2f Vector2f::deserialize(RakLib::ByteBuffer& byteBuffer) {
 	return { byteBuffer.getFloat(), byteBuffer.getFloat() };
 }
-

@@ -2,14 +2,14 @@
 
 // TODO: Implement properly when an propert Inventory system is implemented
 CraftingEvent::CraftingEvent() : DataPacket(512) {
-	this->windowID = 0;
-	this->type = 0;
+	windowID = 0;
+	type = 0;
 }
 
 void CraftingEvent::decode() {
-	++this->position; // Skip Packet ID
-	this->windowID = this->getByte();
-	this->type = this->getVarUInt();
+	++position; // Skip Packet ID
+	windowID = getByte();
+	type = getVarUInt();
 	// UUID::deserialize
 	// Input - ItemStack::deserialize
 	// Output - ItemStack::deserialize

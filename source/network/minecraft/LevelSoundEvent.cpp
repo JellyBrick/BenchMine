@@ -3,29 +3,29 @@
 #include "MinecraftPackets.h"
 
 LevelSoundEvent::LevelSoundEvent() : DataPacket(32) {
-	this->eventID = Event::UNDEFINED;
-	this->extraData = 0;
-	this->pitch = 0;
-	this->unknown1 = false;
-	this->unknown2 = false;
+	eventID = Event::UNDEFINED;
+	extraData = 0;
+	pitch = 0;
+	unknown1 = false;
+	unknown2 = false;
 }
 
 void LevelSoundEvent::decode() {
-	++this->position; // Skip Packet ID
-	this->eventID = (Event)this->getByte();
-	this->eventPosition = Vector3f::deserialize(*this);
-	this->extraData = this->getVarUInt();
-	this->pitch = this->getVarUInt();
-	this->unknown1 = this->getBool();
-	this->unknown2 = this->getBool();
+	++position; // Skip Packet ID
+	eventID = (Event)getByte();
+	eventPosition = Vector3f::deserialize(*this);
+	extraData = getVarUInt();
+	pitch = getVarUInt();
+	unknown1 = getBool();
+	unknown2 = getBool();
 }
 
 void LevelSoundEvent::encode() {
-	this->putByte((uint8)MinecraftPackets::LevelSoundEvent);
-	this->putByte((uint8)this->eventID);
-	Vector3f::serialize(this->eventPosition, *this);
-	this->putVarUInt(this->extraData);
-	this->putVarUInt(this->pitch);
-	this->putBool(this->unknown1);
-	this->putBool(this->unknown2);
+	putByte(static_cast<uint8>(MinecraftPackets::LevelSoundEvent));
+	putByte(static_cast<uint8>(eventID));
+	Vector3f::serialize(eventPosition, *this);
+	putVarUInt(extraData);
+	putVarUInt(pitch);
+	putBool(unknown1);
+	putBool(unknown2);
 }

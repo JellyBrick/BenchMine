@@ -3,17 +3,17 @@
 #include "MinecraftPackets.h"
 
 MobArmorEquipment::MobArmorEquipment() : DataPacket(64) {
-	this->entityID = 0;
+	entityID = 0;
 }
 
 void MobArmorEquipment::decode() {
-	++this->position; // Skip Packet ID
-	this->entityID = this->getVarULong();
+	++position; // Skip Packet ID
+	entityID = getVarULong();
 	// ItemStack deserialize
 }
 
 void MobArmorEquipment::encode() {
-	this->putByte((uint8)MinecraftPackets::MobArmorEquipment);
-	this->putVarULong(this->entityID);
+	putByte(static_cast<uint8>(MinecraftPackets::MobArmorEquipment));
+	putVarULong(entityID);
 	// ItemStack serialize
 }

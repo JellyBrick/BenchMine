@@ -8,8 +8,8 @@ BlockEvent::BlockEvent() : DataPacket(32) {
 }
 
 void BlockEvent::encode() {
-	this->putByte((uint8)MinecraftPackets::BlockEvent);
-	Vector3i::serialize(this->blockPosition, *this);
-	this->putVarUInt(this->case1);
-	this->putVarUInt(this->case2);
+	putByte(static_cast<uint8>(MinecraftPackets::BlockEvent));
+	Vector3i::serialize(blockPosition, *this);
+	putVarUInt(case1);
+	putVarUInt(case2);
 }

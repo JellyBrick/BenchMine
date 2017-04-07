@@ -3,23 +3,23 @@
 #include "MinecraftPackets.h"
 
 AddPlayer::AddPlayer() : DataPacket(64) {
-	this->entityID = 0;
-	this->pitch = 0.0f;
-	this->headYaw = 0.0f;
-	this->yaw = 0.0f;
+	entityID = 0;
+	pitch = 0.0f;
+	headYaw = 0.0f;
+	yaw = 0.0f;
 }
 
 void AddPlayer::encode() {
-	this->putByte((uint8)MinecraftPackets::AddPlayer);
-	this->putByte((uint8*)this->UUID.c_str(), 16); // TODO: Do an proper UUID class
-	this->putVarString(this->username);
-	this->putVarULong(this->entityID);
-	this->putVarULong(this->entityID); // RuntimeEntityID
-	Vector3f::serialize(this->entityPosition, *this);
-	Vector3f::serialize(this->entityMotion, *this);
-	this->putFloat(this->pitch);
-	this->putFloat(this->headYaw);
-	this->putFloat(this->yaw);
+	putByte(static_cast<uint8>(MinecraftPackets::AddPlayer));
+	putByte(reinterpret_cast<uint8*>(&UUID[0]), 16); // TODO: Do an proper UUID class
+	putVarString(username);
+	putVarULong(entityID);
+	putVarULong(entityID); // RuntimeEntityID
+	Vector3f::serialize(entityPosition, *this);
+	Vector3f::serialize(entityMotion, *this);
+	putFloat(pitch);
+	putFloat(headYaw);
+	putFloat(yaw);
 	// ItemStack::serialize
 	// EntityMetadata::serialize
 }

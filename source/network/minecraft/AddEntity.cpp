@@ -4,22 +4,22 @@
 
 // TODO: Remove placeholder size
 AddEntity::AddEntity() : DataPacket(64) {
-	this->entityID = 0;
-	this->entityType = 0;
-	this->pitch = 0;
-	this->yaw = 0;
+	entityID = 0;
+	entityType = 0;
+	pitch = 0;
+	yaw = 0;
 }
 
 void AddEntity::encode() {
-	this->putByte((uint8)MinecraftPackets::AddEntity);
-	this->putVarULong(this->entityID);
-	this->putVarULong(this->entityID); // RuntimeEntityID
-	this->putVarUInt(this->entityType);
-	Vector3f::serialize(this->entityPosition, *this);
-	Vector3f::serialize(this->entityMotion, *this);
-	this->putFloat(this->pitch);
-	this->putFloat(this->yaw);
-	this->putVarUInt(0); // EntityAttributes count
-	this->putVarUInt(0); // EntityMetadata count
-	this->putVarUInt(0); // EntityLink count
+	putByte(static_cast<uint8>(MinecraftPackets::AddEntity));
+	putVarULong(entityID);
+	putVarULong(entityID); // RuntimeEntityID
+	putVarUInt(entityType);
+	Vector3f::serialize(entityPosition, *this);
+	Vector3f::serialize(entityMotion, *this);
+	putFloat(pitch);
+	putFloat(yaw);
+	putVarUInt(0); // EntityAttributes count
+	putVarUInt(0); // EntityMetadata count
+	putVarUInt(0); // EntityLink count
 }

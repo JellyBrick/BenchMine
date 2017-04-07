@@ -7,6 +7,6 @@ HurtArmor::HurtArmor() : DataPacket(8) {
 }
 
 void HurtArmor::encode() {
-	this->putByte((uint8)MinecraftPackets::HurtArmor);
-	this->putVarUInt(this->health);
+	putByte(static_cast<uint8>(MinecraftPackets::HurtArmor));
+	putVarUInt(health);
 }

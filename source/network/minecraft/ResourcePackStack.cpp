@@ -3,23 +3,23 @@
 #include "MinecraftPackets.h"
 
 ResourcePackStack::ResourcePackStack() : DataPacket(128) {
-	this->packsRequired = false;
+	packsRequired = false;
 }
 
 void ResourcePackStack::encode() {
-	this->putByte((uint8)MinecraftPackets::ResourcePackStack);
-	this->putBool(this->packsRequired);
-	this->putEntries(this->behaviorPackEntries);
-	this->putEntries(this->resourcePackEntries);
+	putByte(static_cast<uint8>(MinecraftPackets::ResourcePackStack));
+	putBool(packsRequired);
+	putEntries(behaviorPackEntries);
+	putEntries(resourcePackEntries);
 }
 
 void ResourcePackStack::putEntries(const std::vector<PackEntry>& entries) {
-	this->setEndianness(this->BIG_ENDIAN);
-	this->putUShort((uint16)entries.size());
-	this->setEndianness(LITTLE_ENDIAN);
+	setEndianness(BIG_ENDIAN);
+	putUShort(static_cast<uint16>(entries.size()));
+	setEndianness(LITTLE_ENDIAN);
 
 	for (const auto& entry : entries) {
-		this->putVarString(entry.packID);
-		this->putVarString(entry.packVersion);
+		putVarString(entry.packID);
+		putVarString(entry.packVersion);
 	}
 }

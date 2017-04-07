@@ -32,7 +32,7 @@ public:
 
 	void postLogin();
 
-	const std::string& getUsername() const { return this->username; }
-	std::string getLUsername() const { return this->lowerUserName; }
+	const std::string& getUsername() const { return username; }
+	std::string getLUsername() const { return lowerUserName; }
 
 };

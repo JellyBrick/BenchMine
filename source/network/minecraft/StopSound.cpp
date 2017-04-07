@@ -3,17 +3,17 @@
 #include "MinecraftPackets.h"
 
 StopSound::StopSound() : DataPacket(64) {
-	this->stopAll = false;
+	stopAll = false;
 }
 
 void StopSound::decode() {
-	++this->position; // Skip Packet ID
-	this->songID = this->getVarString();
-	this->stopAll = this->getBool();
+	++position; // Skip Packet ID
+	songID = getVarString();
+	stopAll = getBool();
 }
 
 void StopSound::encode() {
-	this->putByte((uint8)MinecraftPackets::StopSound);
-	this->putVarString(this->songID);
-	this->putBool(this->stopAll);
+	putByte(static_cast<uint8>(MinecraftPackets::StopSound));
+	putVarString(songID);
+	putBool(stopAll);
 }

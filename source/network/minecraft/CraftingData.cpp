@@ -6,10 +6,9 @@
 CraftingData::CraftingData() : DataPacket(512) {}
 
 void CraftingData::decode() {
-	++this->position; // Skip Packet ID
+	++position; // Skip Packet ID
 }
 
 void CraftingData::encode() {
-	this->putByte((uint8)MinecraftPackets::CraftingData);
+	putByte(static_cast<uint8>(MinecraftPackets::CraftingData));
 }
-

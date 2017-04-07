@@ -17,10 +17,9 @@ protected:
 public:
 	Entity();
 
-	const Vector3f& getPosition() const { return this->position; }
-	const Vector3f& getLastPosition() const { return this->lastPosition; }
+	const Vector3f& getPosition() const { return position; }
+	const Vector3f& getLastPosition() const { return lastPosition; }
 
-	float getYaw() const { return this->yaw; }
-	float getPitch() const { return this->pitch; }
-
+	float getYaw() const { return yaw; }
+	float getPitch() const { return pitch; }
 };

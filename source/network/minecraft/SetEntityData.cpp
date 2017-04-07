@@ -3,11 +3,11 @@
 #include "MinecraftPackets.h"
 
 SetEntityData::SetEntityData() : DataPacket(32) {
-	this->entityID = 0;
+	entityID = 0;
 }
 
 void SetEntityData::encode() {
-	this->putByte((uint8)MinecraftPackets::SetEntityData);
-	this->putVarULong(this->entityID);
+	putByte(static_cast<uint8>(MinecraftPackets::SetEntityData));
+	putVarULong(entityID);
 	// EntityMetadata::serialize
 }
