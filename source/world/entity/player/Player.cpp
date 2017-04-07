@@ -27,6 +27,7 @@
 Player::Player(Server* server, const std::string& ip, uint16 port, int64 clientID, int16 mtuSize) : RakLib::Session(std::move(ip), port, clientID, mtuSize) {
 	this->server = server;
 	this->username = this->lowerUserName = "Steve";
+	this->spawnPosition = Vector3f(0.0f, 8.0f, 0.0f);
 
 	this->server->getScheduler()->addTask(new CallbackTask(std::function<void()>(std::bind(&Player::update, this)), 10, -1));
 }
@@ -183,7 +184,7 @@ void Player::handleGamePacket(std::unique_ptr<RakLib::Packet> packet) {
 		delete[] chunkData;
 
 		auto respawn = std::make_unique<Respawn>();
-		respawn->spawnPosition = { 0.0f, 4.0f, 0.0f };
+		respawn->spawnPosition = this->spawnPosition;
 		respawn->encode();
 		this->addDataPacket(std::move(respawn), QueuePriority::IMMEDIATE);
 
@@ -214,7 +215,7 @@ void Player::sendPacket(RakLib::Packet& packet) {
 }
 
 void Player::postLogin() {
-	auto startGame = std::make_unique<StartGame>(this->id, Vector3f(0.0f, 4.0f, 0.0f), "");
+	auto startGame = std::make_unique<StartGame>(this->id, this->spawnPosition, "");
 	startGame->encode();
 	this->addDataPacket(std::move(startGame), QueuePriority::IMMEDIATE);
 
