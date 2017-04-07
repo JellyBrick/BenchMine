@@ -27,6 +27,68 @@ Level::Level(int32 chunkViewDistance) {
 	}
 }
 
+void Level::update() {
+	for (size_t i = 0; i < entities.size(); ++i) {
+		const auto& entity = entities[i];
+		if (entity && entity->isRemoved()) {
+			entity->onRemove();
+			entities.erase(entities.begin() + i);
+		}
+	}
+	
+	for (const auto& entity : entities) {
+		if (entity) {
+			entity->update();
+		}
+	}
+
+	// TODO: Update Chunk
+}
+
+void Level::addEntity(std::unique_ptr<Entity>&& entity) {
+	entities.push_back(std::move(entity));
+}
+
+Entity* Level::getEntity(uint64 entityID) {
+	for (const auto& entity : entities) {
+		if (entity && entity->getID() == entityID) {
+			return entity.get();
+		}
+	}
+
+	return nullptr;
+}
+
+Entity* Level::getEntity(Vector3f entityPosition) {
+	for (const auto& entity : entities) {
+		if (entity && entity->getPosition() == entityPosition) {
+			return entity.get();
+		}
+	}
+
+	return nullptr;
+}
+
+void Level::removeEntity(uint64 entityID) {
+	for (size_t i = 0; i < entities.size(); ++i) {
+		const auto& entity = entities[i];
+		if (entity && entity->getID() == entityID) {
+			entity->onRemove();
+			entities.erase(entities.begin() + i);
+		}
+	}
+}
+
+void Level::removeEntity(Vector3f entityPosition) {
+	for (size_t i = 0; i < entities.size(); ++i) {
+		const auto& entity = entities[i];
+		if (entity && entity->getPosition() == entityPosition) {
+			entity->onRemove();
+			entities.erase(entities.begin() + i);
+		}
+	}
+}
+
 Chunk* Level::getChunk(int32 x, int32 z) {
 	return chunks[std::make_pair(x, z)].get();
 }

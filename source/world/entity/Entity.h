@@ -11,8 +11,11 @@ public:
 protected:
 	uint64 id;
 	
+	bool removed;
+	
 	Vector3f position, lastPosition;
-	float yaw, pitch;
+	float yaw, bodyYaw, pitch;
+
 
 public:
 	Entity();
@@ -20,9 +23,15 @@ public:
 	virtual void update();
 	virtual void onRemove();
 
-	const Vector3f& getPosition() const { return position; }
-	const Vector3f& getLastPosition() const { return lastPosition; }
+	uint64 getID() const;
 
-	float getYaw() const { return yaw; }
-	float getPitch() const { return pitch; }
+	void setRemoved(bool newValue = true);
+	bool isRemoved() const;
+
+	const Vector3f& getPosition() const;
+	const Vector3f& getLastPosition() const;
+
+	float getYaw() const;
+	float getBodyYaw() const;
+	float getPitch() const;
 };

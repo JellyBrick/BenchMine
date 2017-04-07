@@ -57,6 +57,8 @@ void NetworkSession::handleDataPacket(std::unique_ptr<RakLib::Packet> packet) {
 		connectionAccepted->encode();
 
 		addToQueue(std::move(connectionAccepted), QueuePriority::IMMEDIATE);
+
+		addPlayerToLevel();
 	}
 	break;
 
@@ -214,6 +216,10 @@ void NetworkSession::postLogin() {
 	auto settings = std::make_unique<AdventureSettings>(AdventureSettings::PERMISSIONS::NORMAL, 0x0000012E);
 	settings->encode();
 	addDataPacket(std::move(settings), QueuePriority::IMMEDIATE);
+}
 
-	// TODO: Add Player's Entity to Level
+void NetworkSession::addPlayerToLevel() {
+	auto playerEntity = std::make_unique<Player>(server, ip, port);
+	player = playerEntity.get();
+	server->getLevel()->addEntity(std::move(playerEntity));
 }

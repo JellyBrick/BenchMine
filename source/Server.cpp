@@ -35,6 +35,8 @@ void Server::stop() {
 		it.second->disconnect("Server Closing!");
 	}
 
+	playerSessions.clear();
+
 	scheduler->stop();
 	raklib->stop();
 

@@ -27,4 +27,6 @@ public:
 	void disconnect(const std::string& reason);
 
 	void postLogin();
+
+	void addPlayerToLevel();
 };

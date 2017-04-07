@@ -10,13 +10,17 @@ class Player : public Entity {
 
 private:
 	Server* server;
+	
+	std::string ip;
+	uint16 port;
+
 	int CID;
 	std::string username;
 	std::string lowerUserName;
 	Vector3f spawnPosition;
 
 public:
-	Player(Server* server);
+	Player(Server* server, const std::string& sessionIP, uint16 sessionPort);
 
 	void onRemove() override;
 
