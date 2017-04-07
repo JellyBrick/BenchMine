@@ -3,7 +3,7 @@
 #include "RaknetPackets.h"
 #include "common/Utils.h"
 
-ConnectionAccepted::ConnectionAccepted(const std::string& clientIP, uint16 clientPort, int64 sendPing, int64 sendPong) : DataPacket(96), sendPing(0), sendPong(0) {
+ConnectionAccepted::ConnectionAccepted(const std::string& clientIP, uint16 clientPort, int64 sendPing, int64 sendPong) : DataPacket(96), sendPing(sendPing), sendPong(sendPong) {
 	ip = clientIP;
 	port = clientPort;
 }
