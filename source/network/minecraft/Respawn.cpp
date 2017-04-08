@@ -3,7 +3,7 @@
 #include "MinecraftPackets.h"
 
 Respawn::Respawn() : DataPacket(16) {
-	setEndianness(LITTLE_ENDIAN);
+	setEndianness(Endianness::LITTLE);
 }
 
 void Respawn::decode() {

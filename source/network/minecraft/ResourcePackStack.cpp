@@ -4,6 +4,7 @@
 
 ResourcePackStack::ResourcePackStack() : DataPacket(128) {
 	packsRequired = false;
+	setEndianness(Endianness::LITTLE);
 }
 
 void ResourcePackStack::encode() {
@@ -14,10 +15,7 @@ void ResourcePackStack::encode() {
 }
 
 void ResourcePackStack::putEntries(const std::vector<PackEntry>& entries) {
-	setEndianness(BIG_ENDIAN);
 	putUShort(static_cast<uint16>(entries.size()));
-	setEndianness(LITTLE_ENDIAN);
-
 	for (const auto& entry : entries) {
 		putVarString(entry.packID);
 		putVarString(entry.packVersion);

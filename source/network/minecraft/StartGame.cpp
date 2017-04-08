@@ -3,7 +3,7 @@
 #include "MinecraftPackets.h"
 
 StartGame::StartGame(uint64 EID, const Vector3f& spawnPoint, const std::string& world) : DataPacket(89 + world.length()) {
-	setEndianness(BIG_ENDIAN);
+	setEndianness(Endianness::LITTLE);
 	entityId = runtimeEntityId = EID;
 	spawn = spawnPoint;
 	seed = 123456789;
