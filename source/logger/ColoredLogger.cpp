@@ -116,6 +116,7 @@ void ColoredLogger::log(LogLevel level, const char* string) {
 	//Reset Color
 	SetConsoleTextAttribute(console, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 #else
+	//TODO: Do colors
 	switch (level) {
 	case LogLevel::Info:
 		printf("[%02d:%02d:%02d][INFO]: %s\n", time.tm_hour, time.tm_min, time.tm_sec, string);
