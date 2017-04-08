@@ -1,7 +1,6 @@
 #include "NetworkSession.h"
 
 #include "Player.h"
-#include "scheduler/CallbackTask.h"
 #include "Server.h"
 #include "network/minecraft/AdventureSettings.h"
 #include "network/minecraft/Batch.h"
@@ -24,10 +23,7 @@
 #include "network/raknet/RaknetPackets.h"
 
 NetworkSession::NetworkSession(Server* server, const std::string& ip, uint16 port, int64 clientID, uint16 mtuSize) 
-	: Session(ip, port, clientID, mtuSize), server(server), player(player) {
-
-	server->getScheduler()->addTask(new CallbackTask(std::function<void()>(std::bind(&NetworkSession::update, this)), 5, -1));
-}
+	: Session(ip, port, clientID, mtuSize), server(server), player(player) {}
 
 void NetworkSession::update() {
 	Session::update();

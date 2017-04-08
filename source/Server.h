@@ -27,6 +27,8 @@ private:
 	std::string title;
 	std::map<std::string, std::unique_ptr<NetworkSession>> playerSessions;
 
+	uint32 networkTick;
+
 public:
 	Server();
 	virtual ~Server();
@@ -38,6 +40,10 @@ public:
 	void removeSession(const std::string& sessionIP, uint16 sessionPort) override;
 	RakLib::Session* getSession(const std::string& sessionIP, uint16 sessionPort) override;
 
+	void sendPacket(const RakLib::Packet& packet) const { raklib->sendPacket(packet); }
+
+	void update();
+
 	int64 getIdentifier() override;
 	bool useSecurity() override;
 	std::string getType() override;
@@ -46,8 +52,6 @@ public:
 	std::string getGameVersion() override;
 	uint32 getActivePlayers() override;
 	uint32 getMaxPlayer() override;
-
-	void sendPacket(const RakLib::Packet& packet) const { raklib->sendPacket(packet); }
 
 	ColoredLogger* getLogger() const { return logger.get(); }
 	TaskHandler* getScheduler() const { return scheduler.get(); }

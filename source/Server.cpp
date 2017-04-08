@@ -2,6 +2,7 @@
 
 #include "common/Utils.h"
 #include "network/minecraft/MinecraftPackets.h"
+#include "scheduler/CallbackTask.h"
 #include "world/entity/player/NetworkSession.h"
 
 Server::Server() {
@@ -17,6 +18,7 @@ Server::Server() {
 
 	Utils::setConsoleTitle("BenchMine Server Software");
 	logger->info("BenchMine Server Software under LGPL v3");
+	scheduler->addTask(new CallbackTask(std::function<void()>(std::bind(&Server::update, this)), 1, -1));
 }
 
 void Server::start() {
@@ -65,6 +67,17 @@ RakLib::Session* Server::getSession(const std::string& sessionIP, uint16 session
 
 std::string Server::getSessionID(const std::string& sessionIP, uint16 sessionPort) {
 	return sessionIP + (":" + sessionPort);
+}
+
+void Server::update() {
+	networkTick = networkTick++ % 5;
+	if (networkTick == 5) {
+		for (const auto& session : playerSessions) {
+			session.second->update();
+		}
+	}
+
+	level->update();
 }
 
 int64 Server::getIdentifier() {
