@@ -2,8 +2,8 @@
 
 #include <memory>
 
-#include <network/Packet.h>
-#include <packets/DataPacket.h>
+#include <RakLib/network/Packet.h>
+#include <RakLib/protocol/DataPacket.h>
 
 class RequestChunkData : public RakLib::DataPacket {
 public:

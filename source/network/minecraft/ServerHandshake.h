@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include <packets/DataPacket.h>
+#include <RakLib/protocol/DataPacket.h>
 
 class ServerHandshake : public RakLib::DataPacket {
 public:

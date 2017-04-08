@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include <packets/DataPacket.h>
+#include <RakLib/protocol/DataPacket.h>
 
 class Text : public RakLib::DataPacket {
 public:

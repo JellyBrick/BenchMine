@@ -2,7 +2,7 @@
 
 #include <ostream>
 
-#include <network/ByteBuffer.h>
+#include <RakLib/network/ByteBuffer.h>
 
 class Vector3i;
 class Vector3f {

@@ -3,8 +3,8 @@
 #include <memory>
 #include <vector>
 
-#include <packets/DataPacket.h>
-#include <network/Packet.h>
+#include <RakLib/protocol/DataPacket.h>
+#include <RakLib/network/Packet.h>
 
 class Batch : public RakLib::DataPacket {
 public:

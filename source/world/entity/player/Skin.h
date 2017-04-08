@@ -3,8 +3,8 @@
 #include <memory>
 #include <string>
 
-#include <Common.h>
-#include <network/ByteBuffer.h>
+#include <RakLib/Common.h>
+#include <RakLib/network/ByteBuffer.h>
 
 class Skin final {
 private:

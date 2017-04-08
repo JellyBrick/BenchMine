@@ -1,6 +1,6 @@
 #pragma once
 
-#include <packets/DataPacket.h>
+#include <RakLib/protocol/DataPacket.h>
 
 class SetGameMode : public RakLib::DataPacket {
 public:

@@ -116,6 +116,25 @@ void ColoredLogger::log(LogLevel level, const char* string) {
 	//Reset Color
 	SetConsoleTextAttribute(console, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 #else
-	//TODO
+	switch (level) {
+	case LogLevel::Info:
+		printf("[%02d:%02d:%02d][INFO]: %s\n", time.tm_hour, time.tm_min, time.tm_sec, string);
+		break;
+	case LogLevel::Debug:
+		printf("[%02d:%02d:%02d][DEBUG]: %s\n", time.tm_hour, time.tm_min, time.tm_sec, string);
+		break;
+	case LogLevel::Notice:
+		printf("[%02d:%02d:%02d][NOTICE]: %s\n", time.tm_hour, time.tm_min, time.tm_sec, string);
+		break;
+	case LogLevel::Warning:
+		printf("[%02d:%02d:%02d][WARNING]: %s\n", time.tm_hour, time.tm_min, time.tm_sec, string);
+		break;
+	case LogLevel::Error:
+		printf("[%02d:%02d:%02d][ERROR]: %s\n", time.tm_hour, time.tm_min, time.tm_sec, string);
+		break;
+	case LogLevel::Fatal:
+		printf("[%02d:%02d:%02d][FATAL]: %s\n", time.tm_hour, time.tm_min, time.tm_sec, string);
+		break;
+	}
 #endif
 }

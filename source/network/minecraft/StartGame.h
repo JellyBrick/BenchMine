@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include <packets/DataPacket.h>
+#include <RakLib/protocol/DataPacket.h>
 
 #include "world/math/Vector2f.h"
 #include "world/math/Vector3f.h"

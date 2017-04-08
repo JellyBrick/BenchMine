@@ -1,6 +1,6 @@
 #include "PlayStatus.h"
 
-#include <network/Swap.h>
+#include <RakLib/network/Swap.h>
 
 #include "MinecraftPackets.h"
 

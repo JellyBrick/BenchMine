@@ -4,7 +4,7 @@
 
 #include <zlib.h>
 
-#include "network/ByteBuffer.h"
+#include <RakLib/network/ByteBuffer.h>
 
 class Compression {
 public:

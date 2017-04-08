@@ -1,6 +1,8 @@
 #pragma once
 
-#include <packets\DataPacket.h>
+#include <cstdlib>
+
+#include <RakLib/protocol/DataPacket.h>
 
 class ConnectionAccepted : public RakLib::DataPacket
 {

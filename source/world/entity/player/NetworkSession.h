@@ -1,7 +1,7 @@
 #pragma once
 
-#include <packets/DataPacket.h>
-#include <Session.h>
+#include <RakLib/protocol/DataPacket.h>
+#include <RakLib/Session.h>
 
 class Server;
 class Player;

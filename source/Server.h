@@ -3,8 +3,8 @@
 #include <map>
 #include <memory>
 
-#include <RakLib.h>
-#include <SessionManager.h>
+#include <RakLib/RakLib.h>
+#include <RakLib/SessionManager.h>
 
 #include "logger/ColoredLogger.h"
 #include "scheduler/TaskHandler.h"

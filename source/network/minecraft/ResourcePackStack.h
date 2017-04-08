@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include <packets/DataPacket.h>
+#include <RakLib/protocol/DataPacket.h>
 
 class ResourcePackStack : public RakLib::DataPacket {
 public:

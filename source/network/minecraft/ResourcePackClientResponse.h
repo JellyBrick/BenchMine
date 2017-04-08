@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-#include <packets/DataPacket.h>
+#include <RakLib/protocol/DataPacket.h>
 
 class ResourcePackClientResponse : public RakLib::DataPacket {
 public:

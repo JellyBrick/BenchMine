@@ -2,7 +2,7 @@
 
 #include <cassert>
 
-#include <network/ByteBuffer.h>
+#include <RakLib/network/ByteBuffer.h>
 
 #include "common/Compression.h"
 #include "MinecraftPackets.h"
