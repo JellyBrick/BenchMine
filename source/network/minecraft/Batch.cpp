@@ -7,6 +7,8 @@
 #include "common/Compression.h"
 #include "MinecraftPackets.h"
 
+const uint32 Batch::DEFAULT_BUFFER_SIZE = RakLib::Packet::DEFAULT_BUFFER_SIZE * 2;
+
 Batch::Batch(std::unique_ptr<Packet>&& packet) : RakLib::DataPacket(std::move(packet)) {}
 
 Batch::Batch() : RakLib::DataPacket(DEFAULT_BUFFER_SIZE) {}

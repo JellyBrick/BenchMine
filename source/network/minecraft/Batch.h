@@ -8,7 +8,7 @@
 
 class Batch : public RakLib::DataPacket {
 public:
-	static constexpr int32 DEFAULT_BUFFER_SIZE = RakLib::Packet::DEFAULT_BUFFER_SIZE * 2;
+	static const uint32 DEFAULT_BUFFER_SIZE;
 
 	std::vector<std::unique_ptr<RakLib::Packet>> packets;
 

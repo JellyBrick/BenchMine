@@ -13,7 +13,7 @@
 class NetworkSession;
 class Server final : public RakLib::SessionManager {
 private:
-	static constexpr unsigned int MINECRAFT_TICK_RATE = 20;
+	static const unsigned int MINECRAFT_TICK_RATE;
 
 	std::unique_ptr<RakLib::RakLib> raklib;
 	std::unique_ptr<ColoredLogger> logger;

@@ -2,8 +2,6 @@
 
 #include <network/ByteBuffer.h>
 
-#include "ChunkSection.h"
-
 Chunk::Chunk() {
 	// TODO: Proper Chunk Section population
 	sections[0] = std::make_unique<ChunkSection>();

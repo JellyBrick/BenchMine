@@ -5,6 +5,8 @@
 #include "scheduler/CallbackTask.h"
 #include "world/entity/player/NetworkSession.h"
 
+const unsigned int Server::MINECRAFT_TICK_RATE = 20;
+
 Server::Server() {
 	maxPlayers = 20;
 	ip = "0.0.0.0";
