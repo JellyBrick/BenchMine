@@ -227,8 +227,10 @@ set(SOURCES
 	source/world/math/Vector3f.cpp
 	source/world/math/Vector3i.cpp)
 
+find_package(Threads REQUIRED)
+
 include_directories(source)
 include_directories(RakLib/include)
 
 add_executable(BenchMine ${SOURCES} ${HEADERS})
-target_link_libraries(BenchMine RakLib z)
+target_link_libraries(BenchMine RakLib ${CMAKE_THREAD_LIBS_INIT})
