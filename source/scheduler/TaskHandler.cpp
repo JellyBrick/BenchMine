@@ -1,5 +1,6 @@
 #include "TaskHandler.h"
 
+#include <algorithm>
 #include <cassert>
 #include <chrono>
 

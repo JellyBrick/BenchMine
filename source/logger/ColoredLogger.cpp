@@ -1,5 +1,7 @@
 #include "ColoredLogger.h"
 
+#include <cstdarg>
+
 ColoredLogger::ColoredLogger() {
 #ifdef WIN32
 	console = GetStdHandle(STD_OUTPUT_HANDLE);
