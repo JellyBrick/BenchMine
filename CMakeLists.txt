@@ -233,4 +233,9 @@ include_directories(source)
 include_directories(RakLib/include)
 
 add_executable(BenchMine ${SOURCES} ${HEADERS})
-target_link_libraries(BenchMine RakLib ${CMAKE_THREAD_LIBS_INIT})
+
+if(${WIN32})
+	target_link_libraries(BenchMine RakLib zlib ${CMAKE_THREAD_LIBS_INIT})
+else()
+	target_link_libraries(BenchMine RakLib z ${CMAKE_THREAD_LIBS_INIT})
+endif()

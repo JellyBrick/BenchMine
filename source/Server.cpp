@@ -52,7 +52,7 @@ void Server::addSession(const std::string& sessionIP, uint16 sessionPort, int64 
 		return;
 	}
 
-	playerSessions[getSessionID(sessionIP, sessionPort)] = std::make_unique<NetworkSession>(this,sessionIP, sessionPort, clientID, mtu);
+	playerSessions[getSessionID(sessionIP, sessionPort)] = std::make_unique<NetworkSession>(this, sessionIP, sessionPort, clientID, mtu);
 }
 
 void Server::removeSession(const std::string& sessionIP, uint16 sessionPort) {
