@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_subdirectory(RakLib)
+add_subdirectory(inih)
 
 set(HEADERS
 	source/Server.h
@@ -231,11 +232,12 @@ find_package(Threads REQUIRED)
 
 include_directories(source)
 include_directories(RakLib/include)
+include_directories(inih/include)
 
 add_executable(BenchMine ${SOURCES} ${HEADERS})
 
 if(${WIN32})
-	target_link_libraries(BenchMine RakLib zlib ${CMAKE_THREAD_LIBS_INIT})
+	target_link_libraries(BenchMine RakLib inih zlib ${CMAKE_THREAD_LIBS_INIT})
 else()
-	target_link_libraries(BenchMine RakLib z ${CMAKE_THREAD_LIBS_INIT})
+	target_link_libraries(BenchMine RakLib inih z ${CMAKE_THREAD_LIBS_INIT})
 endif()

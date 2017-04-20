@@ -1,3 +1,6 @@
 [submodule "RakLib"]
 	path = RakLib
 	url = https://github.com/BenchMine/RakLib.git
+[submodule "inih"]
+	path = inih
+	url = https://github.com/JellyBrick/inih.git
