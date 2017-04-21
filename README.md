@@ -11,6 +11,7 @@ A Minecraft: Pocket Edition Server Software. The project is in it's early stage.
 
 ## Third-party Libraries Used
 * __[BenchMine's RakLib](https://github.com/BenchMine/RakLib)__: RakNet interface implementation library
+* __[inih(fork)](https://github.com/JellyBrick/inih)__: inih (INI Not Invented Here) is a simple .INI file parser written in C.
 * __[jsonxx](https://github.com/hjiang/jsonxx)__: JSON++ is a light-weight JSON parser, writer and reader written in C++
 * __[Zlib](http://www.zlib.net/)__: A Massively Spiffy Yet Delicately Unobtrusive Compression Library
 
