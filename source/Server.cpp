@@ -5,14 +5,33 @@
 #include "scheduler/CallbackTask.h"
 #include "world/entity/player/NetworkSession.h"
 
+#include <fstream>
+#include <iostream>
+
+#include <INIReader.h>
+
 const unsigned int Server::MINECRAFT_TICK_RATE = 20;
 
 Server::Server() {
-	maxPlayers = 20;
-	ip = "0.0.0.0";
-	port = 19132;
-	motd = "Welcome to the BenchMine Server!";
-	title = "BenchMine Minecraft Server!";
+	INIReader reader("server.ini");
+
+	if (reader.ParseError() < 0) {
+		std::ofstream serverINI("server.ini");
+		serverINI << "[normalSettings]\n"
+			<< "maxPlayers=20\n"
+			<< "ip=0.0.0.0\n"
+			<< "port=19132\n"
+			<< "motd=Welcome to the BenchMine Server!\n"
+			<< "title=BenchMine Minecraft Server!\n";
+		serverINI.close();
+		std::cout << "Can't load 'server.ini'\n";
+	}
+
+	maxPlayers = reader.GetInteger("normalSettings", "maxPlayers", 20);
+	ip = reader.Get("normalSettings", "ip", "0.0.0.0");
+	port = reader.GetInteger("normalSettings", "port", 19132);
+	motd = reader.Get("normalSettings", "motd", "Welcome to the BenchMine Server!");
+	title = reader.Get("normalSettings", "title", "BenchMine Minecraft Server!");
 	raklib = std::make_unique<RakLib::RakLib>(this, ip, port);
 	logger = std::make_unique<ColoredLogger>();
 	scheduler = std::make_unique<TaskHandler>(MINECRAFT_TICK_RATE);
